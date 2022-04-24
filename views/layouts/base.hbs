@@ -21,44 +21,26 @@
             <div class="container-fluid">
                 <!-- Toggle button -->
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
+                    data-bs-target="#sidebarSupportedContent" aria-controls="sidebarSupportedContent"
+                    aria-expanded="true" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon">
                 </button>
 
-                <!-- Collapsible wrapper -->
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Navbar brand -->
-                    <a class="navbar-brand" href="#">Grapple Gears</a>
-                    <!-- Left links -->
-                    <ul class="navbar-nav me-auto">
-                        <li class="nav-item">
-                            <a class="nav-link active" href="#">Orders</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" href="#">Products</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" href="#">Product Labels</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" href="#">Users</a>
-                        </li>
-                    </ul>
-                    <!-- Left links -->
-                </div>
-                <!-- Collapsible wrapper -->
+                <!-- Navbar brand -->
+                <a class="navbar-brand" href="#">Grapple Gears</a>
 
                 <!-- Right elements -->
                 <div class="d-flex align-items-center">
                     <!-- Avatar -->
                     <div class="dropdown">
                         <a class="dropdown-toggle d-flex align-items-center hidden-arrow" href="#"
-                            id="navbarDropdownMenuAvatar" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white">
+                            id="navbarDropdownMenuAvatar" role="button" data-bs-toggle="dropdown" aria-expanded="false"
+                            style="color: white">
                             <img src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp" class="rounded-circle"
                                 height="25" alt="Black and White Portrait of a Man" loading="lazy" />
                         </a>
-                        <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
+                        <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end"
+                            aria-labelledby="navbarDropdownMenuAvatar">
                             <li>
                                 <a class="dropdown-item" href="#">My profile</a>
                             </li>
@@ -74,9 +56,35 @@
         </nav>
         <!-- Navbar -->
 
-        <div class="container flex-shrink-0 flex-grow-1">
-            {{#block "content"}}
-            {{/block}}
+        <div class="flex-shrink-0 flex-grow-1 d-flex flex-row">
+            <!-- Sidebar -->
+            <div class="navbar navbar-expand-md navbar-dark bg-dark bg-gradient align-items-start">
+                <!-- Collapsible wrapper -->
+                <div class="collapse navbar-collapse" id="sidebarSupportedContent">
+                    <div class="d-flex flex-column flex-shrink-0 p-3" style="width: 170px; height: 100%" id="sidebarSupportedContent">
+                        <ul class="nav flex-column mb-auto">
+                            <li class="nav-item">
+                                <a href="#" class="nav-link text-white">Orders</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/products" class="nav-link text-white">Products</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link text-white">Product Labels</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link text-white">Users</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- Collapsible wrapper -->
+            </div>
+            <!-- Sidebar -->
+            <div class="container">
+                {{#block "content"}}
+                {{/block}}
+            </div>
         </div>
 
         <footer class="bg-dark text-center text-white flex-shrink-0">

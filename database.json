@@ -1,0 +1,8 @@
+{
+    "dev": {
+        "driver": "mysql",
+        "user": "ggadmin",
+        "password": "GGpassword",
+        "database": "grapple_gears"
+    }
+}

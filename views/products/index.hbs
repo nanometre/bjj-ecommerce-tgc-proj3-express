@@ -1,7 +1,29 @@
 {{#extends 'base'}}
 
 {{#block 'content'}}
-    Products
+<h1>Products</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Product ID</th>
+            <th scope="col">Product Name</th>
+            <th scope="col">Description</th>
+            <th scope="col">Cost (SGD)</th>
+            <th scope="col">Weight (kg)</th>
+        </tr>
+    </thead>
+    {{#each products}}
+    <tbody>
+        <tr>
+            <td scope="row">{{this.product_id}}</td>
+            <td scope="row">{{this.product_name}}</td>
+            <td scope="row">{{this.description}}</td>
+            <td scope="row">{{centsToDollars this.cost}}</td>
+            <td scope="row">{{gramsToKilograms this.weight}}</td>
+        </tr>
+    </tbody>
+    {{/each}}
+</table>
 {{/block}}
 
 {{/extends}}

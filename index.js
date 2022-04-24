@@ -22,6 +22,16 @@ wax.setLayoutPath('./views/layouts');
 app.use(express.urlencoded({extended: false}))
 
 // =================================================
+// ============ Custom Handlebar Helpers ===========
+// =================================================
+hbs.registerHelper('centsToDollars', (cents) => {
+    return (parseInt(cents) / 100).toFixed(2)
+})
+hbs.registerHelper('gramsToKilograms', (grams) => {
+    return (parseInt(grams) / 1000).toFixed(2)
+})
+
+// =================================================
 // =============== Route Middlewares ===============
 // =================================================
 app.use((req, res, next) => {
