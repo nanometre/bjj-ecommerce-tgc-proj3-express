@@ -15,6 +15,8 @@ let app = express();
 app.set('view engine', 'hbs');
 // static folder
 app.use(express.static('public'));
+// setup partials
+hbs.registerPartials('./views/partials')
 // setup wax-on 
 wax.on(hbs.handlebars)
 wax.setLayoutPath('./views/layouts');
