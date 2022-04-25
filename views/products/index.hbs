@@ -26,7 +26,7 @@
                 <td scope="row">{{this.product_id}}</td>
                 <td scope="row">{{this.product_name}}</td>
                 <td scope="row">
-                    <div class="overflow-auto" style="height: 10vh; width: 20vw">
+                    <div class="overflow-auto" style="height: 20vh; width: 20vw">
                     {{this.description}}
                     </div>
                 </td>
@@ -38,7 +38,7 @@
                 <td scope="row">{{this.brand.brand_name}}</td>
                 <td scope="row">
                     <div class="btn-group btn-group-sm">
-                        <a class="btn btn-primary" href="#">Variants</a>
+                        <a class="btn btn-primary" href="/products/{{this.product_id}}/variants">Variants</a>
                         <a class="btn btn-success" href="/products/{{this.product_id}}/update">Update</a>
                         <a class="btn btn-danger" href="/products/{{this.product_id}}/delete">Delete</a>
                     </div>
