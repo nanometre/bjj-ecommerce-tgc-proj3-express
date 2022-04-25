@@ -34,7 +34,8 @@ var bootstrapField = function (name, object) {
 // =================================================
 const createProductForm = (materials, weaves, categories, brands) => {
     return forms.create({
-        name: fields.string({
+        product_name: fields.string({
+            label: 'Name',
             required: true,
             errorAfterField: true,
             cssClasses: {

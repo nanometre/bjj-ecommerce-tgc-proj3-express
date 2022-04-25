@@ -44,16 +44,16 @@ app.use((req, res, next) => {
 // =================================================
 // ================= Import Routes =================
 // =================================================
-const routes = {
+const httpRoutes = {
     landing: require('./routes/landing'),
     login: require('./routes/login'),
     products: require('./routes/products')
 }
 
 async function main() {
-    app.use('/', routes.landing)
-    app.use('/login', routes.login)
-    app.use('/products', routes.products)
+    app.use('/', httpRoutes.landing)
+    app.use('/login', httpRoutes.login)
+    app.use('/products', httpRoutes.products)
 }
 
 main()

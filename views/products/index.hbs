@@ -3,29 +3,51 @@
 {{#block 'content'}}
 <h1>Products</h1>
 <div><img src="./images/carousel2.jpg" class="w-50"></div>
-<a href='/products/create' class="btn btn-primary">Add New Product</a>
-<table class="table">
-    <thead>
-        <tr>
-            <th scope="col">Product ID</th>
-            <th scope="col">Product Name</th>
-            <th scope="col">Description</th>
-            <th scope="col">Cost (SGD)</th>
-            <th scope="col">Weight (kg)</th>
-        </tr>
-    </thead>
-    {{#each products}}
-    <tbody>
-        <tr>
-            <td scope="row">{{this.product_id}}</td>
-            <td scope="row">{{this.product_name}}</td>
-            <td scope="row">{{this.description}}</td>
-            <td scope="row">{{centsToDollars this.cost}}</td>
-            <td scope="row">{{gramsToKilograms this.weight}}</td>
-        </tr>
-    </tbody>
-    {{/each}}
-</table>
+<a href='/products/create' class="btn btn-primary my-3">Add New Product</a>
+<div class="w-100 overflow-auto">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Product ID</th>
+                <th scope="col">Product Name</th>
+                <th scope="col">Description</th>
+                <th scope="col">Cost (SGD)</th>
+                <th scope="col">Weight (kg)</th>
+                <th scope="col">Material</th>
+                <th scope="col">Weave</th>
+                <th scope="col">Category</th>
+                <th scope="col">Brand</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        {{#each products}}
+        <tbody>
+            <tr>
+                <td scope="row">{{this.product_id}}</td>
+                <td scope="row">{{this.product_name}}</td>
+                <td scope="row">
+                    <div class="overflow-auto" style="height: 10vh; width: 20vw">
+                    {{this.description}}
+                    </div>
+                </td>
+                <td scope="row">{{centsToDollars this.cost}}</td>
+                <td scope="row">{{gramsToKilograms this.weight}}</td>
+                <td scope="row">{{this.material.material_name}}</td>
+                <td scope="row">{{this.weave.weave_name}}</td>
+                <td scope="row">{{this.category.category_name}}</td>
+                <td scope="row">{{this.brand.brand_name}}</td>
+                <td scope="row">
+                    <div class="btn-group btn-group-sm">
+                        <a class="btn btn-primary" href="#">Variants</a>
+                        <a class="btn btn-success" href="/products/{{this.product_id}}/update">Update</a>
+                        <a class="btn btn-danger" href="/products/{{this.product_id}}/delete">Delete</a>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+        {{/each}}
+    </table>
+</div>
 {{/block}}
 
 {{/extends}}

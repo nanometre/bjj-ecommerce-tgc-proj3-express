@@ -1,4 +1,13 @@
-const { Material, Weave, Category, Brand } = require('../models');
+const { Product, Material, Weave, Category, Brand } = require('../models');
+
+const getProductById = async (productId) => {
+    return await Product.where({
+        product_id: productId
+    }).fetch({
+        require: true,
+        withRelated: ['material', 'weave', 'category', 'brand']
+    })
+}
 
 const getAllMaterials = async () => {
     return await Material.fetchAll().map(material => {
@@ -24,4 +33,4 @@ const getAllBrands = async () => {
     })
 }
 
-module.exports = { getAllMaterials, getAllWeaves, getAllCategories, getAllBrands }
+module.exports = { getProductById, getAllMaterials, getAllWeaves, getAllCategories, getAllBrands }
