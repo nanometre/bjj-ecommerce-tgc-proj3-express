@@ -19,8 +19,8 @@ const Product = bookshelf.model('Product', {
     brand() {
         return this.belongsTo('Brand', 'brand_id')
     },
-    productVariants() {
-        return this.hasMany('ProductVariant', 'product_var_id')
+    variants() {
+        return this.hasMany('Variant', 'variant_id')
     }
 });
 
@@ -59,9 +59,9 @@ const Brand = bookshelf.model('Brand', {
 // =============================================================================
 // ========== Models for 'product_variants' and its supporting tables ==========
 // =============================================================================
-const ProductVariant = bookshelf.model('ProductVariant', {
-    tableName: 'product_variants',
-    idAttribute: 'product_var_id',
+const Variant = bookshelf.model('Variant', {
+    tableName: 'variants',
+    idAttribute: 'variant_id',
     product() {
         return this.belongsTo('Product', 'product_id')
     },
@@ -75,43 +75,43 @@ const ProductVariant = bookshelf.model('ProductVariant', {
         return this.hasMany('ProductImage', 'product_image_id')
     },
     tags() {
-        return this.belongsToMany('Tag', 'tag_id')
+        return this.belongsToMany('Tag', 'tags_variants', 'variant_id', 'tag_id')
     }
 })
 
 const Color = bookshelf.model('Color', {
     tableName: 'colors',
     idAttribute: 'color_id',
-    productVariants() {
-        return this.hasMany('ProductVariant', 'product_var_id')
+    variants() {
+        return this.hasMany('Variant', 'variant_id')
     }
 })
 
 const Size = bookshelf.model('Size', {
     tableName: 'sizes',
     idAttribute: 'size_id',
-    productVariants() {
-        return this.hasMany('ProductVariant', 'product_var_id')
+    variants() {
+        return this.hasMany('Variant', 'variant_id')
     }
 })
 
 const ProductImage = bookshelf.model('ProductImage', {
     tableName: 'product_images',
     idAttribute: 'product_image_id',
-    productVariant() {
-        return this.belongsTo('ProductVariant', 'product_var_id')
+    variant() {
+        return this.belongsTo('Variant', 'variant_id')
     }
 })
 
 const Tag = bookshelf.model('Tag', {
     tableName: 'tags',
     idAttribute: 'tag_id',
-    productVariants() {
-        return this.belongsToMany('ProductVariant', 'product_var_id')
+    variants() {
+        return this.belongsToMany('Variant', 'tags_variants', 'tag_id', 'variant_id')
     }
 })
 
 module.exports = { 
     Product, Material, Weave, Category, Brand, 
-    ProductVariant, Color, Size, ProductImage, Tag 
+    Variant, Color, Size, ProductImage, Tag 
 }

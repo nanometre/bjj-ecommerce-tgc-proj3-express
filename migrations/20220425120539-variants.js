@@ -15,8 +15,8 @@ exports.setup = function(options, seedLink) {
 };
 
 exports.up = function(db) {
-  return db.createTable('product_variants', {
-    product_var_id: {
+  return db.createTable('variants', {
+    variant_id: {
       type: 'int',
       primaryKey: true,
       autoIncrement: true,
@@ -33,7 +33,7 @@ exports.up = function(db) {
 };
 
 exports.down = function(db) {
-  return db.dropTable('product_variants');
+  return db.dropTable('variants');
 };
 
 exports._meta = {

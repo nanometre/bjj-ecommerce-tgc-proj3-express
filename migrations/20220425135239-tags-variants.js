@@ -15,25 +15,25 @@ exports.setup = function(options, seedLink) {
 };
 
 exports.up = function(db) {
-  return db.createTable('product_variants_tags', {
-    product_var_tag_id: {
+  return db.createTable('tags_variants', {
+    tag_variant_id: {
       type: 'int',
       primaryKey: true,
       autoIncrement: true,
       unsigned: true
     },
-    product_var_id: {
+    variant_id: {
       type: 'int',
       unsigned: true,
       notNull: true,
       foreignKey: {
         name: 'product_var_tags_product_var_fk',
-        table: 'product_variants',
+        table: 'variants',
         rules: {
           onDelete: 'RESTRICT',
           onUpdate: 'RESTRICT'
         },
-        mapping: 'product_var_id'
+        mapping: 'variant_id'
       }
     },
     tag_id: {
@@ -54,7 +54,7 @@ exports.up = function(db) {
 };
 
 exports.down = function(db) {
-  return db.dropTable('product_variants_tags');
+  return db.dropTable('tags_variants');
 };
 
 exports._meta = {

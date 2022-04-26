@@ -1,0 +1,80 @@
+{{#extends 'base'}}
+
+{{#block 'content'}}
+<h1>Product</h1>
+<div class="w-100 overflow-auto">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Product ID</th>
+                <th scope="col">Product Name</th>
+                <th scope="col">Description</th>
+                <th scope="col">Cost (SGD)</th>
+                <th scope="col">Weight (kg)</th>
+                <th scope="col">Material</th>
+                <th scope="col">Weave</th>
+                <th scope="col">Category</th>
+                <th scope="col">Brand</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td scope="row">{{product.product_id}}</td>
+                <td scope="row">{{product.product_name}}</td>
+                <td scope="row">
+                    <div class="overflow-auto" style="height: 20vh; width: 20vw">
+                        {{product.description}}
+                    </div>
+                </td>
+                <td scope="row">{{centsToDollars product.cost}}</td>
+                <td scope="row">{{gramsToKilograms product.weight}}</td>
+                <td scope="row">{{product.material.material_name}}</td>
+                <td scope="row">{{product.weave.weave_name}}</td>
+                <td scope="row">{{product.category.category_name}}</td>
+                <td scope="row">{{product.brand.brand_name}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<a class="btn btn-success btn-sm" href="/products/{{product.product_id}}/update">Update Product</a>
+<h1>Product Variants</h1>
+<div class="w-100 overflow-auto">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Color</th>
+                <th scope="col">Size</th>
+                <th scope="col">Stock</th>
+                <th scope="col">Tags</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each variants}}
+            <tr>
+                <td scope="row">{{this.color.color_name}}</td>
+                <td scope="row">{{this.size.size_name}}</td>
+                <td scope="row">{{this.stock}}</td>
+                <td scope="row" style="width: 100px">
+                    {{#each this.tags}}
+                    <span class="badge bg-success">{{this.tag_name}}</span>
+                    {{/each}}
+                </td>
+                <td>
+                    <div class="btn-group btn-group-sm">
+                        <a class="btn btn-success btn-sm" href="#">Update</a>
+                        <a class="btn btn-danger btn-sm" href="#">Delete</a>
+                    </div>
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</div>
+<div class="btn-group btn-group-sm">
+    <a class="btn btn-secondary btn-sm" href="/products">Back</a>
+    <a class="btn btn-primary btn-sm" href="/products">Add Variant</a>
+</div>
+{{/block}}
+
+{{/extends}}

@@ -15,7 +15,7 @@ exports.setup = function(options, seedLink) {
 };
 
 exports.up = function(db) {
-  return db.addColumn('product_variants', 'product_id', {
+  return db.addColumn('variants', 'product_id', {
     type: 'int',
     unsigned: true,
     notNull: true,
@@ -29,7 +29,7 @@ exports.up = function(db) {
       mapping: 'product_id'
     }
   }).then(() => {
-    db.addColumn('product_variants', 'color_id', {
+    db.addColumn('variants', 'color_id', {
       type: 'smallint',
       unsigned: true,
       notNull: true,
@@ -44,7 +44,7 @@ exports.up = function(db) {
       }
     })
   }).then(() => {
-    db.addColumn('product_variants', 'size_id', {
+    db.addColumn('variants', 'size_id', {
       type: 'smallint',
       unsigned: true,
       notNull: true,
@@ -62,21 +62,21 @@ exports.up = function(db) {
 };
 
 exports.down = function(db) {
-  return db.removeForeignKey('product_variants', 'product_var_product_fk')
+  return db.removeForeignKey('variants', 'product_var_product_fk')
          .then(() => {
-         db.removeColumn('product_variants', 'product_id')
+         db.removeColumn('variants', 'product_id')
          })
          .then(() => {
-         db.removeForeignKey('product_variants', 'product_var_color_fk')
+         db.removeForeignKey('variants', 'product_var_color_fk')
          })
          .then(() => {
-         db.removeColumn('product_variants', 'color_id')
+         db.removeColumn('variants', 'color_id')
          })
          .then(() => {
-         db.removeForeignKey('product_variants', 'product_var_size_fk')
+         db.removeForeignKey('variants', 'product_var_size_fk')
          })
          .then(() => {
-         db.removeColumn('product_variants', 'size_id')
+         db.removeColumn('variants', 'size_id')
          })
 };
 

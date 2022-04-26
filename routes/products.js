@@ -4,9 +4,8 @@
 const express = require('express')
 const router = express.Router()
 const { bootstrapField, createMaterialForm, createProductForm } = require('../forms')
-const { Product } = require('../models')
+const { Product, Variant } = require('../models')
 const productDataLayer = require('../dal/products')
-const { route } = require('express/lib/application')
 
 // =================================================
 // =========== Get Form Selection Fields ===========
@@ -26,6 +25,10 @@ const getFormSelection = async () => {
 // =================================================
 // ================== Set Routes ===================
 // =================================================
+
+// ===============================
+// ======= Product Routes ========
+// ===============================
 router.get('/', async (req, res) => {
     const products = await Product.collection().fetch({
         withRelated: ['material', 'weave', 'category', 'brand']
@@ -50,7 +53,9 @@ router.post('/create', async (req, res) => {
 
     productForm.handle(req, {
         'success': async (form) => {
-            const product = new Product(form.data)
+            let { cost, ...productData } = form.data
+            cost = cost * 100
+            const product = new Product({cost, ...productData})
             product.save()
             res.redirect('/products')
         },
@@ -68,7 +73,11 @@ router.get('/:product_id/update', async (req, res) => {
     const productForm = createProductForm(allMaterials, allWeaves, allCategories, allBrands)
 
     for (field in productForm.fields) {
-        productForm.fields[field].value = product.get(field)
+        if (field === 'cost') {
+            productForm.fields[field].value = product.get(field) / 100
+        } else {
+            productForm.fields[field].value = product.get(field)
+        }
     }
     res.render('products/update', {
         productForm: productForm.toHTML(bootstrapField),
@@ -83,7 +92,9 @@ router.post('/:product_id/update', async (req, res) => {
 
     productForm.handle(req, {
         'success': async (form) => {
-            product.set(form.data)
+            let { cost, ...productData } = form.data
+            cost = cost * 100
+            product.set({cost, ...productData})
             product.save()
             res.redirect('/products')
         },
@@ -108,6 +119,24 @@ router.post('/:product_id/delete', async (req, res) => {
     await product.destroy()
     res.redirect('/products')
 })
+
+// ================================
+// ==== Product Variant Routes ====
+// ================================
+
+router.get('/:product_id/variants', async (req, res) => {
+    const product = await productDataLayer.getProductById(req.params.product_id)
+    const variants = await productDataLayer.getVariantsByProductId(req.params.product_id)
+
+    res.render('products/variants', {
+        product: product.toJSON(),
+        variants: variants.toJSON()
+    })
+})
+
+// ================================
+// ===== Product Label Routes =====
+// ================================
 
 router.get('/labels', async (req, res) => {
     const materialForm = createMaterialForm()

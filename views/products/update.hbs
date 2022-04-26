@@ -1,12 +1,12 @@
 {{#extends 'base'}}
 
 {{#block 'content'}}
-<h1>Editing: {{product.product_name}}</h1>
+<h1>Updating: {{product.product_name}}</h1>
 <form method="POST">
     {{{productForm}}}
     <div class="btn-group btn-group-sm">
         <a href='/products' class="btn btn-secondary btn-sm my-3">Cancel</a>
-        <input type="submit" value="Edit Product" class="btn btn-primary btn-sm my-3">
+        <input type="submit" value="Update Product" class="btn btn-primary btn-sm my-3">
     </div>
 </form>
 {{/block}}

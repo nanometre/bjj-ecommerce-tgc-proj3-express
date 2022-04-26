@@ -15,18 +15,18 @@ exports.setup = function(options, seedLink) {
 };
 
 exports.up = function(db) {
-  return db.addColumn('product_images', 'product_var_id', {
+  return db.addColumn('product_images', 'variant_id', {
     type: 'int',
     unsigned: true,
     notNull: true,
     foreignKey: {
       name: 'product_img_product_var_fk',
-      table: 'product_variants',
+      table: 'variants',
       rules: {
         onDelete: 'RESTRICT',
         onUpdate: 'RESTRICT'
       },
-      mapping: 'product_var_id'
+      mapping: 'variant_id'
     }
   });
 };
@@ -34,7 +34,7 @@ exports.up = function(db) {
 exports.down = function(db) {
   return db.removeForeignKey('product_images', 'product_img_product_var_fk')
   .then(() => {
-    db.removeColumn('product_images', 'product_var_id')
+    db.removeColumn('product_images', 'variant_id')
   });
 };
 

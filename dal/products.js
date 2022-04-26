@@ -1,4 +1,8 @@
-const { Product, Material, Weave, Category, Brand } = require('../models');
+const { Product, Material, Weave, Category, Brand, Variant } = require('../models');
+
+// =================================================
+// =========== Product Data Access Layer ===========
+// =================================================
 
 const getProductById = async (productId) => {
     return await Product.where({
@@ -33,4 +37,20 @@ const getAllBrands = async () => {
     })
 }
 
-module.exports = { getProductById, getAllMaterials, getAllWeaves, getAllCategories, getAllBrands }
+// =================================================
+// ======= Product Variant Data Access Layer =======
+// =================================================
+
+const getVariantsByProductId = async (productId) => {
+    return await Variant.where({
+        product_id: productId
+    }).fetchAll({
+        require: false,
+        withRelated: ['product', 'color', 'size', 'productImages', 'tags']
+    })
+}
+
+module.exports = { 
+    getProductById, getAllMaterials, getAllWeaves, getAllCategories, getAllBrands,
+    getVariantsByProductId 
+}

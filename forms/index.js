@@ -51,6 +51,7 @@ const createProductForm = (materials, weaves, categories, brands) => {
             widget: widgets.textarea()
         }),
         cost: fields.string({
+            label: 'Cost (SGD)',
             required: true,
             errorAfterField: true,
             validators: [validators.integer(), validators.min(0)],
@@ -59,6 +60,7 @@ const createProductForm = (materials, weaves, categories, brands) => {
             }
         }),
         weight: fields.string({
+            label: 'Weight (g)',
             required: true,
             errorAfterField: true,
             validators: [validators.integer(), validators.min(0)],
