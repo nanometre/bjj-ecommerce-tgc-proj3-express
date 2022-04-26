@@ -30,7 +30,7 @@ exports.up = function(db) {
         name: 'product_var_tags_product_var_fk',
         table: 'variants',
         rules: {
-          onDelete: 'RESTRICT',
+          onDelete: 'CASCADE',
           onUpdate: 'RESTRICT'
         },
         mapping: 'variant_id'

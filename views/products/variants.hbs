@@ -57,7 +57,7 @@
                 <td scope="row">{{this.stock}}</td>
                 <td scope="row" style="width: 100px">
                     {{#each this.tags}}
-                    <span class="badge bg-success">{{this.tag_name}}</span>
+                    <span class="badge bg-secondary">{{this.tag_name}}</span>
                     {{/each}}
                 </td>
                 <td>
@@ -73,7 +73,7 @@
 </div>
 <div class="btn-group btn-group-sm">
     <a class="btn btn-secondary btn-sm" href="/products">Back</a>
-    <a class="btn btn-primary btn-sm" href="/products">Add Variant</a>
+    <a class="btn btn-primary btn-sm" href="/products/{{product.product_id}}/variants/create">Add Variant</a>
 </div>
 {{/block}}
 

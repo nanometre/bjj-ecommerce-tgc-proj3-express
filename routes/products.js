@@ -3,7 +3,7 @@
 // =================================================
 const express = require('express')
 const router = express.Router()
-const { bootstrapField, createMaterialForm, createProductForm } = require('../forms')
+const { bootstrapField, createProductForm, createVariantForm, createMaterialForm } = require('../forms')
 const { Product, Variant } = require('../models')
 const productDataLayer = require('../dal/products')
 
@@ -19,7 +19,12 @@ const getFormSelection = async () => {
     allCategories.unshift(['', '--- Select Category ---'])
     const allBrands = await productDataLayer.getAllBrands()
     allBrands.unshift(['', '--- Select Brand ---'])
-    return { allMaterials, allWeaves, allCategories, allBrands }
+    const allColors = await productDataLayer.getAllColors()
+    allColors.unshift(['', '--- Select Color ---'])
+    const allSizes = await productDataLayer.getAllSizes()
+    allSizes.unshift(['', '--- Select Size ---'])
+    const allTags = await productDataLayer.getAllTags()
+    return { allMaterials, allWeaves, allCategories, allBrands, allColors, allSizes, allTags }
 } 
 
 // =================================================
@@ -131,6 +136,45 @@ router.get('/:product_id/variants', async (req, res) => {
     res.render('products/variants', {
         product: product.toJSON(),
         variants: variants.toJSON()
+    })
+})
+
+router.get('/:product_id/variants/create', async (req, res) => {
+    const product = await productDataLayer.getProductById(req.params.product_id)
+    const { allColors, allSizes, allTags } = await getFormSelection()
+    const variantForm = createVariantForm(allColors, allSizes, allTags)
+
+    res.render('products/variants-create', {
+        product: product.toJSON(),
+        variantForm: variantForm.toHTML(bootstrapField)
+    })
+})
+
+router.post('/:product_id/variants/create', async (req, res) => {
+    const product = await productDataLayer.getProductById(req.params.product_id)
+    const { allColors , allSizes, allTags } = await getFormSelection()
+    const variantForm = createVariantForm(allColors, allSizes, allTags)
+
+    variantForm.handle(req, {
+        'success': async (form) => {
+            let { tags, ...variantData } = form.data
+            const variant = new Variant({
+                product_id: req.params.product_id,
+                ...variantData
+            })
+            await variant.save()
+            if (tags) {
+                await variant.tags().attach(tags.split(','))
+            }
+
+            res.redirect(`/products/${req.params.product_id}/variants`)
+        },
+        'error': async (form) => {
+            res.render('products/variants-create', {
+                product: product.toJSON(),
+                variantForm: form.toHTML(bootstrapField)
+            })
+        }
     })
 })
 

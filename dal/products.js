@@ -1,4 +1,7 @@
-const { Product, Material, Weave, Category, Brand, Variant } = require('../models');
+const { 
+    Product, Material, Weave, Category, Brand, 
+    Variant, Color, Size, Tag 
+} = require('../models');
 
 // =================================================
 // =========== Product Data Access Layer ===========
@@ -50,7 +53,25 @@ const getVariantsByProductId = async (productId) => {
     })
 }
 
+const getAllColors = async () => {
+    return await Color.fetchAll().map(color => {
+        return [color.get('color_id'), color.get('color_name')]
+    })
+}
+
+const getAllSizes = async () => {
+    return await Size.fetchAll().map(size => {
+        return [size.get('size_id'), size.get('size_name')]
+    })
+}
+
+const getAllTags = async () => {
+    return await Tag.fetchAll().map(tag => {
+        return [tag.get('tag_id'), tag.get('tag_name')]
+    })
+}
+
 module.exports = { 
     getProductById, getAllMaterials, getAllWeaves, getAllCategories, getAllBrands,
-    getVariantsByProductId 
+    getVariantsByProductId , getAllColors, getAllSizes, getAllTags
 }

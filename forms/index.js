@@ -111,6 +111,48 @@ const createProductForm = (materials, weaves, categories, brands) => {
     })
 }
 
+const createVariantForm = (color, size, tags) => {
+    return forms.create({
+        color_id: fields.string({
+            label: 'Color',
+            required: true,
+            errorAfterField: true,
+            cssClasses: {
+                label: ['form-label', 'mt-3']
+            },
+            widget: widgets.select(),
+            choices: color
+        }),
+        size_id: fields.string({
+            label: 'Size',
+            required: true,
+            errorAfterField: true,
+            cssClasses: {
+                label: ['form-label', 'mt-3']
+            },
+            widget: widgets.select(),
+            choices: size
+        }),
+        tags: fields.string({
+            required: false,
+            errorAfterField: true,
+            cssClasses: {
+                label: ['form-label', 'mt-3']
+            },
+            widget: widgets.multipleSelect(),
+            choices: tags
+        }),
+        stock: fields.string({
+            required: true,
+            errorAfterField: true,
+            validators: [validators.integer(), validators.min(0)],
+            cssClasses: {
+                label: ['form-label', 'mt-3']
+            }
+        })
+    })
+}
+
 const createMaterialForm = () => {
     return forms.create({
         material_name: fields.string({
@@ -123,4 +165,4 @@ const createMaterialForm = () => {
     })
 }
 
-module.exports = { bootstrapField, createMaterialForm, createProductForm }
+module.exports = { bootstrapField, createProductForm, createVariantForm, createMaterialForm }
