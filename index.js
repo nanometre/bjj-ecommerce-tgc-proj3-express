@@ -4,11 +4,14 @@
 const express = require('express');
 const hbs = require('hbs');
 const wax = require('wax-on');
+const session = require('express-session');
+const flash = require('connect-flash');
+const FileStore = require('session-file-store')(session);
 
 require('dotenv').config();
 
 // =================================================
-// ===== Express Application Setup & Middleware ====
+// =========== Express Application Setup ===========
 // =================================================
 let app = express();
 // set the view engine
@@ -22,6 +25,26 @@ wax.on(hbs.handlebars)
 wax.setLayoutPath('./views/layouts');
 // enable forms
 app.use(express.urlencoded({extended: false}))
+
+// =================================================
+// ================= Session Setup =================
+// =================================================
+app.use(session({
+    store: new FileStore(),
+    secret: process.env.SESSION_SECRET_KEY,
+    resave: false,
+    saveUninitialized: true
+}))
+
+// =================================================
+// ============== Flash Messages Setup =============
+// =================================================
+app.use(flash())
+app.use((req, res, next) => {
+    res.locals.success_messages = req.flash("success_messages")
+    res.locals.error_messages = req.flash("error_messages")
+    next()
+})
 
 // =================================================
 // ============ Custom Handlebar Helpers ===========

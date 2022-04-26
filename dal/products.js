@@ -53,6 +53,16 @@ const getVariantsByProductId = async (productId) => {
     })
 }
 
+const getVariantByIds = async (productId, variantId) => {
+    return await Variant.where({
+        product_id: productId,
+        variant_id: variantId
+    }).fetch({
+        required: true,
+        withRelated: ['product', 'color', 'size', 'productImages', 'tags']
+    })
+}
+
 const getAllColors = async () => {
     return await Color.fetchAll().map(color => {
         return [color.get('color_id'), color.get('color_name')]
@@ -73,5 +83,5 @@ const getAllTags = async () => {
 
 module.exports = { 
     getProductById, getAllMaterials, getAllWeaves, getAllCategories, getAllBrands,
-    getVariantsByProductId , getAllColors, getAllSizes, getAllTags
+    getVariantsByProductId, getVariantByIds, getAllColors, getAllSizes, getAllTags
 }

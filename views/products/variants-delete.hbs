@@ -1,0 +1,26 @@
+{{#extends 'base'}}
+
+{{#block 'content'}}
+<h1>Deleting Variant for "{{variant.product.product_name}}"</h1>
+<div class="alert alert-danger">
+    <p>Are you sure you want to delete the following variant?</p>
+    <p>Color: {{variant.color.color_name}}</p>
+    <p>Size: {{variant.size.size_name}}</p>
+    <p>Stock: {{variant.stock}}</p>
+    <p>Tags: 
+        {{#each variant.tags}}
+            <span class="badge bg-secondary">{{this.tag_name}}</span>
+        {{/each}}
+    </p>
+    <p>This action is irreversible.</p>
+    <form method="POST">
+        <div class="btn-group btn-group-sm">
+            <a href="/products/{{variant.product_id}}/variants" class="btn btn-secondary btn-sm">Cancel</a>
+            <input type="submit" value="Delete Product" class="btn btn-danger btn-sm">
+        </div>
+    </form>
+</div>
+
+{{/block}}
+
+{{/extends}}

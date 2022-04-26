@@ -36,7 +36,7 @@
         </tbody>
     </table>
 </div>
-<a class="btn btn-success btn-sm" href="/products/{{product.product_id}}/update">Update Product</a>
+<a class="btn btn-success btn-sm my-3" href="/products/{{product.product_id}}/update">Update Product</a>
 <h1>Product Variants</h1>
 <div class="w-100 overflow-auto">
     <table class="table">
@@ -62,8 +62,8 @@
                 </td>
                 <td>
                     <div class="btn-group btn-group-sm">
-                        <a class="btn btn-success btn-sm" href="#">Update</a>
-                        <a class="btn btn-danger btn-sm" href="#">Delete</a>
+                        <a class="btn btn-success btn-sm" href="/products/{{this.product_id}}/variants/{{this.variant_id}}/update">Update</a>
+                        <a class="btn btn-danger btn-sm" href="/products/{{this.product_id}}/variants/{{this.variant_id}}/delete">Delete</a>
                     </div>
                 </td>
             </tr>
@@ -71,7 +71,7 @@
         </tbody>
     </table>
 </div>
-<div class="btn-group btn-group-sm">
+<div class="btn-group btn-group-sm my-3">
     <a class="btn btn-secondary btn-sm" href="/products">Back</a>
     <a class="btn btn-primary btn-sm" href="/products/{{product.product_id}}/variants/create">Add Variant</a>
 </div>
