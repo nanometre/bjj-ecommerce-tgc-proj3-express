@@ -2,6 +2,13 @@ const { color } = require('forms/lib/widgets');
 const bookshelf = require('../bookshelf');
 
 // =============================================================================
+// ============================ Models for 'users' =============================
+// =============================================================================
+const User = bookshelf.model('User', {
+    tableName: 'users'
+})
+
+// =============================================================================
 // ============== Models for 'products' and its supporting tables ==============
 // =============================================================================
 const Product = bookshelf.model('Product', {
@@ -112,6 +119,7 @@ const Tag = bookshelf.model('Tag', {
 })
 
 module.exports = { 
+    User,
     Product, Material, Weave, Category, Brand, 
     Variant, Color, Size, ProductImage, Tag 
 }

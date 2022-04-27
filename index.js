@@ -68,9 +68,9 @@ app.use((req, res, next) => {
 // ================= Import Routes =================
 // =================================================
 const httpRoutes = {
-    landing: require('./routes/landing'),
-    login: require('./routes/login'),
-    products: require('./routes/products')
+    landing: require('./routes/http/landing'),
+    login: require('./routes/http/login'),
+    products: require('./routes/http/products')
 }
 
 async function main() {

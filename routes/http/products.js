@@ -3,9 +3,9 @@
 // =================================================
 const express = require('express')
 const router = express.Router()
-const { bootstrapField, createProductForm, createVariantForm, createMaterialForm } = require('../forms')
-const { Product, Variant } = require('../models')
-const productDataLayer = require('../dal/products')
+const { bootstrapField, createProductForm, createVariantForm, createMaterialForm } = require('../../forms')
+const { Product, Variant } = require('../../models')
+const productDataLayer = require('../../dal/products')
 
 // =================================================
 // =========== Get Form Selection Fields ===========
