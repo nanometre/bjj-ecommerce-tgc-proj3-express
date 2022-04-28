@@ -1,11 +1,22 @@
-const { color } = require('forms/lib/widgets');
 const bookshelf = require('../bookshelf');
 
 // =============================================================================
 // ============================ Models for 'users' =============================
 // =============================================================================
 const User = bookshelf.model('User', {
-    tableName: 'users'
+    tableName: 'users',
+    idAttribute: 'user_id',
+    userType() {
+        return this.belongsTo('UserType', 'user_type_id')
+    }
+})
+
+const UserType = bookshelf.model('UserType', {
+    tableName: 'user_types',
+    idAttribute: 'user_type_id',
+    users() {
+        return this.hasMany('User', 'user_id')
+    }
 })
 
 // =============================================================================
@@ -119,7 +130,7 @@ const Tag = bookshelf.model('Tag', {
 })
 
 module.exports = { 
-    User,
+    User, UserType,
     Product, Material, Weave, Category, Brand, 
     Variant, Color, Size, ProductImage, Tag 
 }

@@ -1,0 +1,36 @@
+{{#extends 'base'}}
+
+{{#block 'content' }}
+<h1>Users</h1>
+<div class="w-100 overflow-auto">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">First Name</th>
+                <th scope="col">Last Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">User Type</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        {{#each users}}
+        <tbody>
+            <tr>
+                <td scope="row">{{this.first_name}}</td>
+                <td scope="row">{{this.last_name}}</td>
+                <td scope="row">{{this.email}}</td>
+                <td scope="row">{{this.userType.user_type}}                </td>
+                <td scope="row">
+                    <div class="btn-group btn-group-sm">
+                        <a class="btn btn-success" href="/users/{{this.user_id}}/update">Update</a>
+                        <a class="btn btn-danger" href="/users/{{this.user_id}}/delete">Delete</a>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+        {{/each}}
+    </table>
+</div>
+{{/block}}
+
+{{/extends}}

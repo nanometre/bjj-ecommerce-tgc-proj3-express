@@ -8,7 +8,7 @@ const session = require('express-session');
 const flash = require('connect-flash');
 const FileStore = require('session-file-store')(session);
 const csrf = require('csurf')
-const { checkIfAuthenticated } = require('./middleware')
+const { checkIfAuthenticated, checkIfOwner } = require('./middleware')
 
 require('dotenv').config();
 
@@ -99,7 +99,7 @@ const httpRoutes = {
 async function main() {
     app.use('/', httpRoutes.landing)
     app.use('/login', httpRoutes.login)
-    app.use('/users', checkIfAuthenticated, httpRoutes.users)
+    app.use('/users', checkIfAuthenticated, checkIfOwner, httpRoutes.users)
     app.use('/products', checkIfAuthenticated, httpRoutes.products)
 }
 

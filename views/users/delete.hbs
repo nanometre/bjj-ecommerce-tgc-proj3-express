@@ -1,0 +1,18 @@
+{{#extends 'base'}}
+
+{{#block 'content'}}
+<h1>Deleting "{{user.email}}" user details</h1>
+<div class="alert alert-danger">
+    <p>Are you sure you want to delete <strong>{{user.email}}</strong> user details? This action is irreversible.</p>
+    <form method="POST">
+        {{> csrf}}
+        <div class="btn-group btn-group-sm">
+            <a href="/users" class="btn btn-secondary btn-sm">Cancel</a>
+            <input type="submit" value="Delete User" class="btn btn-danger btn-sm">
+        </div>
+    </form>
+</div>
+
+{{/block}}
+
+{{/extends}}

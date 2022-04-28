@@ -1,7 +1,8 @@
 const {
-    User 
+    User,
+    UserType 
 } = require('../models');
-const crypto = require('crypto')
+const crypto = require('crypto');
 
 // =================================================
 // ================= Hash Password =================
@@ -16,7 +17,30 @@ const getHashedPassword = (password) => {
 // ============ User Data Access Layer =============
 // =================================================
 
-const getUser = async (email, password) => {
+const getAllUsers = async () => {
+    return await User.collection().fetch({
+        withRelated: ['userType'],
+        columns: ['user_id', 'email', 'first_name', 'last_name', 'user_type_id']
+    })
+}
+
+const getUserById = async (userId) => {
+    return await User.where({
+        user_id: userId
+    }).fetch({
+        require: true,
+        withRelated: ['userType'],
+        columns: ['user_id', 'email', 'first_name', 'last_name', 'user_type_id']
+    })
+}
+
+const getAllUserTypes = async () => {
+    return await UserType.fetchAll().map(type => {
+        return [type.get('user_type_id'), type.get('user_type')]
+    })
+}
+
+const verifyUser = async (email, password) => {
     const user = await User.where({
         email: email
     }).fetch({
@@ -32,4 +56,4 @@ const getUser = async (email, password) => {
     }
 }
 
-module.exports = { getUser }
+module.exports = { getAllUsers, getUserById, getAllUserTypes, verifyUser }

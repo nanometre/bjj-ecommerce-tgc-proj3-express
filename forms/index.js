@@ -60,7 +60,8 @@ const createProductForm = (materials, weaves, categories, brands) => {
             errorAfterField: true,
             cssClasses: {
                 label: ['form-label', 'mt-3']
-            }
+            },
+            validators: [validators.maxlength(100)]
         }),
         description: fields.string({
             required: true,
@@ -68,13 +69,14 @@ const createProductForm = (materials, weaves, categories, brands) => {
             cssClasses: {
                 label: ['form-label', 'mt-3']
             },
-            widget: widgets.textarea()
+            widget: widgets.textarea(),
+            validators: [validators.maxlength(1000)]
         }),
         cost: fields.string({
             label: 'Cost (SGD)',
             required: true,
             errorAfterField: true,
-            validators: [validators.integer(), validators.min(0)],
+            validators: [validators.integer(), validators.min(0), validators.max(655)],
             cssClasses: {
                 label: ['form-label', 'mt-3']
             }
@@ -83,7 +85,7 @@ const createProductForm = (materials, weaves, categories, brands) => {
             label: 'Weight (g)',
             required: true,
             errorAfterField: true,
-            validators: [validators.integer(), validators.min(0)],
+            validators: [validators.integer(), validators.min(0), validators.max(65535)],
             cssClasses: {
                 label: ['form-label', 'mt-3']
             }
@@ -165,10 +167,49 @@ const createVariantForm = (color, size, tags) => {
         stock: fields.string({
             required: true,
             errorAfterField: true,
-            validators: [validators.integer(), validators.min(0)],
+            validators: [validators.integer(), validators.min(0), validators.max(65535)],
             cssClasses: {
                 label: ['form-label', 'mt-3']
             }
+        })
+    })
+}
+
+const createUserForm = (types) => {
+    return forms.create({
+        email: fields.email({
+            required: true,
+            errorAfterField: true,
+            validators: [validators.maxlength(320)],
+            cssClasses: {
+                label: ['form-label', 'mt-3']
+            }
+        }),
+        first_name: fields.string({
+            required: true,
+            errorAfterField: true,
+            validators: [validators.maxlength(50)],
+            cssClasses: {
+                label: ['form-label', 'mt-3']
+            }
+        }),
+        last_name: fields.string({
+            required: true,
+            errorAfterField: true,
+            validators: [validators.maxlength(50)],
+            cssClasses: {
+                label: ['form-label', 'mt-3']
+            }
+        }),
+        user_type_id: fields.string({
+            label: 'User Type',
+            required: true,
+            errorAfterField: true,
+            cssClasses: {
+                label: ['form-label', 'mt-3']
+            },
+            widget: widgets.select(),
+            choices: types
         })
     })
 }
@@ -178,6 +219,7 @@ const createMaterialForm = () => {
         material_name: fields.string({
             required: true,
             errorAfterField: true,
+            validators: [],
             cssClasses: {
                 label: ['form-label', 'mt-3']
             }
@@ -185,4 +227,13 @@ const createMaterialForm = () => {
     })
 }
 
-module.exports = { bootstrapField, createLoginForm, createProductForm, createVariantForm, createMaterialForm }
+
+
+module.exports = { 
+    bootstrapField, 
+    createLoginForm, 
+    createProductForm, 
+    createVariantForm, 
+    createUserForm, 
+    createMaterialForm 
+}

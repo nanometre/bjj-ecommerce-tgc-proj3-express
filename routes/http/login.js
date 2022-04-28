@@ -20,7 +20,7 @@ router.post('/', async (req, res) => {
     
     loginForm.handle(req, {
         'success':  async (form) => {
-            const user = await userDataLayer.getUser(form.data.email, form.data.password)
+            const user = await userDataLayer.verifyUser(form.data.email, form.data.password)
             if (!user) {
                 req.flash("error_messages", "Wrong email or password. Please try again.")
                 res.redirect('/login')
@@ -30,7 +30,8 @@ router.post('/', async (req, res) => {
                 req.flash("success_messages", `Welcome back, ${user.first_name}`)
                 res.redirect('/products')
             } else {
-
+                req.flash("error_messages", "Wrong email or password. Please try again.")
+                res.redirect('/login')
             }
         },
         'error': async (form) => {
