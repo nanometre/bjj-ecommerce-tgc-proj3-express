@@ -38,7 +38,7 @@ router.get('/', async (req, res) => {
     const products = await Product.collection().fetch({
         withRelated: ['material', 'weave', 'category', 'brand']
     })
-    res.render('../views/products/index', {
+    res.render('products/index', {
         products: products.toJSON()
     })
 })
@@ -47,7 +47,7 @@ router.get('/create', async (req, res) => {
     const { allMaterials, allWeaves, allCategories, allBrands } = await getFormSelection()
     const productForm = createProductForm(allMaterials, allWeaves, allCategories, allBrands)
 
-    res.render('../views/products/create', {
+    res.render('products/create', {
         productForm: productForm.toHTML(bootstrapField)
     })
 })
@@ -62,7 +62,7 @@ router.post('/create', async (req, res) => {
             cost = cost * 100
             const product = new Product({cost, ...productData})
             product.save()
-            req.flash('success_messages', `New product "${product.get('product_name')}" has been created`)
+            req.flash('success_messages', `New product "${product.get('product_name')}" has been created.`)
             res.redirect('/products')
         },
         'error': async (form) => {
@@ -102,7 +102,7 @@ router.post('/:product_id/update', async (req, res) => {
             cost = cost * 100
             product.set({cost, ...productData})
             product.save()
-            req.flash('success_messages', `"${product.get('product_name')}" has been updated`)
+            req.flash('success_messages', `"${product.get('product_name')}" has been updated.`)
             res.redirect('/products')
         },
         'error': async (form) => {
@@ -123,7 +123,7 @@ router.get('/:product_id/delete', async (req, res) => {
 
 router.post('/:product_id/delete', async (req, res) => {
     const product = await productDataLayer.getProductById(req.params.product_id)
-    req.flash('success_messages', `"${product.get('product_name')}" has been deleted`)
+    req.flash('success_messages', `"${product.get('product_name')}" has been deleted.`)
     await product.destroy()
     res.redirect('/products')
 })
@@ -168,7 +168,7 @@ router.post('/:product_id/variants/create', async (req, res) => {
             if (tags) {
                 await variant.tags().attach(tags.split(','))
             }
-            req.flash('success_messages', `New product variant has been created`)
+            req.flash('success_messages', `New product variant has been created.`)
             res.redirect(`/products/${req.params.product_id}/variants`)
         },
         'error': async (form) => {
@@ -216,7 +216,7 @@ router.post('/:product_id/variants/:variant_id/update', async (req, res) => {
             await variant.tags().detach(tagsToRemove)
             await variant.tags().attach(tagIds)
 
-            req.flash('success_messages', `Product variant has been updated`)
+            req.flash('success_messages', `Product variant has been updated.`)
             res.redirect(`/products/${req.params.product_id}/variants`)
         },
         'error': async (form) => {
@@ -238,7 +238,7 @@ router.get('/:product_id/variants/:variant_id/delete', async (req, res) => {
 router.post('/:product_id/variants/:variant_id/delete', async (req, res) => {
     const variant = await productDataLayer.getVariantByIds(req.params.product_id, req.params.variant_id)
     await variant.destroy()
-    req.flash('success_messages', `Product variant has been deleted`)
+    req.flash('success_messages', `Product variant has been deleted.`)
     res.redirect(`/products/${req.params.product_id}/variants`)
 })
 
@@ -248,7 +248,7 @@ router.post('/:product_id/variants/:variant_id/delete', async (req, res) => {
 
 router.get('/labels', async (req, res) => {
     const materialForm = createMaterialForm()
-    res.render('../views/products/labels', {
+    res.render('products/labels', {
         materialForm: materialForm.toHTML(bootstrapField)
     })
 })

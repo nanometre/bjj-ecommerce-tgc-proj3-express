@@ -2,11 +2,15 @@
 
 {{#block 'content'}}
     <h1>Login</h1>
-    <div><img src="./images/carousel.jpg" class="w-50"></div>
+    <div><img src="/images/carousel.jpg" class="w-50"></div>
     <form method="POST">
+        {{> csrf}}
         {{{loginForm}}}
         <input type="submit" class="btn btn-primary my-3" value="Login">
     </form>
+    <div>
+        <p>user: bwcy@hotmail.com password: badass11</p>
+    </div>
 {{/block}}
 
 {{/extends}}
