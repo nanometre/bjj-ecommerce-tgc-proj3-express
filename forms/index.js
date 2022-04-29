@@ -171,6 +171,12 @@ const createVariantForm = (color, size, tags) => {
             cssClasses: {
                 label: ['form-label', 'mt-3']
             }
+        }),
+        product_image_url: fields.string({
+            widget: widgets.hidden()
+        }),
+        product_thumbnail_url: fields.string({
+            widget: widgets.hidden()
         })
     })
 }

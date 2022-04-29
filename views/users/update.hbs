@@ -3,7 +3,7 @@
 {{#block 'content'}}
 <h1>Updating user details for "{{user.email}}"</h1>
 <form method="POST">
-    {{> csrf}}
+    {{> csrfToken}}
     {{{userForm}}}
     <div class="btn-group btn-group-sm">
         <a href='/users' class="btn btn-secondary btn-sm my-3">Cancel</a>

@@ -1,6 +1,6 @@
 const { 
     Product, Material, Weave, Category, Brand, 
-    Variant, Color, Size, Tag 
+    Variant, Color, Size, Tag
 } = require('../models');
 
 // =================================================
@@ -49,7 +49,7 @@ const getVariantsByProductId = async (productId) => {
         product_id: productId
     }).fetchAll({
         require: false,
-        withRelated: ['product', 'color', 'size', 'productImages', 'tags']
+        withRelated: ['product', 'color', 'size', 'tags']
     })
 }
 
@@ -58,8 +58,8 @@ const getVariantByIds = async (productId, variantId) => {
         product_id: productId,
         variant_id: variantId
     }).fetch({
-        required: true,
-        withRelated: ['product', 'color', 'size', 'productImages', 'tags']
+        require: true,
+        withRelated: ['product', 'color', 'size', 'tags']
     })
 }
 

@@ -14,7 +14,7 @@
     </p>
     <p>This action is irreversible.</p>
     <form method="POST">
-        {{> csrf}}
+        {{> csrfToken}}
         <div class="btn-group btn-group-sm">
             <a href="/products/{{variant.product_id}}/variants" class="btn btn-secondary btn-sm">Cancel</a>
             <input type="submit" value="Delete Product" class="btn btn-danger btn-sm">

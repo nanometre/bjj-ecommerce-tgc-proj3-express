@@ -89,9 +89,6 @@ const Variant = bookshelf.model('Variant', {
     size() {
         return this.belongsTo('Size', 'size_id')
     },
-    productImages() {
-        return this.hasMany('ProductImage', 'product_image_id')
-    },
     tags() {
         return this.belongsToMany('Tag', 'tags_variants', 'variant_id', 'tag_id')
     }
@@ -113,14 +110,6 @@ const Size = bookshelf.model('Size', {
     }
 })
 
-const ProductImage = bookshelf.model('ProductImage', {
-    tableName: 'product_images',
-    idAttribute: 'product_image_id',
-    variant() {
-        return this.belongsTo('Variant', 'variant_id')
-    }
-})
-
 const Tag = bookshelf.model('Tag', {
     tableName: 'tags',
     idAttribute: 'tag_id',
@@ -132,5 +121,5 @@ const Tag = bookshelf.model('Tag', {
 module.exports = { 
     User, UserType,
     Product, Material, Weave, Category, Brand, 
-    Variant, Color, Size, ProductImage, Tag 
+    Variant, Color, Size, Tag 
 }

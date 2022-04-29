@@ -6,6 +6,9 @@ const router = express.Router()
 const { bootstrapField, createUserForm } = require('../../forms')
 const userDataLayer = require('../../dal/users')
 
+// =================================================
+// ================== Set Routes ===================
+// =================================================
 router.get('/', async (req, res) => {
     const users = await userDataLayer.getAllUsers()
     res.render('users', {
@@ -34,7 +37,6 @@ router.post('/:user_id/update', async (req, res) => {
 
     userForm.handle(req, {
         'success': async (form) => {
-            console.log(form.data)
             user.set(form.data)
             user.save()
             req.flash('success_messages', ` User details for "${user.get('email')}" has been updated.`)

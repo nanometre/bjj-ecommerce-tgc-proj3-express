@@ -3,7 +3,7 @@
 {{#block 'content'}}
 <h1>Updating "{{product.product_name}}"</h1>
 <form method="POST">
-    {{> csrf}}
+    {{> csrfToken}}
     {{{productForm}}}
     <div class="btn-group btn-group-sm">
         <a href='/products' class="btn btn-secondary btn-sm my-3">Cancel</a>

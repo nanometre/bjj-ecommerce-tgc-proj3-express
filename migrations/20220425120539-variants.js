@@ -27,8 +27,17 @@ exports.up = function(db) {
       notNull: true,
       defaultValue: 0,
       unsigned: true
+    },
+    product_image_url: {
+      type: 'string',
+      length: '500',
+      notNull: true
+    },
+    product_thumbnail_url: {
+      type: 'string',
+      length: '500',
+      notNull: true
     }
-
   });
 };
 

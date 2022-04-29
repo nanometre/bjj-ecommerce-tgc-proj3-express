@@ -5,7 +5,7 @@
 <div class="alert alert-danger">
     <p>Are you sure you want to delete <strong>{{product.product_name}}</strong>? This action is irreversible.</p>
     <form method="POST">
-        {{> csrf}}
+        {{> csrfToken}}
         <div class="btn-group btn-group-sm">
             <a href="/products" class="btn btn-secondary btn-sm">Cancel</a>
             <input type="submit" value="Delete Product" class="btn btn-danger btn-sm">

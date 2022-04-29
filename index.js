@@ -93,7 +93,8 @@ const httpRoutes = {
     landing: require('./routes/http/landing'),
     login: require('./routes/http/login'),
     users: require('./routes/http/users'),
-    products: require('./routes/http/products')
+    products: require('./routes/http/products'),
+    cloudinary: require('./routes/http/cloudinary')
 }
 
 async function main() {
@@ -101,6 +102,7 @@ async function main() {
     app.use('/login', httpRoutes.login)
     app.use('/users', checkIfAuthenticated, checkIfOwner, httpRoutes.users)
     app.use('/products', checkIfAuthenticated, httpRoutes.products)
+    app.use('/cloudinary', checkIfAuthenticated, httpRoutes.cloudinary)
 }
 
 main()

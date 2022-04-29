@@ -3,7 +3,7 @@
 {{#block 'content'}}
 <h1>Editing Variant for "{{variant.product.product_name}}"</h1>
 <form method="POST">
-    {{> csrf}}
+    {{> csrfToken}}
     {{{variantForm}}}
     <div class="btn-group btn-group-sm">
         <a href='/products/{{variant.product_id}}/variants' class="btn btn-secondary btn-sm my-3">Cancel</a>

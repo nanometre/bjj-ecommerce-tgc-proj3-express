@@ -42,6 +42,7 @@
     <table class="table">
         <thead>
             <tr>
+                <th scope="col"></th>
                 <th scope="col">Color</th>
                 <th scope="col">Size</th>
                 <th scope="col">Stock</th>
@@ -52,6 +53,9 @@
         <tbody>
             {{#each variants}}
             <tr>
+                <td scope="row" style="text-align: center">
+                    <img src="{{this.product_thumbnail_url}}"/>    
+                </td>
                 <td scope="row">{{this.color.color_name}}</td>
                 <td scope="row">{{this.size.size_name}}</td>
                 <td scope="row">{{this.stock}}</td>

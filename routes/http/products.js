@@ -4,7 +4,7 @@
 const express = require('express')
 const router = express.Router()
 const { bootstrapField, createProductForm, createVariantForm, createMaterialForm } = require('../../forms')
-const { Product, Variant } = require('../../models')
+const { Product, Variant, Color } = require('../../models')
 const productDataLayer = require('../../dal/products')
 
 // =================================================
@@ -148,7 +148,10 @@ router.get('/:product_id/variants/create', async (req, res) => {
 
     res.render('products/variants-create', {
         product: product.toJSON(),
-        variantForm: variantForm.toHTML(bootstrapField)
+        variantForm: variantForm.toHTML(bootstrapField),
+        cloudinaryName: process.env.CLOUDINARY_NAME,
+        cloudinaryApiKey: process.env.CLOUDINARY_API_KEY,
+        cloudinaryPreset: process.env.CLOUDINARY_UPLOAD_PRESET
     })
 })
 
@@ -159,12 +162,14 @@ router.post('/:product_id/variants/create', async (req, res) => {
 
     variantForm.handle(req, {
         'success': async (form) => {
-            let { tags, ...variantData } = form.data
+            let { product_image_url, product_thumbnail_url, tags, ...variantData } = form.data
             const variant = new Variant({
                 product_id: req.params.product_id,
+                product_image_url: product_image_url || "http://res.cloudinary.com/nanometre/image/upload/v1651226796/yuyr6i2kxlmivpgxrs8r.png",
+                product_thumbnail_url: product_thumbnail_url || "https://res.cloudinary.com/nanometre/image/upload/c_limit,h_60,w_90/v1651226796/yuyr6i2kxlmivpgxrs8r.png",
                 ...variantData
             })
-            await variant.save()
+            await variant.save()           
             if (tags) {
                 await variant.tags().attach(tags.split(','))
             }
