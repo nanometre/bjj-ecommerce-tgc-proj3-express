@@ -21,7 +21,8 @@
         cloudName: '{{cloudinaryName}}',
         apiKey: '{{cloudinaryApiKey}}',
         uploadPreset: '{{cloudinaryPreset}}',
-        uploadSignature: generateSignature
+        uploadSignature: generateSignature,
+        multiple: false
     }
     // create upload widget
     const myWidget = cloudinary.createUploadWidget(config, (error, result) => {

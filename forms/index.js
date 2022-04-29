@@ -52,6 +52,94 @@ const createLoginForm = () => {
     })
 }
 
+const createProductSearchForm = (materials, weaves, categories, brands) => {
+    return forms.create({
+        name: fields.string({
+            required: false,
+            errorAfterField: true,
+            cssClasses: {
+                label: ['form-label', 'mt-3']
+            }
+        }),
+        min_cost: fields.string({
+            label: 'Min cost (SGD)',
+            required: false,
+            errorAfterField: true,
+            cssClasses: {
+                label: ['form-label', 'mt-3']
+            },
+            validators: [validators.integer(), validators.min(0)]
+        }),
+        max_cost: fields.string({
+            label: 'Max cost (SGD)',
+            required: false,
+            errorAfterField: true,
+            cssClasses: {
+                label: ['form-label', 'mt-3']
+            },
+            validators: [validators.integer(), validators.min(0)]
+        }),
+        min_weight: fields.string({
+            label: 'Min weight (g)',
+            required: false,
+            errorAfterField: true,
+            cssClasses: {
+                label: ['form-label', 'mt-3']
+            },
+            validators: [validators.integer(), validators.min(0)]
+        }),
+        max_weight: fields.string({
+            label: 'Max weight (g)',
+            required: false,
+            errorAfterField: true,
+            cssClasses: {
+                label: ['form-label', 'mt-3']
+            },
+            validators: [validators.integer(), validators.min(0)]
+        }),
+        material_id: fields.string({
+            label: "Material",
+            required: false,
+            errorAfterField: true,
+            cssClasses: {
+                label: ['form-label', 'mt-3']
+            },
+            widget: widgets.select(),
+            choices: materials
+        }),
+        weave_id: fields.string({
+            label: "Weave",
+            required: false,
+            errorAfterField: true,
+            cssClasses: {
+                label: ['form-label', 'mt-3']
+            },
+            widget: widgets.select(),
+            choices: weaves
+        }),
+        category_id: fields.string({
+            label: "Category",
+            required: false,
+            errorAfterField: true,
+            cssClasses: {
+                label: ['form-label', 'mt-3']
+            },
+            widget: widgets.select(),
+            choices: categories
+        }),
+        brand_id: fields.string({
+            label: "Brand",
+            required: false,
+            errorAfterField: true,
+            cssClasses: {
+                label: ['form-label', 'mt-3']
+            },
+            widget: widgets.select(),
+            choices: brands
+        })
+    })
+}
+
 const createProductForm = (materials, weaves, categories, brands) => {
     return forms.create({
         product_name: fields.string({
@@ -233,11 +321,10 @@ const createMaterialForm = () => {
     })
 }
 
-
-
 module.exports = { 
     bootstrapField, 
-    createLoginForm, 
+    createLoginForm,
+    createProductSearchForm, 
     createProductForm, 
     createVariantForm, 
     createUserForm, 
