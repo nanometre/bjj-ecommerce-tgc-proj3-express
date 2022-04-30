@@ -6,8 +6,12 @@ const bookshelf = require('../bookshelf');
 const User = bookshelf.model('User', {
     tableName: 'users',
     idAttribute: 'user_id',
+    visible: ['user_id', 'email', 'first_name', 'last_name', 'user_type_id'],
     userType() {
         return this.belongsTo('UserType', 'user_type_id')
+    },
+    cartItems() {
+        return this.hasMany('CartItem', 'cart_item_id')
     }
 })
 
@@ -91,6 +95,9 @@ const Variant = bookshelf.model('Variant', {
     },
     tags() {
         return this.belongsToMany('Tag', 'tags_variants', 'variant_id', 'tag_id')
+    },
+    cartItems() {
+        return this.hasMany('CartItem', 'cart_item_id')
     }
 })
 
@@ -118,8 +125,23 @@ const Tag = bookshelf.model('Tag', {
     }
 })
 
+// =============================================================================
+// ============= Models for 'cart_items' and its supporting tables =============
+// =============================================================================
+const CartItem = bookshelf.model('CartItem', {
+    tableName: 'cart_items',
+    idAttribute: 'cart_item_id',
+    variant() {
+        return this.belongsTo('Variant', 'variant_id')
+    },
+    user() {
+        return this.belongsTo('User', 'user_id')
+    }
+})
+
 module.exports = { 
     User, UserType,
     Product, Material, Weave, Category, Brand, 
-    Variant, Color, Size, Tag 
+    Variant, Color, Size, Tag,
+    CartItem
 }

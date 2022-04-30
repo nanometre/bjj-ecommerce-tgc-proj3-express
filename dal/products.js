@@ -53,9 +53,8 @@ const getVariantsByProductId = async (productId) => {
     })
 }
 
-const getVariantByIds = async (productId, variantId) => {
+const getVariantById = async (variantId) => {
     return await Variant.where({
-        product_id: productId,
         variant_id: variantId
     }).fetch({
         require: true,
@@ -83,5 +82,5 @@ const getAllTags = async () => {
 
 module.exports = { 
     getProductById, getAllMaterials, getAllWeaves, getAllCategories, getAllBrands,
-    getVariantsByProductId, getVariantByIds, getAllColors, getAllSizes, getAllTags
+    getVariantsByProductId, getVariantById, getAllColors, getAllSizes, getAllTags
 }

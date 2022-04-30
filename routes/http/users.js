@@ -25,7 +25,7 @@ router.get('/:user_id/update', async (req, res) => {
         userForm.fields[field].value = user.get(field)
     }
     res.render('users/update', {
-        user: user,
+        user: user.toJSON(),
         userForm: userForm.toHTML(bootstrapField)
     })
 })
@@ -44,7 +44,7 @@ router.post('/:user_id/update', async (req, res) => {
         },
         'error': async (form) => {
             res.render('users/update', {
-                user: user,
+                user: user.toJSON(),
                 userForm: form.toHTML(bootstrapField)
             })
         }

@@ -15,11 +15,51 @@ exports.setup = function(options, seedLink) {
 };
 
 exports.up = function(db) {
-  return null;
+  return db.createTable('cart_items', {
+    cart_item_id: {
+      type: 'int',
+      primaryKey: true,
+      autoIncrement: true,
+      unsigned: true
+    },
+    user_id: {
+      type: 'smallint',
+      unsigned: true,
+      notNull: true,
+      foreignKey: {
+        name: 'cart_items_user_id',
+        table: 'users',
+        rules: {
+          onDelete: 'RESTRICT',
+          onUpdate: 'RESTRICT'
+        },
+        mapping: 'user_id'
+      }
+    },
+    variant_id: {
+      type: 'int',
+      unsigned: true,
+      notNull: true,
+      foreignKey: {
+        name: 'cart_items_variant_id',
+        table: 'variants',
+        rules: {
+          onDelete: 'RESTRICT',
+          onUpdate: 'RESTRICT'
+        },
+        mapping: 'variant_id'
+      }
+    },
+    quantity: {
+      type: 'smallint',
+      notNull: true,
+      unsigned: true
+    }
+  });
 };
 
 exports.down = function(db) {
-  return null;
+  return db.dropTable('cart_items');
 };
 
 exports._meta = {

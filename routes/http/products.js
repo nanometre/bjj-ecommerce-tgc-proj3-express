@@ -50,8 +50,10 @@ router.get('/', async (req, res) => {
             const products = await q.fetch({
                 withRelated: ['material', 'weave', 'category', 'brand']
             })
+            const resultsCount = products.toJSON().length
             res.render('products/index', {
                 products: products.toJSON(),
+                resultsCount,
                 productSearchForm: form.toHTML(bootstrapField)
             })
         },
@@ -97,8 +99,10 @@ router.get('/', async (req, res) => {
             const products = await q.fetch({
                 withRelated: ['material', 'weave', 'category', 'brand']
             })
+            const resultsCount = products.toJSON().length
             res.render('products/index', {
                 products: products.toJSON(),
+                resultsCount,
                 productSearchForm: form.toHTML(bootstrapField)
             })
         }
@@ -248,7 +252,7 @@ router.post('/:product_id/variants/create', async (req, res) => {
 })
 
 router.get('/:product_id/variants/:variant_id/update', async (req, res) => {
-    const variant = await productDataLayer.getVariantByIds(req.params.product_id, req.params.variant_id)
+    const variant = await productDataLayer.getVariantById(req.params.variant_id)
     const { allColors, allSizes, allTags } = await getFormSelection()
     const variantForm = createVariantForm(allColors, allSizes, allTags)
 
@@ -270,7 +274,7 @@ router.get('/:product_id/variants/:variant_id/update', async (req, res) => {
 })
 
 router.post('/:product_id/variants/:variant_id/update', async (req, res) => {
-    const variant = await productDataLayer.getVariantByIds(req.params.product_id, req.params.variant_id)
+    const variant = await productDataLayer.getVariantById(req.params.variant_id)
     const { allColors, allSizes, allTags } = await getFormSelection()
     const variantForm = createVariantForm(allColors, allSizes, allTags)
 
@@ -299,14 +303,14 @@ router.post('/:product_id/variants/:variant_id/update', async (req, res) => {
 })
 
 router.get('/:product_id/variants/:variant_id/delete', async (req, res) => {
-    const variant = await productDataLayer.getVariantByIds(req.params.product_id, req.params.variant_id)
+    const variant = await productDataLayer.getVariantById(req.params.variant_id)
     res.render('products/variants-delete', {
         variant: variant.toJSON()
     })
 })
 
 router.post('/:product_id/variants/:variant_id/delete', async (req, res) => {
-    const variant = await productDataLayer.getVariantByIds(req.params.product_id, req.params.variant_id)
+    const variant = await productDataLayer.getVariantById(req.params.variant_id)
     await variant.destroy()
     req.flash('success_messages', `Product variant has been deleted.`)
     res.redirect(`/products/${req.params.product_id}/variants`)

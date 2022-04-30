@@ -72,11 +72,31 @@ app.use((req, res, next) => {
     next()
 })
 // CSRF middleware
-app.use(csrf())
-app.use((req, res, next) => {
-    res.locals.csrfToken = req.csrfToken()
-    next()
+// START: TODELETE WHEN DOING API
+app.use(csrf());
+app.use(function(req,res,next){
+    res.locals.csrfToken = req.csrfToken();
+    next();
 })
+// END: TODELETE WHEN DOING API
+// START: TOINCLUDE WHEN DOING API
+// const csurfInstance = csrf(); 
+// app.use((req, res, next) => {
+//     if (req.url.slice(0,5) === '/api/') {
+//         next();
+//     } else {
+//         csurfInstance(req, res, next);
+//     }
+// })
+// app.use((req, res, next) => {
+//     if (req.csrfToken) {
+//         res.locals.csrfToken = req.csrfToken();
+//     }
+//     next();
+// })
+// END: TOINCLUDE WHEN DOING API
+
+// CSRF error handling
 app.use((err, req, res, next) => {
     if (err && err.code == "EBADCSRFTOKEN") {
         req.flash('error_messages', 'The form has expired. Please try again');
@@ -96,6 +116,9 @@ const httpRoutes = {
     products: require('./routes/http/products'),
     cloudinary: require('./routes/http/cloudinary')
 }
+const apiRoutes = {
+    cart: require('./routes/api/cart')
+}
 
 async function main() {
     app.use('/', httpRoutes.landing)
@@ -103,6 +126,9 @@ async function main() {
     app.use('/users', checkIfAuthenticated, checkIfOwner, httpRoutes.users)
     app.use('/products', checkIfAuthenticated, httpRoutes.products)
     app.use('/cloudinary', checkIfAuthenticated, httpRoutes.cloudinary)
+    // TOINCLUDE
+    // app.use('/cart', express.json(), apiRoutes.cart)
+    app.use('/cart', checkIfAuthenticated, apiRoutes.cart)
 }
 
 main()
