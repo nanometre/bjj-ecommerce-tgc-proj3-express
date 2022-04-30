@@ -33,7 +33,6 @@ const createCartItem = async (userId, variantId, quantity) => {
 
 const removeCartItem = async (userId, variantId) => {
     const cartItem = await getCartItemByUserAndVariant(userId, variantId)
-    console.log(cartItem.toJSON())
     await cartItem.destroy();
 }
 

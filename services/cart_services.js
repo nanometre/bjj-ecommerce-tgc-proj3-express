@@ -25,6 +25,8 @@ class CartServices {
             await variant.save()
         } else if (!cartItem && variantStock >= quantity) {
             cartItem = await cartDataLayer.createCartItem(this.user_id, variantId, quantity)
+            variant.set('stock', variantStock - quantity)
+            await variant.save()
             return cartItem
         } else if (variantStock < quantity) {
             // TODO: do what if no stock??
