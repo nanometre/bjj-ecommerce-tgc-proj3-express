@@ -43,6 +43,7 @@ router.get('/', async (req, res) => {
             allowed_countries: ['SG', 'AU', 'GB',  'US'],
         },
         metadata: {
+            user_id: req.session.user.user_id,
             orders: metaData
         }
     }

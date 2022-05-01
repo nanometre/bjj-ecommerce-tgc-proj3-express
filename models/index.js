@@ -12,6 +12,9 @@ const User = bookshelf.model('User', {
     },
     cartItems() {
         return this.hasMany('CartItem', 'cart_item_id')
+    },
+    orders() {
+        return this.hasMany('Order', 'order_id')
     }
 })
 
@@ -98,6 +101,9 @@ const Variant = bookshelf.model('Variant', {
     },
     cartItems() {
         return this.hasMany('CartItem', 'cart_item_id')
+    },
+    orders() {
+        return this.belongsToMany('Order', 'order_items', 'variant_id', 'order_id')
     }
 })
 
@@ -139,9 +145,46 @@ const CartItem = bookshelf.model('CartItem', {
     }
 })
 
+// =============================================================================
+// =============== Models for 'orders' and its supporting tables ===============
+// =============================================================================
+const Order = bookshelf.model('Order', {
+    tableName: 'orders',
+    idAttribute: 'order_id',
+    variants() {
+        return this.belongsToMany('Variant', 'order_items', 'order_id', 'variant_id')
+    },
+    user() {
+        return this.belongsTo('User', 'user_id')
+    },
+    status() {
+        return this.belongsTo('Status', 'status_id')
+    },
+    address() {
+        return this.belongsTo('Address', 'address_id')
+    }
+})
+
+const Status = bookshelf.model('Status', {
+    tableName: 'statuses',
+    idAttribute: 'status_id',
+    orders() {
+        return this.hasMany('Order', 'order_id')
+    }
+})
+
+const Address = bookshelf.model('Address', {
+    tableName: 'addresses',
+    idAttribute: 'address_id',
+    order() {
+        return this.hasOne('Order', 'order_id')
+    }
+})
+
 module.exports = { 
     User, UserType,
     Product, Material, Weave, Category, Brand, 
     Variant, Color, Size, Tag,
-    CartItem
+    CartItem,
+    Order, Status, Address
 }
