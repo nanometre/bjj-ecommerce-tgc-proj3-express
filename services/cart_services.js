@@ -33,7 +33,7 @@ class CartServices {
             return false
         }
     }
-    // remove product variant from cart
+    // remove product variant from cart. this is NOT checking out cart
     async removeFromCart(variantId) {
         const variant = await getVariantById(variantId)
         const variantStock = variant.get('stock')
@@ -43,6 +43,14 @@ class CartServices {
         variant.set('stock', variantStock + cartItemQuantity)
         await variant.save()
         await cartDataLayer.removeCartItem(this.user_id, variantId)
+    }
+    // checkout items from cart on successful payment/checkout session
+    // and add itmes to orders table?
+    async checkoutCart(stripeSession) {
+        const cartItems = JSON.parse(stripeSession.metadata.orders)
+        for (let cartItem of cartItems) {
+            await cartDataLayer.removeCartItem(this.user_id, cartItem['variant_id'])
+        }
     }
     // update product variant quantity in cart
     async updateQuantityInCart(variantId, newQuantity) {

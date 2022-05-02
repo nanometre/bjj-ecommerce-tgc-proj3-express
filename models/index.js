@@ -6,7 +6,7 @@ const bookshelf = require('../bookshelf');
 const User = bookshelf.model('User', {
     tableName: 'users',
     idAttribute: 'user_id',
-    visible: ['user_id', 'email', 'first_name', 'last_name', 'user_type_id'],
+    visible: ['user_id', 'email', 'first_name', 'last_name', 'user_type_id', 'userType.user_type'],
     userType() {
         return this.belongsTo('UserType', 'user_type_id')
     },
@@ -104,6 +104,9 @@ const Variant = bookshelf.model('Variant', {
     },
     orders() {
         return this.belongsToMany('Order', 'order_items', 'variant_id', 'order_id')
+    },
+    orderItems() {
+        return this.hasMany('OrderItem', 'order_item_id')
     }
 })
 
@@ -148,6 +151,17 @@ const CartItem = bookshelf.model('CartItem', {
 // =============================================================================
 // =============== Models for 'orders' and its supporting tables ===============
 // =============================================================================
+const OrderItem = bookshelf.model('OrderItem', {
+    tableName: 'order_items',
+    idAttribute: 'order_item_id',
+    order() {
+        return this.belongsTo('Order', 'order_id')
+    },
+    variant() {
+        return this.belongsTo('Variant', 'variant_id')
+    }
+})
+
 const Order = bookshelf.model('Order', {
     tableName: 'orders',
     idAttribute: 'order_id',
@@ -162,6 +176,9 @@ const Order = bookshelf.model('Order', {
     },
     address() {
         return this.belongsTo('Address', 'address_id')
+    },
+    orderItems() {
+        return this.hasMany('OrderItem', 'order_item_id')
     }
 })
 
@@ -186,5 +203,5 @@ module.exports = {
     Product, Material, Weave, Category, Brand, 
     Variant, Color, Size, Tag,
     CartItem,
-    Order, Status, Address
+    OrderItem, Order, Status, Address
 }

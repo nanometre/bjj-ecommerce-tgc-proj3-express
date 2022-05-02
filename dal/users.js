@@ -18,7 +18,7 @@ const getHashedPassword = (password) => {
 // =================================================
 
 const getAllUsers = async () => {
-    return await User.collection().fetch({
+    return await User.fetchAll({
         withRelated: ['userType']
     })
 }

@@ -33,7 +33,10 @@ const createCartItem = async (userId, variantId, quantity) => {
 
 const removeCartItem = async (userId, variantId) => {
     const cartItem = await getCartItemByUserAndVariant(userId, variantId)
-    await cartItem.destroy();
+    // only destroy() if cart item exists
+    if (cartItem) {
+        await cartItem.destroy();
+    }
 }
 
 const updateCartItemQuantity = async (userId, variantId, newQuantity) => {

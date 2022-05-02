@@ -11,8 +11,16 @@ const userDataLayer = require('../../dal/users')
 // =================================================
 router.get('/', async (req, res) => {
     const users = await userDataLayer.getAllUsers()
+    console.log(users.toJSON())
+    const employees = users.toJSON().filter(user => {
+        return user.userType.user_type !== 'Customer'
+    })
+    const customers = users.toJSON().filter(user => {
+        return user.userType.user_type === 'Customer'
+    })
     res.render('users', {
-        users: users.toJSON(),
+        employees,
+        customers
     })
 })
 

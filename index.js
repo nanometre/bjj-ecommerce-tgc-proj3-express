@@ -57,6 +57,17 @@ hbs.registerHelper('centsToDollars', (cents) => {
 hbs.registerHelper('gramsToKilograms', (grams) => {
     return (parseInt(grams) / 1000).toFixed(2)
 })
+hbs.registerHelper('convertIsoDate', (isoDate) => {
+    return (`${isoDate.getDate()}-${isoDate.getMonth() + 1}-${isoDate.getFullYear()}`)
+})
+hbs.registerHelper('formatAddress', (address) => {
+    return `${address.address_line_1}
+            ${address.address_line_2}
+            ${address.country}
+            ${address.state}
+            ${address.city}
+            ${address.postal_code}`
+})
 
 // =================================================
 // =============== Global Middlewares ==============
@@ -72,18 +83,11 @@ app.use((req, res, next) => {
     next()
 })
 // CSRF middleware
-// START: TODELETE WHEN DOING API
-// app.use(csrf());
-// app.use(function(req,res,next){
-//     res.locals.csrfToken = req.csrfToken();
-//     next();
-// })
-// END: TODELETE WHEN DOING API
-// START: TOINCLUDE WHEN DOING API
 const csurfInstance = csrf(); 
 app.use((req, res, next) => {
-    // if (req.url.slice(0,5) === '/api/') {
-    if (req.url === '/checkout/process_payment' || req.url.slice(0,5) === '/api/') {
+    if (req.url === '/checkout/process_payment') {
+    // TOUNCOMMENT WHEN CHANGING TO API
+    // if (req.url === '/checkout/process_payment' || req.url.slice(0,5) === '/api/') {
         next();
     } else {
         csurfInstance(req, res, next);
@@ -95,7 +99,6 @@ app.use((req, res, next) => {
     }
     next();
 })
-// END: TOINCLUDE WHEN DOING API
 
 // CSRF error handling
 app.use((err, req, res, next) => {
@@ -115,12 +118,12 @@ const httpRoutes = {
     login: require('./routes/http/login'),
     users: require('./routes/http/users'),
     products: require('./routes/http/products'),
-    orders: require('./routes/http/orders'),
-    cloudinary: require('./routes/http/cloudinary')
+    cloudinary: require('./routes/http/cloudinary'),
 }
 const apiRoutes = {
     cart: require('./routes/api/cart'),
-    checkout: require('./routes/api/checkout')
+    checkout: require('./routes/api/checkout'),
+    orders: require('./routes/api/orders'),
 }
 
 async function main() {
@@ -128,14 +131,14 @@ async function main() {
     app.use('/login', httpRoutes.login)
     app.use('/users', checkIfAuthenticated, checkIfOwner, httpRoutes.users)
     app.use('/products', checkIfAuthenticated, httpRoutes.products)
-    app.use('/orders', checkIfAuthenticated, httpRoutes.orders)
     app.use('/cloudinary', checkIfAuthenticated, httpRoutes.cloudinary)
     // TOCHANGE
     // app.use('/cart', express.json(), apiRoutes.cart)
     app.use('/cart', checkIfAuthenticated, apiRoutes.cart)
     // app.use('/checkout', express.json(). apiRoutes.checkout)
     app.use('/checkout', apiRoutes.checkout)
-
+    // app.use('/orders', express.json(). apiRoutes.orders)
+    app.use('/orders', checkIfAuthenticated, apiRoutes.orders)
 }
 
 main()

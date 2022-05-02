@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const CartServices = require('../../services/cart_services');
+const OrderServices = require('../../services/order_services');
 const Stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 // TOCHANGE
@@ -15,7 +16,6 @@ router.get('/', async (req, res) => {
     let lineItems = [];
     let meta = [];
     for (let cartItem of cartItems) {
-        console.log(cartItem.toJSON())
         // TOCHANGE: consider what other item I want to send to stripe.
         const lineItem = {
             name: cartItem.related('variant').related('product').get('product_name'),
@@ -27,6 +27,7 @@ router.get('/', async (req, res) => {
         lineItems.push(lineItem)
         // save the variant id and quantity in metadata for order processing
         meta.push({
+            cart_item_id: cartItem.get('cart_item_id'),
             variant_id: cartItem.get('variant_id'),
             quantity: cartItem.get('quantity')
         })
@@ -40,7 +41,7 @@ router.get('/', async (req, res) => {
         success_url: process.env.STRIPE_SUCCESS_URL + '?sessionsId={CHECKOUT_SESSION_ID}',
         cancel_url: process.env.STRIPE_CANCELLED_URL,
         shipping_address_collection: {
-            allowed_countries: ['SG', 'AU', 'GB',  'US'],
+            allowed_countries: ['SG', 'AU', 'GB', 'US'],
         },
         metadata: {
             user_id: req.session.user.user_id,
@@ -56,21 +57,22 @@ router.get('/', async (req, res) => {
     })
 })
 
-router.get('/success', function(req, res){
+router.get('/success', function (req, res) {
     res.render('checkout_test/success')
 })
 
-router.get('/cancelled', function(req, res){
+router.get('/cancelled', function (req, res) {
     res.render('checkout_test/cancelled')
 })
 
 router.post('/process_payment', express.raw({
     'type': 'application/json'
-}), function(req, res){
+}), async function (req, res) {
     let payload = req.body;
     let endpointSecret = process.env.STRIPE_ENDPOINT_SECRET;
     let sigHeader = req.headers['stripe-signature'];
     let event;
+    console.log(event)
     try {
         event = Stripe.webhooks.constructEvent(payload, sigHeader, endpointSecret)
     } catch (e) {
@@ -81,7 +83,10 @@ router.post('/process_payment', express.raw({
     if (event.type === "checkout.session.completed") {
         let stripeSession = event.data.object
         console.log(stripeSession)
-        // TODO: remove from cart and add to orders after setting up orders.
+        let cartServices = new CartServices(stripeSession.metadata.user_id)
+        let orderServices = new OrderServices()
+        await cartServices.checkoutCart(stripeSession)
+        await orderServices.addOrder(stripeSession)
     }
     res.send({
         'recevied': true

@@ -77,11 +77,6 @@ exports.up = function(db) {
     order_datetime: {
       type: 'datetime',
       notNull: true
-    },
-    notes: {
-      type: 'string',
-      length: 500,
-      notNull: false
     }
   });
 };
