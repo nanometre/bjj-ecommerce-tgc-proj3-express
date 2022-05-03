@@ -1,3 +1,6 @@
+// =================================================
+// ============== Import Dependencies ==============
+// =================================================
 const express = require('express');
 const router = express.Router();
 const CartServices = require('../../services/cart_services');
@@ -72,7 +75,6 @@ router.post('/process_payment', express.raw({
     let endpointSecret = process.env.STRIPE_ENDPOINT_SECRET;
     let sigHeader = req.headers['stripe-signature'];
     let event;
-    console.log(event)
     try {
         event = Stripe.webhooks.constructEvent(payload, sigHeader, endpointSecret)
     } catch (e) {

@@ -1,0 +1,89 @@
+{{#extends 'base'}}
+
+{{#block 'content'}}
+<h1>Order</h1>
+<h5 class="mt-5">Order Details</h5>
+<div class="w-100 overflow-auto p-3 shadow-lg rounded-3">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Order ID</th>
+                <th scope="col">Ordered by</th>
+                <th scope="col">Email</th>
+                <th scope="col">Shipping Address</th>
+                <th scope="col">Total Cost (SGD)</th>
+                <th scope="col">Payment Ref.</th>
+                <th scope="col">Order Date</th>
+                <th scope="col">Status</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td scope="row">{{order.order_id}}</td>
+                <td scope="row">{{order.user.first_name}} {{order.user.last_name}}</td>
+                <td scope="row">{{order.user.email}}</td>
+                <td scope="row">
+                    {{order.address.address_line_1}}<br>
+                    {{#if order.address.address_line_2}}{{order.address.address_line_2}}<br>{{/if}}
+                    {{order.address.country}}<br>
+                    {{#if order.address.state}}{{order.address.state}}<br>{{/if}}
+                    {{#if order.address.city}}{{order.address.city}}<br>{{/if}}
+                    {{order.address.postal_code}}
+                </td>
+                <td scope="row">{{centsToDollars order.total_cost}}</td>
+                <td scope="row">{{order.payment_ref}}</td>
+                <td scope="row">{{convertIsoDate order.order_datetime}}</td>
+                <td scope="row">
+                    <form method="POST" action="/orders/{{order.order_id}}/status/update">
+                        {{> csrfToken}}
+                        {{{statusForm}}}
+                        <input type="submit" value="Update Status" class="btn btn-success btn-sm my-3" >
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<h5 class="mt-5">Order Items</h5>
+<div class="w-100 overflow-auto p-3 shadow-lg rounded-3">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col"></th>
+                <th scope="col">Product Name</th>
+                <th scope="col">Brand</th>
+                <th scope="col">Color</th>
+                <th scope="col">Size</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Cost</th>
+                <th scope="col">Sub-total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each orderItems}}
+            <tr>
+                <td scope="row" style="text-align: center">
+                    <img src="{{this.variant.product_thumbnail_url}}"/>    
+                </td>
+                <td scope="row">
+                    <a href="/products/{{this.variant.product_id}}/variants">{{this.variant.product.product_name}}</a>
+                </td>
+                <td scope="row">{{this.variant.product.brand.brand_name}}</td>
+                <td scope="row">{{this.variant.color.color_name}}</td>
+                <td scope="row">{{this.variant.size.size_name}}</td>
+                <td scope="row">{{this.quantity}}</td>
+                <td scope="row">{{centsToDollars this.variant.product.cost}}</td>
+                <td scope="row">{{subTotal this.quantity this.variant.product.cost}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</div>
+<div class="btn-group btn-group-sm my-3">
+    <a class="btn btn-secondary btn-sm" href="/orders">Back to Orders</a>
+</div>
+{{/block}}
+
+{{/extends}}

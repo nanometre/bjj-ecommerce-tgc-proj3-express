@@ -30,7 +30,7 @@ exports.up = function(db) {
         name: 'order_items_order_fk',
         table: 'orders',
         rules:{
-          onDelete: 'RESTRICT',
+          onDelete: 'CASCADE',
           onUpdate: 'RESTRICT'
         },
         mapping: 'order_id'

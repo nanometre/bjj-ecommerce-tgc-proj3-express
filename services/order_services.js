@@ -1,9 +1,19 @@
 const orderDataLayer = require('../dal/orders')
 
 class OrderServices {
-    constructor() {}
+    constructor(order_id) {
+        this.order_id = order_id
+    }
     async getAllOrders() {
         return await orderDataLayer.getAllOrders()
+    }
+
+    async getOrderByOrderId() {
+        return await orderDataLayer.getOrderByOrderId(this.order_id)
+    }
+
+    async getOrderItemsByOrderId() {
+        return await orderDataLayer.getOrderItemsByOrderId(this.order_id)
     }
 
     async addOrder(stripeSession) {
@@ -22,6 +32,14 @@ class OrderServices {
                 orderItem['quantity']
                 )
         }
+    }
+
+    async updateOrderStatus(newStatusId) {
+        return await orderDataLayer.updateOrderStatus(this.order_id, newStatusId)
+    }
+
+    async getAllStatuses() {
+        return await orderDataLayer.getAllStatuses()
     }
 }
 

@@ -12,6 +12,8 @@ const {
 } = require('../../forms')
 const { Product, Variant } = require('../../models')
 const productDataLayer = require('../../dal/products')
+const { getCartItemsByVariantId } = require('../../dal/cart_items')
+const { getOrderItemsByVariantId } = require('../../dal/orders')
 
 // =================================================
 // =========== Get Form Selection Fields ===========
@@ -43,7 +45,7 @@ const getFormSelection = async () => {
 router.get('/', async (req, res) => {
     const { allMaterials, allWeaves, allCategories, allBrands } = await getFormSelection()
     const productSearchForm = createProductSearchForm(allMaterials, allWeaves, allCategories, allBrands)
-    const q = Product.collection() 
+    const q = Product.collection()
 
     productSearchForm.handle(req, {
         empty: async (form) => {
@@ -188,10 +190,17 @@ router.get('/:product_id/delete', async (req, res) => {
 })
 
 router.post('/:product_id/delete', async (req, res) => {
+    const variants = await productDataLayer.getVariantsByProductId(req.params.product_id)
     const product = await productDataLayer.getProductById(req.params.product_id)
-    req.flash('success_messages', `"${product.get('product_name')}" has been deleted.`)
-    await product.destroy()
-    res.redirect('/products')
+    if (variants.toJSON().length === 0) {
+        req.flash('success_messages', `"${product.get('product_name')}" has been deleted.`)
+        await product.destroy()
+        res.redirect('/products')
+    } else {
+        req.flash('error_messages', `"${product.get('product_name')}" cannot be deleted as it has exisiting product variant(s).`)
+        res.redirect('/products')
+    }
+
 })
 
 // ================================
@@ -311,9 +320,16 @@ router.get('/:product_id/variants/:variant_id/delete', async (req, res) => {
 
 router.post('/:product_id/variants/:variant_id/delete', async (req, res) => {
     const variant = await productDataLayer.getVariantById(req.params.variant_id)
-    await variant.destroy()
-    req.flash('success_messages', `Product variant has been deleted.`)
-    res.redirect(`/products/${req.params.product_id}/variants`)
+    const carts = await getCartItemsByVariantId(req.params.variant_id)
+    const orders = await getOrderItemsByVariantId(req.params.variant_id)
+    if (carts.toJSON().length === 0 && orders.toJSON().length === 0) {
+        await variant.destroy()
+        req.flash('success_messages', `Product variant has been deleted.`)
+        res.redirect(`/products/${req.params.product_id}/variants`)
+    } else {
+        req.flash('error_messages', `Product variant cannot be deleted as it is in a cart/order.`)
+        res.redirect(`/products/${req.params.product_id}/variants`)
+    }
 })
 
 // ================================

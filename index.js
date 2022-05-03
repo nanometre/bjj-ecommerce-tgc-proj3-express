@@ -8,7 +8,8 @@ const session = require('express-session');
 const flash = require('connect-flash');
 const FileStore = require('session-file-store')(session);
 const csrf = require('csurf')
-const { checkIfAuthenticated, checkIfOwner } = require('./middleware')
+require('express-async-errors')
+const { checkIfAuthenticated, checkIfOwner, handleErrors } = require('./middleware')
 
 require('dotenv').config();
 
@@ -60,13 +61,8 @@ hbs.registerHelper('gramsToKilograms', (grams) => {
 hbs.registerHelper('convertIsoDate', (isoDate) => {
     return (`${isoDate.getDate()}-${isoDate.getMonth() + 1}-${isoDate.getFullYear()}`)
 })
-hbs.registerHelper('formatAddress', (address) => {
-    return `${address.address_line_1}
-            ${address.address_line_2}
-            ${address.country}
-            ${address.state}
-            ${address.city}
-            ${address.postal_code}`
+hbs.registerHelper('subTotal', (quantity, cost) => {
+    return (quantity * cost / 100).toFixed(2)
 })
 
 // =================================================
@@ -103,7 +99,7 @@ app.use((req, res, next) => {
 // CSRF error handling
 app.use((err, req, res, next) => {
     if (err && err.code == "EBADCSRFTOKEN") {
-        req.flash('error_messages', 'The form has expired. Please try again');
+        req.flash('error_messages', 'The form has expired. Please try again.');
         res.redirect('back');
     } else {
         next()
@@ -118,12 +114,13 @@ const httpRoutes = {
     login: require('./routes/http/login'),
     users: require('./routes/http/users'),
     products: require('./routes/http/products'),
+    orders: require('./routes/http/orders'),
     cloudinary: require('./routes/http/cloudinary'),
 }
 const apiRoutes = {
     cart: require('./routes/api/cart'),
     checkout: require('./routes/api/checkout'),
-    orders: require('./routes/api/orders'),
+    
 }
 
 async function main() {
@@ -131,17 +128,18 @@ async function main() {
     app.use('/login', httpRoutes.login)
     app.use('/users', checkIfAuthenticated, checkIfOwner, httpRoutes.users)
     app.use('/products', checkIfAuthenticated, httpRoutes.products)
+    app.use('/orders', checkIfAuthenticated, httpRoutes.orders)
     app.use('/cloudinary', checkIfAuthenticated, httpRoutes.cloudinary)
     // TOCHANGE
     // app.use('/cart', express.json(), apiRoutes.cart)
     app.use('/cart', checkIfAuthenticated, apiRoutes.cart)
     // app.use('/checkout', express.json(). apiRoutes.checkout)
     app.use('/checkout', apiRoutes.checkout)
-    // app.use('/orders', express.json(). apiRoutes.orders)
-    app.use('/orders', checkIfAuthenticated, apiRoutes.orders)
 }
 
 main()
+
+app.use(handleErrors)
 
 app.listen(8000, function(){
     console.log('Server has started.');

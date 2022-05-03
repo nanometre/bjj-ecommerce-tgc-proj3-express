@@ -12,6 +12,22 @@ const getCart = async (userId) => {
     })
 }
 
+const getCartItemsByVariantId = async (variantId) => {
+    return await CartItem.where({
+        variant_id: variantId
+    }).fetchAll({
+        require: false
+    })
+}
+
+const getCartItemsByUserId = async (userId) => {
+    return await CartItem.where({
+        user_id: userId
+    }).fetchAll({
+        require: false
+    })
+}
+
 const getCartItemByUserAndVariant = async (userId, variantId) => {
     return await CartItem.where({
         user_id: userId,
@@ -48,6 +64,8 @@ const updateCartItemQuantity = async (userId, variantId, newQuantity) => {
 
 module.exports = {
     getCart,
+    getCartItemsByVariantId,
+    getCartItemsByUserId,
     getCartItemByUserAndVariant,
     createCartItem,
     removeCartItem,

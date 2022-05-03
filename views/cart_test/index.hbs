@@ -5,7 +5,7 @@
 <ul class="list-group">
     {{#each cartItems}}
     <li class="list-group-item">
-        <h4>{{this.variant.product.product_name}}</h4>
+        <h3>{{this.variant.product.product_name}}</h3>
         <h5>Cost: {{centsToDollars this.variant.product.cost}}</h5>
         <form method="POST" action="/cart/{{this.variant.variant_id}}/quantity/update">
             <input type="hidden" value="{{../csrfToken}}" name="_csrf">

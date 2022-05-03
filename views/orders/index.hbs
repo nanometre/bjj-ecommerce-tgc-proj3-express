@@ -24,15 +24,22 @@
                 <td scope="row">{{this.order_id}}</td>
                 <td scope="row">{{this.user.first_name}} {{this.user.last_name}}</td>
                 <td scope="row">{{this.user.email}}</td>
-                <td scope="row" style="white-space: pre-line">{{formatAddress this.address}}</td>
+                <td scope="row">
+                    {{this.address.address_line_1}}<br>
+                    {{#if this.address.address_line_2}}{{this.address.address_line_2}}<br>{{/if}}
+                    {{this.address.country}}<br>
+                    {{#if this.address.state}}{{this.address.state}}<br>{{/if}}
+                    {{#if this.address.city}}{{this.address.city}}<br>{{/if}}
+                    {{this.address.postal_code}}
+                </td>
                 <td scope="row">{{centsToDollars this.total_cost}}</td>
                 <td scope="row">{{this.payment_ref}}</td>
                 <td scope="row">{{convertIsoDate this.order_datetime}}</td>
                 <td scope="row">{{this.status.status_name}}</td>
                 <td scope="row">
                     <div class="btn-group btn-group-sm">
-                        <a class="btn btn-success" href="/users/{{this.user_id}}/update">Update</a>
-                        <a class="btn btn-danger" href="/users/{{this.user_id}}/delete">Delete</a>
+                        <a class="btn btn-primary" href="/orders/{{this.order_id}}/items">Details/Update</a>
+                        <a class="btn btn-danger" href="/orders">Delete</a>
                     </div>
                 </td>
             </tr>
@@ -53,6 +60,7 @@
                 <th scope="col">Payment Ref.</th>
                 <th scope="col">Order Date</th>
                 <th scope="col">Status</th>
+                <th scope="col"></th>
             </tr>
         </thead>
         {{#each completed}}
@@ -61,11 +69,23 @@
                 <td scope="row">{{this.order_id}}</td>
                 <td scope="row">{{this.user.first_name}} {{this.user.last_name}}</td>
                 <td scope="row">{{this.user.email}}</td>
-                <td scope="row" style="white-space: pre-line">{{formatAddress this.address}}</td>
+                <td scope="row">
+                    {{this.address.address_line_1}}<br>
+                    {{#if this.address.address_line_2}}{{this.address.address_line_2}}<br>{{/if}}
+                    {{this.address.country}}<br>
+                    {{#if this.address.state}}{{this.address.state}}<br>{{/if}}
+                    {{#if this.address.city}}{{this.address.city}}<br>{{/if}}
+                    {{this.address.postal_code}}
+                </td>
                 <td scope="row">{{centsToDollars this.total_cost}}</td>
                 <td scope="row">{{this.payment_ref}}</td>
                 <td scope="row">{{convertIsoDate this.order_datetime}}</td>
                 <td scope="row">{{this.status.status_name}}</td>
+                <td scope="row">
+                    <div class="btn-group btn-group-sm">
+                        <a class="btn btn-primary" href="/orders/{{this.order_id}}/items">Details</a>
+                    </div>
+                </td>
             </tr>
         </tbody>
         {{/each}}

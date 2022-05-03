@@ -5,13 +5,13 @@ const express = require('express')
 const router = express.Router()
 const { bootstrapField, createUserForm } = require('../../forms')
 const userDataLayer = require('../../dal/users')
-
+const { getCartItemsByUserId } = require('../../dal/cart_items')
+const { getOrdersByUserId } = require('../../dal/orders')
 // =================================================
 // ================== Set Routes ===================
 // =================================================
 router.get('/', async (req, res) => {
     const users = await userDataLayer.getAllUsers()
-    console.log(users.toJSON())
     const employees = users.toJSON().filter(user => {
         return user.userType.user_type !== 'Customer'
     })
@@ -68,9 +68,16 @@ router.get('/:user_id/delete', async (req, res) => {
 
 router.post('/:user_id/delete', async (req, res) => {
     const user = await userDataLayer.getUserById(req.params.user_id)
-    req.flash('success_messages', `User details for "${user.get('email')}" has been deleted.`)
-    await user.destroy()
-    res.redirect('/users')
+    const carts = await getCartItemsByUserId(req.params.user_id)
+    const orders = await getOrdersByUserId(req.params.user_id)
+    if (carts.toJSON().length === 0 && orders.toJSON().length === 0) {
+        req.flash('success_messages', `User details for "${user.get('email')}" has been deleted.`)
+        await user.destroy()
+        res.redirect('/users')
+    } else {
+        req.flash('error_messages', `User details for "${user.get('email')}" cannot be deleted as it is in a cart/order.`)
+        res.redirect('/users')
+    }
 })
 
 module.exports = router
