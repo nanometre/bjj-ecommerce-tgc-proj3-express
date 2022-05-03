@@ -5,7 +5,7 @@ class CartServices {
     constructor(user_id) {
         this.user_id = user_id
     }
-    // get all cart items
+    // get all cart items of a user
     async getCart() {
         return await cartDataLayer.getCart(this.user_id)
     }
@@ -45,7 +45,6 @@ class CartServices {
         await cartDataLayer.removeCartItem(this.user_id, variantId)
     }
     // checkout items from cart on successful payment/checkout session
-    // and add itmes to orders table?
     async checkoutCart(stripeSession) {
         const cartItems = JSON.parse(stripeSession.metadata.orders)
         for (let cartItem of cartItems) {

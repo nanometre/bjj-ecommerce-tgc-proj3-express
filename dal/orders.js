@@ -15,7 +15,7 @@ const getOrderByOrderId = async (orderId) => {
         order_id: orderId
     }).fetch({
         require: false,
-        withRelated: ['user', 'status', 'address', 'orderItems']
+        withRelated: ['user', 'status', 'address']
     })
 }
 
@@ -29,9 +29,6 @@ const getOrdersByUserId = async (userId) => {
 }
 
 // Think how to implement search for order management
-// const getOrdersByUser = async (userId) => {
-
-// }
 
 const createOrder = async (stripeSession, addressId) => {
     const order = new Order({
@@ -46,7 +43,7 @@ const createOrder = async (stripeSession, addressId) => {
     return order
 }
 
-const deleteOrder = async () => {
+const deleteOrder = async (orderId) => {
     const order = await getOrderByOrderId(orderId)
     await order.destroy()
 }
@@ -70,6 +67,14 @@ const updateOrderStatus = async (orderId, newStatusId) => {
 // ===============================
 // =========== Address ===========
 // ===============================
+const getAddressByAddressId = async (addressId) => {
+    return await Address.where({
+        address_id: addressId
+    }).fetch({
+        require: false
+    })
+}
+
 const createAddress = async (address) => {
     const shippingAddress = new Address({
         address_line_1: address.line1,
@@ -81,6 +86,11 @@ const createAddress = async (address) => {
     })
     await shippingAddress.save()
     return shippingAddress
+}
+
+const deleteAddress = async (addressId) => {
+    const address = await getAddressByAddressId(addressId)
+    await address.destroy()
 }
 
 // =================================================
@@ -114,10 +124,8 @@ const createOrderItem = async (orderId, variantId, quantity) => {
 }
 
 module.exports = { 
-    getAllOrders, getOrdersByUserId, getOrderByOrderId,
-    // getOrdersByUser,
-    createOrder, deleteOrder,
+    getAllOrders, getOrdersByUserId, getOrderByOrderId, createOrder, deleteOrder,
     getAllStatuses, updateOrderStatus,
-    createAddress,
+    getAddressByAddressId, createAddress, deleteAddress,
     getOrderItemsByOrderId, getOrderItemsByVariantId, createOrderItem
  }

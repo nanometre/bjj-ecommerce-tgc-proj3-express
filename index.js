@@ -139,6 +139,7 @@ async function main() {
 
 main()
 
+// handle any errors
 app.use(handleErrors)
 
 app.listen(8000, function(){

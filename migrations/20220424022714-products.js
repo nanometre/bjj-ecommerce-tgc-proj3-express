@@ -33,7 +33,7 @@ exports.up = function(db) {
       notNull: true
     },
     cost: {
-      type: 'smallint',
+      type: 'int',
       notNull: true,
       defaultValue: 0,
       unsigned: true

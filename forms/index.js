@@ -164,7 +164,7 @@ const createProductForm = (materials, weaves, categories, brands) => {
             label: 'Cost (SGD)',
             required: true,
             errorAfterField: true,
-            validators: [validators.integer(), validators.min(0), validators.max(655)],
+            validators: [validators.integer(), validators.min(0), validators.max(4294967295)],
             cssClasses: {
                 label: ['form-label', 'mt-3']
             }

@@ -65,7 +65,7 @@ exports.up = function(db) {
       }
     },
     total_cost: {
-      type: 'smallint',
+      type: 'int',
       notNull: true,
       unsigned: true
     },
