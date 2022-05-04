@@ -4,11 +4,12 @@
 const express = require('express');
 const router = express.Router();
 const OrderServices = require('../../services/order_services');
-const { bootstrapField, createStatusForm } = require('../../forms');
+const { bootstrapField, createStatusForm, createOrderSearchForm } = require('../../forms');
 
 
 router.get('/', async (req, res) => {
     const orderServices = new OrderServices()
+    const orderSearchForm = createOrderSearchForm(await orderServices.getAllStatuses())
     const orders = await orderServices.getAllOrders()
     const pending = orders.toJSON().filter(order => {
         return order.status.status_name !== 'Delivered/Completed'
@@ -17,6 +18,7 @@ router.get('/', async (req, res) => {
         return order.status.status_name === 'Delivered/Completed'
     })
     res.render('orders/index', {
+        orderSearchForm: orderSearchForm.toHTML(bootstrapField),
         pending,
         completed
     })

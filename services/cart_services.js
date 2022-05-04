@@ -61,17 +61,15 @@ class CartServices {
         if (newQuantity >= oldQuantity) {
             if (variantStock >= (newQuantity - oldQuantity)) {
                 variant.set('stock', variantStock - (newQuantity - oldQuantity))
-                await variant.save()
-                await cartDataLayer.updateCartItemQuantity(this.user_id, variantId, newQuantity)
             } else if (variantStock < (newQuantity - oldQuantity)) {
                 // TODO: do what if no stock??
                 return false
             }
         } else if (newQuantity < oldQuantity) {
             variant.set('stock', variantStock + (oldQuantity - newQuantity))
-            await variant.save()
-            await cartDataLayer.updateCartItemQuantity(this.user_id, variantId, newQuantity)
         }
+        await variant.save()
+        await cartDataLayer.updateCartItemQuantity(this.user_id, variantId, newQuantity)
     }
 }
 

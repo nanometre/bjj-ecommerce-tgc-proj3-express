@@ -7,7 +7,7 @@ const CartServices = require('../../services/cart_services');
 const OrderServices = require('../../services/order_services');
 const Stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
-// TOCHANGE
+// TODO
 // will need to amend the 'render' to 'send' if this is to be used by an api
 // need to edit the disable csrf from api routes as well
 // and data sent thru api are in json format
@@ -19,7 +19,7 @@ router.get('/', async (req, res) => {
     let lineItems = [];
     let meta = [];
     for (let cartItem of cartItems) {
-        // TOCHANGE: consider what other item I want to send to stripe.
+        // TODO: consider what other item I want to send to stripe.
         const lineItem = {
             name: cartItem.related('variant').related('product').get('product_name'),
             images: [cartItem.related('variant').get('product_thumbnail_url')],

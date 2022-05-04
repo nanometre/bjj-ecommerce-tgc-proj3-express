@@ -74,8 +74,8 @@ exports.up = function(db) {
       length: 500,
       notNull: true
     },
-    order_datetime: {
-      type: 'datetime',
+    order_date: {
+      type: 'date',
       notNull: true
     }
   });

@@ -9,7 +9,7 @@
     <p>Email: {{order.user.email}}</p>
     <p>Total Cost: {{centsToDollars order.total_cost}}</p>
     <p>Payment Ref.: {{order.payment_ref}}</p>
-    <p>Order Date.: {{convertIsoDate order.order_datetime}}</p>
+    <p>Order Date.: {{convertIsoDate order.order_date}}</p>
     <p>Status.: {{order.status.status_name}}</p>
     <p>This action is irreversible.</p>
     <form method="POST">

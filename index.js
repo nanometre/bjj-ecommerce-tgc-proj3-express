@@ -130,7 +130,7 @@ async function main() {
     app.use('/products', checkIfAuthenticated, httpRoutes.products)
     app.use('/orders', checkIfAuthenticated, httpRoutes.orders)
     app.use('/cloudinary', checkIfAuthenticated, httpRoutes.cloudinary)
-    // TOCHANGE
+    // TODO
     // app.use('/cart', express.json(), apiRoutes.cart)
     app.use('/cart', checkIfAuthenticated, apiRoutes.cart)
     // app.use('/checkout', express.json(). apiRoutes.checkout)

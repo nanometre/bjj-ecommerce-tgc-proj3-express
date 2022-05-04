@@ -308,6 +308,44 @@ const createUserForm = (types) => {
     })
 }
 
+const createOrderSearchForm = (statuses) => {
+    return forms.create({
+        order_id: fields.string({
+            label: 'Order ID',
+            required: false,
+            errorAfterField: true,
+            cssClasses: {
+                label: ['form-label', 'mt-3']
+            }
+        }),
+        email: fields.email({
+            required: false,
+            errorAfterField: true,
+            cssClasses: {
+                label: ['form-label', 'mt-3']
+            },
+            widget: widgets.email()
+        }),
+        order_date: fields.date({
+            required: false,
+            errorAfterField: true,
+            cssClasses: {
+                label: ['form-label', 'mt-3']
+            },
+            widget: widgets.date()
+        }),
+        status: fields.string({
+            required: false,
+            errorAfterField: true,
+            cssClasses: {
+                label: ['form-label', 'mt-3']
+            },
+            widget: widgets.select(),
+            choices: statuses
+        })
+    })
+}
+
 const createStatusForm = (statuses) => {
     return forms.create({
         status_id: fields.string({
@@ -335,13 +373,14 @@ const createMaterialForm = () => {
     })
 }
 
-module.exports = { 
-    bootstrapField, 
+module.exports = {
+    bootstrapField,
     createLoginForm,
-    createProductSearchForm, 
-    createProductForm, 
-    createVariantForm, 
-    createUserForm, 
+    createProductSearchForm,
+    createProductForm,
+    createVariantForm,
+    createUserForm,
+    createOrderSearchForm,
     createStatusForm,
-    createMaterialForm 
+    createMaterialForm
 }

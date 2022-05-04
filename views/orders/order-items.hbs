@@ -33,7 +33,7 @@
                 </td>
                 <td scope="row">{{centsToDollars order.total_cost}}</td>
                 <td scope="row">{{order.payment_ref}}</td>
-                <td scope="row">{{convertIsoDate order.order_datetime}}</td>
+                <td scope="row">{{convertIsoDate order.order_date}}</td>
                 <td scope="row">
                     <form method="POST" action="/orders/{{order.order_id}}/status/update">
                         {{> csrfToken}}

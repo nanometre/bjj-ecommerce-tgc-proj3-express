@@ -37,7 +37,7 @@ const createOrder = async (stripeSession, addressId) => {
         address_id: addressId,
         total_cost: stripeSession.amount_total,
         payment_ref: stripeSession.payment_intent,
-        order_datetime: new Date().toISOString().slice(0, 19).replace('T', ' '),
+        order_date: new Date().toISOString().slice(0, 10),
     })
     await order.save()
     return order
@@ -113,6 +113,15 @@ const getOrderItemsByVariantId = async (variantId) => {
     })
 }
 
+const getOrderItemByOrderAndVariant = async (orderId, variantId) => {
+    return await OrderItem.where({
+        order_id: orderId,
+        variant_id: variantId
+    }).fetch({
+        require: false 
+    })
+}
+
 const createOrderItem = async (orderId, variantId, quantity) => {
     const orderItem = new OrderItem({
         order_id: orderId,
@@ -123,9 +132,15 @@ const createOrderItem = async (orderId, variantId, quantity) => {
     return orderItem
 }
 
+const updateOrderItemQuantity = async (orderId, variantId, newQuantity) => {
+    const orderItem = await getOrderItemByOrderAndVariant(orderId, variantId)
+    orderItem.set('quantity', newQuantity)
+    await orderItem.save()
+    return orderItem
+}
+
 module.exports = { 
     getAllOrders, getOrdersByUserId, getOrderByOrderId, createOrder, deleteOrder,
-    getAllStatuses, updateOrderStatus,
-    getAddressByAddressId, createAddress, deleteAddress,
-    getOrderItemsByOrderId, getOrderItemsByVariantId, createOrderItem
+    getAllStatuses, updateOrderStatus, getAddressByAddressId, createAddress, deleteAddress,
+    getOrderItemsByOrderId, getOrderItemsByVariantId, getOrderItemByOrderAndVariant, createOrderItem, updateOrderItemQuantity
  }
