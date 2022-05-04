@@ -5,9 +5,9 @@ class OrderServices {
     constructor(order_id) {
         this.order_id = order_id
     }
-    // get all orders
-    async getAllOrders() {
-        return await orderDataLayer.getAllOrders()
+    // get order search results
+    async getOrderSearchResults(orderSearchForm, bootstrapField, req , res) {
+        return await orderDataLayer.getOrderSearchResults(orderSearchForm, bootstrapField, req, res)
     }
     // get a single order by order id
     async getOrderByOrderId() {
@@ -52,26 +52,6 @@ class OrderServices {
     // update order status
     async updateOrderStatus(newStatusId) {
         return await orderDataLayer.updateOrderStatus(this.order_id, newStatusId)
-    }
-    // update order items status
-    async updateOrderItemQuantity(variantId, newQuantity) {
-        const orderItem = await orderDataLayer.getOrderItemByOrderAndVariant(this.order_id, variantId)
-        const oldQuantity = orderItem.get('quantity')
-        const variant = await getVariantById(variantId)
-        const variantStock = variant.get('stock')
-
-        if (newQuantity > oldQuantity) {
-            if (variantStock >= (newQuantity - oldQuantity)) {
-                variant.set('stock', variantStock - (newQuantity - oldQuantity))
-            } else if (variantStock < (newQuantity - oldQuantity)) {
-                // TODO: do what if no stock
-                return false
-            }
-        } else if (newQuantity < oldQuantity) {
-            variant.set('stock', variantStock + (oldQuantity - newQuantity))
-        }
-        await variant.save()
-        await orderDataLayer.updateOrderItemQuantity(this.order_id, variantId, newQuantity)
     }
     // get all order statuses for form selection
     async getAllStatuses() {

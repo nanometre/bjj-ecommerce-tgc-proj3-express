@@ -3,10 +3,73 @@ const { OrderItem, Order, Status, Address } = require('../models')
 // =================================================
 // =========== Orders Data Access Layer ============
 // =================================================
-const getAllOrders = async () => {
-    return await Order.fetchAll({
-        require: false,
-        withRelated: ['variants', 'user', 'status', 'address']
+// get order search results
+const getOrderSearchResults = async (orderSearchForm, bootstrapField, req, res) => {
+    const q = Order.collection()
+    orderSearchForm.handle(req, {
+        empty: async (form) => {
+            const orders = await q.fetch({
+                withRelated: ['variants', 'user', 'status', 'address']
+            })
+            const resultsCount = orders.toJSON().length
+            const pending = orders.toJSON().filter(order => {
+                return order.status.status_name !== 'Delivered/Completed'
+            })
+            const completed = orders.toJSON().filter(order => {
+                return order.status.status_name === 'Delivered/Completed'
+            })
+            res.render('orders/index', {
+                orderSearchForm: form.toHTML(bootstrapField),
+                resultsCount,
+                pending,
+                completed
+            })
+        },
+        error: async (form) => {
+            const orders = await q.fetch({
+                withRelated: ['variants', 'user', 'status', 'address']
+            })
+            const resultsCount = orders.toJSON().length
+            const pending = orders.toJSON().filter(order => {
+                return order.status.status_name !== 'Delivered/Completed'
+            })
+            const completed = orders.toJSON().filter(order => {
+                return order.status.status_name === 'Delivered/Completed'
+            })
+            res.render('orders/index', {
+                orderSearchForm: form.toHTML(bootstrapField),
+                resultsCount,
+                pending,
+                completed
+            })
+        },
+        success: async (form) => {
+            if (form.data.order_id) {
+                q.where('order_id', '=', form.data.order_id)
+            }
+            if (form.data.order_date) {
+                q.where('order_date', '=', form.data.order_date)
+            }
+            if (form.data.status_id) {
+                q.where('status_id', '=', form.data.status_id)
+            }
+            const orders = await q.fetch({
+                withRelated: ['variants', 'user', 'status', 'address']
+            })
+            const resultsCount = orders.toJSON().length
+            const pending = orders.toJSON().filter(order => {
+                return order.status.status_name !== 'Delivered/Completed'
+            })
+            const completed = orders.toJSON().filter(order => {
+                return order.status.status_name === 'Delivered/Completed'
+            })
+            res.render('orders/index', {
+                orderSearchForm: form.toHTML(bootstrapField),
+                resultsCount,
+                pending,
+                completed
+            })
+        }
     })
 }
 
@@ -27,8 +90,6 @@ const getOrdersByUserId = async (userId) => {
         withRelated: ['variants', 'user', 'status', 'address']
     })
 }
-
-// Think how to implement search for order management
 
 const createOrder = async (stripeSession, addressId) => {
     const order = new Order({
@@ -110,16 +171,7 @@ const getOrderItemsByVariantId = async (variantId) => {
         variant_id: variantId
     }).fetchAll({
         require: false
-    })
-}
-
-const getOrderItemByOrderAndVariant = async (orderId, variantId) => {
-    return await OrderItem.where({
-        order_id: orderId,
-        variant_id: variantId
-    }).fetch({
-        require: false 
-    })
+    }) 
 }
 
 const createOrderItem = async (orderId, variantId, quantity) => {
@@ -132,15 +184,8 @@ const createOrderItem = async (orderId, variantId, quantity) => {
     return orderItem
 }
 
-const updateOrderItemQuantity = async (orderId, variantId, newQuantity) => {
-    const orderItem = await getOrderItemByOrderAndVariant(orderId, variantId)
-    orderItem.set('quantity', newQuantity)
-    await orderItem.save()
-    return orderItem
-}
-
 module.exports = { 
-    getAllOrders, getOrdersByUserId, getOrderByOrderId, createOrder, deleteOrder,
+    getOrderSearchResults, getOrdersByUserId, getOrderByOrderId, createOrder, deleteOrder,
     getAllStatuses, updateOrderStatus, getAddressByAddressId, createAddress, deleteAddress,
-    getOrderItemsByOrderId, getOrderItemsByVariantId, getOrderItemByOrderAndVariant, createOrderItem, updateOrderItemQuantity
+    getOrderItemsByOrderId, getOrderItemsByVariantId, createOrderItem
  }

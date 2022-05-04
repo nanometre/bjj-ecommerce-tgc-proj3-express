@@ -318,14 +318,6 @@ const createOrderSearchForm = (statuses) => {
                 label: ['form-label', 'mt-3']
             }
         }),
-        email: fields.email({
-            required: false,
-            errorAfterField: true,
-            cssClasses: {
-                label: ['form-label', 'mt-3']
-            },
-            widget: widgets.email()
-        }),
         order_date: fields.date({
             required: false,
             errorAfterField: true,
@@ -334,7 +326,8 @@ const createOrderSearchForm = (statuses) => {
             },
             widget: widgets.date()
         }),
-        status: fields.string({
+        status_id: fields.string({
+            label: 'Status',
             required: false,
             errorAfterField: true,
             cssClasses: {

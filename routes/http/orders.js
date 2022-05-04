@@ -10,18 +10,7 @@ const { bootstrapField, createStatusForm, createOrderSearchForm } = require('../
 router.get('/', async (req, res) => {
     const orderServices = new OrderServices()
     const orderSearchForm = createOrderSearchForm(await orderServices.getAllStatuses())
-    const orders = await orderServices.getAllOrders()
-    const pending = orders.toJSON().filter(order => {
-        return order.status.status_name !== 'Delivered/Completed'
-    })
-    const completed = orders.toJSON().filter(order => {
-        return order.status.status_name === 'Delivered/Completed'
-    })
-    res.render('orders/index', {
-        orderSearchForm: orderSearchForm.toHTML(bootstrapField),
-        pending,
-        completed
-    })
+    orderServices.getOrderSearchResults(orderSearchForm, bootstrapField, req, res)
 })
 
 router.get('/:order_id/items', async (req, res) => {
