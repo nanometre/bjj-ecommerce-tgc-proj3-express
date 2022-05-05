@@ -3,14 +3,25 @@ const {
     UserType 
 } = require('../models');
 const crypto = require('crypto');
+const jwt = require('jsonwebtoken')
 
 // =================================================
-// ================= Hash Password =================
+// ============= Hash Password and JWT =============
 // =================================================
 const getHashedPassword = (password) => {
     const sha256 = crypto.createHash('sha256')
     const hash = sha256.update(password).digest('base64')
     return hash
+}
+
+const generateToken = (user) => {
+    return jwt.sign({
+        user_id: user.user_id,
+        email: user.email,
+        user_type_id: user.user_type_id
+    }, process.env.TOKEN_SECRET, {
+        expiresIn: '1h'
+    })
 }
 
 // =================================================
@@ -54,6 +65,24 @@ const verifyUser = async (email, password) => {
     }
 }
 
+const verifyUserJWT = async (email, password, req, res) => {
+    const user = await User.where({
+        email: email
+    }).fetch({
+        require: false
+    })
+    if (user && user.get('password') == getHashedPassword(password)) {
+        const accessToken = generateToken(user.toJSON())
+        res.send({
+            accessToken
+        })
+    } else {
+        res.send({
+            error: 'Wrong email or password'
+        })
+    }
+}
+
 const getUserByEmail = async (email) => {
     return await User.where({
         email: email
@@ -62,4 +91,11 @@ const getUserByEmail = async (email) => {
     })
 }
 
-module.exports = { getAllUsers, getUserById, getAllUserTypes, verifyUser, getUserByEmail }
+module.exports = { 
+    getAllUsers, 
+    getUserById, 
+    getAllUserTypes, 
+    verifyUser, 
+    verifyUserJWT, 
+    getUserByEmail 
+}

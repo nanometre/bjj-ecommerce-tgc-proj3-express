@@ -12,6 +12,7 @@ const Stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 // need to edit the disable csrf from api routes as well
 // and data sent thru api are in json format
 router.get('/', async (req, res) => {
+    // let user = req.user
     let cartServices = new CartServices(req.session.user.user_id)
     const cartItems = await cartServices.getCartItemsByUserId()
 
@@ -22,7 +23,7 @@ router.get('/', async (req, res) => {
         // TODO: consider what other item I want to send to stripe.
         const lineItem = {
             name: cartItem.related('variant').related('product').get('product_name'),
-            images: [cartItem.related('variant').get('product_thumbnail_url')],
+            images: [cartItem.related('variant').get('product_image_url')],
             amount: cartItem.related('variant').related('product').get('cost'),
             quantity: cartItem.get('quantity'),
             currency: 'SGD'

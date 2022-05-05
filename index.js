@@ -9,7 +9,7 @@ const flash = require('connect-flash');
 const FileStore = require('session-file-store')(session);
 const csrf = require('csurf')
 require('express-async-errors')
-const { checkIfAuthenticated, checkIfOwner, handleErrors } = require('./middleware')
+const { checkIfAuthenticated, checkIfAuthenticatedJWT, checkIfOwner, handleErrors } = require('./middleware')
 
 require('dotenv').config();
 
@@ -81,9 +81,7 @@ app.use((req, res, next) => {
 // CSRF middleware
 const csurfInstance = csrf(); 
 app.use((req, res, next) => {
-    if (req.url === '/checkout/process_payment') {
-    // TOUNCOMMENT WHEN CHANGING TO API
-    // if (req.url === '/checkout/process_payment' || req.url.slice(0,5) === '/api/') {
+    if (req.url === '/checkout/process_payment' || req.url.slice(0,5) === '/api/') {
         next();
     } else {
         csurfInstance(req, res, next);
@@ -118,6 +116,7 @@ const httpRoutes = {
     cloudinary: require('./routes/http/cloudinary'),
 }
 const apiRoutes = {
+    users: require('./routes/api/users'),
     cart: require('./routes/api/cart'),
     checkout: require('./routes/api/checkout'),
     
@@ -131,10 +130,10 @@ async function main() {
     app.use('/orders', checkIfAuthenticated, httpRoutes.orders)
     app.use('/cloudinary', checkIfAuthenticated, httpRoutes.cloudinary)
     // TODO
-    // app.use('/cart', express.json(), apiRoutes.cart)
-    app.use('/cart', checkIfAuthenticated, apiRoutes.cart)
-    // app.use('/checkout', express.json(). apiRoutes.checkout)
-    app.use('/checkout', apiRoutes.checkout)
+    app.use('/api/users', express.json(), apiRoutes.users)
+    app.use('/api/cart', express.json(), checkIfAuthenticatedJWT, apiRoutes.cart)
+    // app.use('/api/checkout', checkIfAuthenticatedJWT, apiRoutes.checkout)
+    app.use('/checkout', checkIfAuthenticated, apiRoutes.checkout)
 }
 
 main()
