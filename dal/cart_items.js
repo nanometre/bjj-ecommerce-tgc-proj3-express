@@ -3,7 +3,7 @@ const { CartItem } = require('../models')
 // =================================================
 // ============ Cart Data Access Layer =============
 // =================================================
-const getCart = async (userId) => {
+const getCartItemsByUserId = async (userId) => {
     return await CartItem.collection().where({
         user_id: userId
     }).fetch({
@@ -15,14 +15,6 @@ const getCart = async (userId) => {
 const getCartItemsByVariantId = async (variantId) => {
     return await CartItem.where({
         variant_id: variantId
-    }).fetchAll({
-        require: false
-    })
-}
-
-const getCartItemsByUserId = async (userId) => {
-    return await CartItem.where({
-        user_id: userId
     }).fetchAll({
         require: false
     })
@@ -63,9 +55,8 @@ const updateCartItemQuantity = async (userId, variantId, newQuantity) => {
 }
 
 module.exports = {
-    getCart,
-    getCartItemsByVariantId,
     getCartItemsByUserId,
+    getCartItemsByVariantId,
     getCartItemByUserAndVariant,
     createCartItem,
     removeCartItem,

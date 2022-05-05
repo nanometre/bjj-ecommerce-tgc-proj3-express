@@ -1,4 +1,5 @@
 const { OrderItem, Order, Status, Address } = require('../models')
+const { getUserByEmail, getUserById } = require('../dal/users')
 
 // =================================================
 // =========== Orders Data Access Layer ============
@@ -46,6 +47,14 @@ const getOrderSearchResults = async (orderSearchForm, bootstrapField, req, res) 
         success: async (form) => {
             if (form.data.order_id) {
                 q.where('order_id', '=', form.data.order_id)
+            }
+            if (form.data.email) {
+                const user = await getUserByEmail(form.data.email)
+                if (user) {
+                    q.where('user_id', '=', user.get('user_id'))
+                } else {
+                    q.where('user_id', '=', '0')
+                }
             }
             if (form.data.order_date) {
                 q.where('order_date', '=', form.data.order_date)

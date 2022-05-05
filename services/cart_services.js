@@ -6,8 +6,8 @@ class CartServices {
         this.user_id = user_id
     }
     // get all cart items of a user
-    async getCart() {
-        return await cartDataLayer.getCart(this.user_id)
+    async getCartItemsByUserId() {
+        return await cartDataLayer.getCartItemsByUserId(this.user_id)
     }
     // add product variant to cart
     async addToCart(variantId, quantity) {

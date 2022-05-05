@@ -13,7 +13,7 @@ const Stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 // and data sent thru api are in json format
 router.get('/', async (req, res) => {
     let cartServices = new CartServices(req.session.user.user_id)
-    const cartItems = await cartServices.getCart()
+    const cartItems = await cartServices.getCartItemsByUserId()
 
     // 1. create the line items 
     let lineItems = [];

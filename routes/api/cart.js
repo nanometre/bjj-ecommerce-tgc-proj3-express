@@ -11,7 +11,7 @@ const CartServices = require('../../services/cart_services')
 
 router.get('/', async (req, res) => {
     let cartServices = new CartServices(req.session.user.user_id)
-    const cartItems = await cartServices.getCart()
+    const cartItems = await cartServices.getCartItemsByUserId()
     res.render('cart_test/index', {
         cartItems: cartItems.toJSON()
     })

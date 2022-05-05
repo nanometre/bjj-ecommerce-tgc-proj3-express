@@ -54,4 +54,12 @@ const verifyUser = async (email, password) => {
     }
 }
 
-module.exports = { getAllUsers, getUserById, getAllUserTypes, verifyUser }
+const getUserByEmail = async (email) => {
+    return await User.where({
+        email: email
+    }).fetch({
+        require: false
+    })
+}
+
+module.exports = { getAllUsers, getUserById, getAllUserTypes, verifyUser, getUserByEmail }
