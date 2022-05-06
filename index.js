@@ -136,7 +136,7 @@ async function main() {
     app.use('/api/users', express.json(), apiRoutes.users)
     app.use('/api/cart', express.json(), checkIfAuthenticatedJWT, apiRoutes.cart)
     // app.use('/api/checkout', checkIfAuthenticatedJWT, apiRoutes.checkout)
-    app.use('/checkout', checkIfAuthenticated, apiRoutes.checkout)
+    app.use('/checkout', apiRoutes.checkout)
 }
 
 main()

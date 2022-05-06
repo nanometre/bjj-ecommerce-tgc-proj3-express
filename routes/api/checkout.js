@@ -72,6 +72,7 @@ router.get('/cancelled', function (req, res) {
 router.post('/process_payment', express.raw({
     'type': 'application/json'
 }), async function (req, res) {
+    alert('/process_payment happened')
     let payload = req.body;
     let endpointSecret = process.env.STRIPE_ENDPOINT_SECRET;
     let sigHeader = req.headers['stripe-signature'];
