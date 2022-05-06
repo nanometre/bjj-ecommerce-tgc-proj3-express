@@ -296,11 +296,14 @@ router.post('/:product_id/variants/:variant_id/update', async (req, res) => {
             variant.set(variantData)
             variant.save()
 
-            let tagIds = tags.split(',')
-            let existingTagIds = await variant.related('tags').pluck('tag_id')
-            let tagsToRemove = existingTagIds.filter(id => tagIds.includes(id) === false)
-            await variant.tags().detach(tagsToRemove)
-            await variant.tags().attach(tagIds)
+            // tags are not required, so we need to check if tags exist before trying to post
+            if (tags.split(',')[0] !== "") {
+                let tagIds = tags.split(',')
+                let existingTagIds = await variant.related('tags').pluck('tag_id')
+                let tagsToRemove = existingTagIds.filter(id => tagIds.includes(id) === false)
+                await variant.tags().detach(tagsToRemove)
+                await variant.tags().attach(tagIds)
+            }
 
             req.flash('success_messages', `Product variant has been updated.`)
             res.redirect(`/products/${req.params.product_id}/variants`)
