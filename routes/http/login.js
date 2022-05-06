@@ -28,8 +28,7 @@ router.post('/', async (req, res) => {
             if (!user) {
                 req.flash("error_messages", "Wrong email or password. Please try again.")
                 res.redirect('/login')
-            }
-            if (user && (user.user_type_id == 1 || user.user_type_id == 2)) {
+            } else if (user && (user.user_type_id == 1 || user.user_type_id == 2)) {
                 req.session.user = user
                 req.flash("success_messages", `Welcome back, ${user.first_name}`)
                 res.redirect('/orders')

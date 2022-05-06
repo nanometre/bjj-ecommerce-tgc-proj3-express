@@ -5,10 +5,6 @@ class OrderServices {
     constructor(order_id) {
         this.order_id = order_id
     }
-    // get order search results
-    async getOrderSearchResults(orderSearchForm, bootstrapField, req , res) {
-        return await orderDataLayer.getOrderSearchResults(orderSearchForm, bootstrapField, req, res)
-    }
     // get a single order by order id
     async getOrderByOrderId() {
         return await orderDataLayer.getOrderByOrderId(this.order_id)

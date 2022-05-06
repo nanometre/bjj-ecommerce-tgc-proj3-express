@@ -198,10 +198,18 @@ const Address = bookshelf.model('Address', {
     }
 })
 
+// =============================================================================
+// ====================== Models for 'blacklisted_tokens' ======================
+// =============================================================================
+const BlacklistedToken = bookshelf.model('BlacklistedToken', {
+    tableName: 'blacklisted_tokens'
+})
+
 module.exports = { 
     User, UserType,
     Product, Material, Weave, Category, Brand, 
     Variant, Color, Size, Tag,
     CartItem,
-    OrderItem, Order, Status, Address
+    OrderItem, Order, Status, Address,
+    BlacklistedToken
 }

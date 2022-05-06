@@ -5,12 +5,87 @@ const express = require('express');
 const router = express.Router();
 const OrderServices = require('../../services/order_services');
 const { bootstrapField, createStatusForm, createOrderSearchForm } = require('../../forms');
+const { getUserByEmail } = require('../../dal/users')
+const { Order } = require('../../models')
 
 
 router.get('/', async (req, res) => {
     const orderServices = new OrderServices()
     const orderSearchForm = createOrderSearchForm(await orderServices.getAllStatuses())
-    orderServices.getOrderSearchResults(orderSearchForm, bootstrapField, req, res)
+    const q = Order.collection()
+    orderSearchForm.handle(req, {
+        empty: async (form) => {
+            const orders = await q.fetch({
+                withRelated: ['variants', 'user', 'status', 'address']
+            })
+            const resultsCount = orders.toJSON().length
+            const pending = orders.toJSON().filter(order => {
+                return order.status.status_name !== 'Delivered/Completed'
+            })
+            const completed = orders.toJSON().filter(order => {
+                return order.status.status_name === 'Delivered/Completed'
+            })
+            res.render('orders/index', {
+                orderSearchForm: form.toHTML(bootstrapField),
+                resultsCount,
+                pending,
+                completed
+            })
+        },
+        error: async (form) => {
+            const orders = await q.fetch({
+                withRelated: ['variants', 'user', 'status', 'address']
+            })
+            const resultsCount = orders.toJSON().length
+            const pending = orders.toJSON().filter(order => {
+                return order.status.status_name !== 'Delivered/Completed'
+            })
+            const completed = orders.toJSON().filter(order => {
+                return order.status.status_name === 'Delivered/Completed'
+            })
+            res.render('orders/index', {
+                orderSearchForm: form.toHTML(bootstrapField),
+                resultsCount,
+                pending,
+                completed
+            })
+        },
+        success: async (form) => {
+            if (form.data.order_id) {
+                q.where('order_id', '=', form.data.order_id)
+            }
+            if (form.data.email) {
+                const user = await getUserByEmail(form.data.email)
+                if (user) {
+                    q.where('user_id', '=', user.get('user_id'))
+                } else {
+                    q.where('user_id', '=', '0')
+                }
+            }
+            if (form.data.order_date) {
+                q.where('order_date', '=', form.data.order_date)
+            }
+            if (form.data.status_id) {
+                q.where('status_id', '=', form.data.status_id)
+            }
+            const orders = await q.fetch({
+                withRelated: ['variants', 'user', 'status', 'address']
+            })
+            const resultsCount = orders.toJSON().length
+            const pending = orders.toJSON().filter(order => {
+                return order.status.status_name !== 'Delivered/Completed'
+            })
+            const completed = orders.toJSON().filter(order => {
+                return order.status.status_name === 'Delivered/Completed'
+            })
+            res.render('orders/index', {
+                orderSearchForm: form.toHTML(bootstrapField),
+                resultsCount,
+                pending,
+                completed
+            })
+        }
+    })
 })
 
 router.get('/:order_id/items', async (req, res) => {

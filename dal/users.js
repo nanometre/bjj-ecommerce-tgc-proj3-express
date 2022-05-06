@@ -14,13 +14,13 @@ const getHashedPassword = (password) => {
     return hash
 }
 
-const generateToken = (user) => {
+const generateToken = (user, secret, expiresIn) => {
     return jwt.sign({
         user_id: user.user_id,
         email: user.email,
         user_type_id: user.user_type_id
-    }, process.env.TOKEN_SECRET, {
-        expiresIn: '1h'
+    }, secret, {
+        expiresIn: expiresIn
     })
 }
 
@@ -50,11 +50,7 @@ const getAllUserTypes = async () => {
 }
 
 const verifyUser = async (email, password) => {
-    const user = await User.where({
-        email: email
-    }).fetch({
-        require: false
-    })
+    const user = await getUserByEmail(email)
     if (user) {
         if (user.get('password') === getHashedPassword(password)) {
             const { password, ...userData } = user.toJSON()
@@ -62,24 +58,6 @@ const verifyUser = async (email, password) => {
         }
     } else {
         return false
-    }
-}
-
-const verifyUserJWT = async (email, password, req, res) => {
-    const user = await User.where({
-        email: email
-    }).fetch({
-        require: false
-    })
-    if (user && user.get('password') == getHashedPassword(password)) {
-        const accessToken = generateToken(user.toJSON())
-        res.send({
-            accessToken
-        })
-    } else {
-        res.send({
-            error: 'Wrong email or password'
-        })
     }
 }
 
@@ -92,10 +70,11 @@ const getUserByEmail = async (email) => {
 }
 
 module.exports = { 
+    getHashedPassword,
+    generateToken,
     getAllUsers, 
     getUserById, 
     getAllUserTypes, 
-    verifyUser, 
-    verifyUserJWT, 
+    verifyUser,
     getUserByEmail 
 }

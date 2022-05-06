@@ -4,6 +4,7 @@
 const express = require('express');
 const hbs = require('hbs');
 const wax = require('wax-on');
+const cors = require('cors')
 const session = require('express-session');
 const flash = require('connect-flash');
 const FileStore = require('session-file-store')(session);
@@ -28,6 +29,8 @@ wax.on(hbs.handlebars)
 wax.setLayoutPath('./views/layouts');
 // enable forms
 app.use(express.urlencoded({extended: false}))
+// use cors
+app.use(cors())
 
 // =================================================
 // ================= Session Setup =================
@@ -141,6 +144,8 @@ main()
 // handle any errors
 app.use(handleErrors)
 
-app.listen(8000, function(){
+// Depolyment port: process.env.PORT
+// Test port: 8000
+app.listen(process.env.PORT, function(){
     console.log('Server has started.');
 })

@@ -1,87 +1,9 @@
 const { OrderItem, Order, Status, Address } = require('../models')
-const { getUserByEmail, getUserById } = require('../dal/users')
+const { getUserByEmail } = require('../dal/users')
 
 // =================================================
 // =========== Orders Data Access Layer ============
 // =================================================
-// get order search results
-const getOrderSearchResults = async (orderSearchForm, bootstrapField, req, res) => {
-    const q = Order.collection()
-    orderSearchForm.handle(req, {
-        empty: async (form) => {
-            const orders = await q.fetch({
-                withRelated: ['variants', 'user', 'status', 'address']
-            })
-            const resultsCount = orders.toJSON().length
-            const pending = orders.toJSON().filter(order => {
-                return order.status.status_name !== 'Delivered/Completed'
-            })
-            const completed = orders.toJSON().filter(order => {
-                return order.status.status_name === 'Delivered/Completed'
-            })
-            res.render('orders/index', {
-                orderSearchForm: form.toHTML(bootstrapField),
-                resultsCount,
-                pending,
-                completed
-            })
-        },
-        error: async (form) => {
-            const orders = await q.fetch({
-                withRelated: ['variants', 'user', 'status', 'address']
-            })
-            const resultsCount = orders.toJSON().length
-            const pending = orders.toJSON().filter(order => {
-                return order.status.status_name !== 'Delivered/Completed'
-            })
-            const completed = orders.toJSON().filter(order => {
-                return order.status.status_name === 'Delivered/Completed'
-            })
-            res.render('orders/index', {
-                orderSearchForm: form.toHTML(bootstrapField),
-                resultsCount,
-                pending,
-                completed
-            })
-        },
-        success: async (form) => {
-            if (form.data.order_id) {
-                q.where('order_id', '=', form.data.order_id)
-            }
-            if (form.data.email) {
-                const user = await getUserByEmail(form.data.email)
-                if (user) {
-                    q.where('user_id', '=', user.get('user_id'))
-                } else {
-                    q.where('user_id', '=', '0')
-                }
-            }
-            if (form.data.order_date) {
-                q.where('order_date', '=', form.data.order_date)
-            }
-            if (form.data.status_id) {
-                q.where('status_id', '=', form.data.status_id)
-            }
-            const orders = await q.fetch({
-                withRelated: ['variants', 'user', 'status', 'address']
-            })
-            const resultsCount = orders.toJSON().length
-            const pending = orders.toJSON().filter(order => {
-                return order.status.status_name !== 'Delivered/Completed'
-            })
-            const completed = orders.toJSON().filter(order => {
-                return order.status.status_name === 'Delivered/Completed'
-            })
-            res.render('orders/index', {
-                orderSearchForm: form.toHTML(bootstrapField),
-                resultsCount,
-                pending,
-                completed
-            })
-        }
-    })
-}
-
 const getOrderByOrderId = async (orderId) => {
     return await Order.where({
         order_id: orderId
@@ -194,7 +116,7 @@ const createOrderItem = async (orderId, variantId, quantity) => {
 }
 
 module.exports = { 
-    getOrderSearchResults, getOrdersByUserId, getOrderByOrderId, createOrder, deleteOrder,
+    getOrdersByUserId, getOrderByOrderId, createOrder, deleteOrder,
     getAllStatuses, updateOrderStatus, getAddressByAddressId, createAddress, deleteAddress,
     getOrderItemsByOrderId, getOrderItemsByVariantId, createOrderItem
  }
