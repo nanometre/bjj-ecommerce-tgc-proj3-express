@@ -61,7 +61,7 @@ router.get('/', async (req, res) => {
         },
         success: async (form) => {
             if (form.data.name) {
-                q.where('product_name', 'like', '%' + form.data.name + '%')
+                q.where('product_name', 'ilike', '%' + form.data.name + '%')
             }
             if (form.data.min_cost) {
                 q.where('cost', '>=', (form.data.min_cost * 100).toString())
@@ -254,7 +254,10 @@ router.post('/:product_id/variants/create', async (req, res) => {
         'error': async (form) => {
             res.render('products/variants-create', {
                 product: product.toJSON(),
-                variantForm: form.toHTML(bootstrapField)
+                variantForm: form.toHTML(bootstrapField),
+                cloudinaryName: process.env.CLOUDINARY_NAME,
+                cloudinaryApiKey: process.env.CLOUDINARY_API_KEY,
+                cloudinaryPreset: process.env.CLOUDINARY_UPLOAD_PRESET
             })
         }
     })
@@ -305,7 +308,10 @@ router.post('/:product_id/variants/:variant_id/update', async (req, res) => {
         'error': async (form) => {
             res.render('products/variants-update', {
                 variant: variant.toJSON(),
-                variantForm: form.toHTML(bootstrapField)
+                variantForm: form.toHTML(bootstrapField),
+                cloudinaryName: process.env.CLOUDINARY_NAME,
+                cloudinaryApiKey: process.env.CLOUDINARY_API_KEY,
+                cloudinaryPreset: process.env.CLOUDINARY_UPLOAD_PRESET
             })
         }
     })

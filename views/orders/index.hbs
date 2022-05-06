@@ -4,16 +4,16 @@
 <h1>Orders</h1>
 {{#if resultsCount}}
 <div class="alert alert-success mt-3">
-    <span>{{resultsCount}} result(s) found</span>
+    <span>{{resultsCount}} order(s) found</span>
 </div>
 {{/if}}
 {{#unless resultsCount}}
 <div class="alert alert-danger mt-3">
-    <span>No result found</span>
+    <span>No order found</span>
 </div>
 {{/unless}}
 <div class="row">
-    <div class="col-2 mt-5">
+    <div class="col-2 mt-3">
         <form method="GET" class="p-3 shadow-lg rounded-3">
             <h6>Order Search</h6>
             {{{orderSearchForm}}}
