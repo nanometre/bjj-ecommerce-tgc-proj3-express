@@ -120,9 +120,10 @@ const httpRoutes = {
 }
 const apiRoutes = {
     users: require('./routes/api/users'),
+    products: require('./routes/api/products'),
+    orders: require('./routes/api/orders'),
     cart: require('./routes/api/cart'),
     checkout: require('./routes/api/checkout'),
-    
 }
 
 async function main() {
@@ -134,6 +135,8 @@ async function main() {
     app.use('/cloudinary', checkIfAuthenticated, httpRoutes.cloudinary)
     // TODO
     app.use('/api/users', express.json(), apiRoutes.users)
+    app.use('/api/products', express.json(), apiRoutes.products)
+    app.use('/api/orders', express.json(), checkIfAuthenticatedJWT, apiRoutes.orders)
     app.use('/api/cart', express.json(), checkIfAuthenticatedJWT, apiRoutes.cart)
     // app.use('/api/checkout', checkIfAuthenticatedJWT, apiRoutes.checkout)
     app.use('/checkout', apiRoutes.checkout)

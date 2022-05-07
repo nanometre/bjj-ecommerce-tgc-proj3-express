@@ -6,6 +6,11 @@ const {
 // =================================================
 // =========== Product Data Access Layer ===========
 // =================================================
+const getProducts = async () => {
+    return await Product.fetchAll({
+        withRelated: ['material', 'weave', 'category', 'brand']
+    })
+}
 
 const getProductById = async (productId) => {
     return await Product.where({
@@ -81,6 +86,6 @@ const getAllTags = async () => {
 }
 
 module.exports = { 
-    getProductById, getAllMaterials, getAllWeaves, getAllCategories, getAllBrands,
+    getProducts, getProductById, getAllMaterials, getAllWeaves, getAllCategories, getAllBrands,
     getVariantsByProductId, getVariantById, getAllColors, getAllSizes, getAllTags
 }

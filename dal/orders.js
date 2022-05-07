@@ -1,5 +1,4 @@
 const { OrderItem, Order, Status, Address } = require('../models')
-const { getUserByEmail } = require('../dal/users')
 
 // =================================================
 // =========== Orders Data Access Layer ============
