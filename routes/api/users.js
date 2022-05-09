@@ -15,9 +15,7 @@ router.post('/login', async (req, res) => {
             refreshToken
         })
     } else {
-        res.send({
-            error: 'Wrong email or password'
-        })
+        res.sendStatus(401)
     }
 })
 

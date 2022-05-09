@@ -13,7 +13,7 @@ router.get('/', async (req, res) => {
     res.send(products)
 })
 
-router.get('/:product_id/variant', async (req, res) => {
+router.get('/:product_id/variants', async (req, res) => {
     const product = await productDataLayer.getProductById(req.params.product_id)
     const variants = await productDataLayer.getVariantsByProductId(req.params.product_id)
     res.send({
