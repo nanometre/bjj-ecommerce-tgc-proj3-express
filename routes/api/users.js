@@ -1,9 +1,29 @@
 const express = require('express');
 const router = express.Router();
-const { getUserByEmail, generateToken, getHashedPassword } = require('../../dal/users')
+const { getUserByEmail, generateToken, getHashedPassword, createUser } = require('../../dal/users')
 const { checkIfAuthenticatedJWT } = require('../../middleware')
 const jwt = require('jsonwebtoken');
 const { BlacklistedToken } = require('../../models');
+
+router.post('/register', async (req, res) => {
+    const newUser = await createUser(
+        req.body.email,
+        req.body.password,
+        req.body.first_name,
+        req.body.last_name
+    )
+    if (newUser) {
+        const user = await getUserByEmail(req.body.email)
+        const accessToken = generateToken(user.toJSON(), process.env.TOKEN_SECRET, '1h')
+        const refreshToken = generateToken(user.toJSON(), process.env.REFRESH_TOKEN_SECRET, '1d')
+        res.send({
+            accessToken,
+            refreshToken
+        })
+    } else {
+        res.sendStatus(403)
+    }
+})
 
 router.post('/login', async (req, res) => {
     const user = await getUserByEmail(req.body.email)

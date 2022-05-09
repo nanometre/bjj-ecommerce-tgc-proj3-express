@@ -3,7 +3,7 @@ const {
     UserType 
 } = require('../models');
 const crypto = require('crypto');
-const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken');
 
 // =================================================
 // ============= Hash Password and JWT =============
@@ -63,6 +63,23 @@ const verifyUser = async (email, password) => {
     }
 }
 
+const createUser = async (email, password, firstName, lastName) => {
+    const user = await getUserByEmail(email)
+    if (!user) {
+        const newUser = new User({
+            email,
+            password: getHashedPassword(password),
+            first_name: firstName,
+            last_name: lastName,
+            user_type_id: 3
+        })
+        await newUser.save()
+        return newUser
+    } else {
+        return false
+    }
+}
+
 const getUserByEmail = async (email) => {
     return await User.where({
         email: email
@@ -78,5 +95,6 @@ module.exports = {
     getUserById, 
     getAllUserTypes, 
     verifyUser,
+    createUser,
     getUserByEmail 
 }
