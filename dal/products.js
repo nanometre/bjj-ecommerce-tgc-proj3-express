@@ -8,7 +8,7 @@ const {
 // =================================================
 const getProducts = async () => {
     return await Product.fetchAll({
-        withRelated: ['material', 'weave', 'category', 'brand']
+        withRelated: ['material', 'weave', 'category', 'brand', 'variants']
     })
 }
 

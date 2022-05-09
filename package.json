@@ -19,6 +19,7 @@
   "homepage": "https://github.com/nanometre/bjj-ecommerce-tgc-proj3-express#readme",
   "dependencies": {
     "bookshelf": "^1.2.0",
+    "bootstrap-icons": "^1.8.1",
     "cloudinary": "^1.29.1",
     "connect-flash": "^0.1.1",
     "cors": "^2.8.5",
