@@ -11,10 +11,10 @@ const User = bookshelf.model('User', {
         return this.belongsTo('UserType', 'user_type_id')
     },
     cartItems() {
-        return this.hasMany('CartItem', 'cart_item_id')
+        return this.hasMany('CartItem', 'user_id')
     },
     orders() {
-        return this.hasMany('Order', 'order_id')
+        return this.hasMany('Order', 'user_id')
     }
 })
 
@@ -45,7 +45,7 @@ const Product = bookshelf.model('Product', {
         return this.belongsTo('Brand', 'brand_id')
     },
     variants() {
-        return this.hasMany('Variant', 'variant_id')
+        return this.hasMany('Variant', 'product_id')
     }
 });
 
@@ -100,13 +100,13 @@ const Variant = bookshelf.model('Variant', {
         return this.belongsToMany('Tag', 'tags_variants', 'variant_id', 'tag_id')
     },
     cartItems() {
-        return this.hasMany('CartItem', 'cart_item_id')
+        return this.hasMany('CartItem', 'variant_id')
     },
     orders() {
         return this.belongsToMany('Order', 'order_items', 'variant_id', 'order_id')
     },
     orderItems() {
-        return this.hasMany('OrderItem', 'order_item_id')
+        return this.hasMany('OrderItem', 'variant_id')
     }
 })
 
@@ -178,7 +178,7 @@ const Order = bookshelf.model('Order', {
         return this.belongsTo('Address', 'address_id')
     },
     orderItems() {
-        return this.hasMany('OrderItem', 'order_item_id')
+        return this.hasMany('OrderItem', 'order_id')
     }
 })
 
