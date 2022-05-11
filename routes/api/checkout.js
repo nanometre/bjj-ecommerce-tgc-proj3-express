@@ -82,6 +82,7 @@ router.post('/process_payment', express.raw({
             'error': e.message
         })
     }
+    console.log(event)
     if (event.type === "checkout.session.completed") {
         let stripeSession = event.data.object
         console.log(stripeSession)
