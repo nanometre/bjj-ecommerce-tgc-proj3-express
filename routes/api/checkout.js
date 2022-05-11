@@ -9,11 +9,9 @@ const Stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 // TODO
 // will need to amend the 'render' to 'send' if this is to be used by an api
-// need to edit the disable csrf from api routes as well
-// and data sent thru api are in json format
 router.get('/', async (req, res) => {
-    // let user = req.user
-    let cartServices = new CartServices(req.session.user.user_id)
+    let user = req.user
+    let cartServices = new CartServices(user.user_id)
     const cartItems = await cartServices.getCartItemsByUserId()
 
     // 1. create the line items 
@@ -48,14 +46,14 @@ router.get('/', async (req, res) => {
             allowed_countries: ['SG', 'AU', 'GB', 'US'],
         },
         metadata: {
-            user_id: req.session.user.user_id,
+            user_id: user.user_id,
             orders: metaData
         }
     }
 
     // 3. register the session
     let stripeSession = await Stripe.checkout.sessions.create(payment)
-    res.render('checkout_test/checkout', {
+    res.send({
         sessionId: stripeSession.id,
         publishableKey: process.env.STRIPE_PUBLISHABLE_KEY
     })
