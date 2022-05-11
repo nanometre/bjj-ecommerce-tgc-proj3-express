@@ -10,7 +10,7 @@ const Stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 // TODO
 // will need to amend the 'render' to 'send' if this is to be used by an api
-router.get('/', checkIfAuthenticatedJWT, async (req, res) => {
+router.get('/', checkIfAuthenticatedJWT, express.json(), async (req, res) => {
     let user = req.user
     let cartServices = new CartServices(user.user_id)
     const cartItems = await cartServices.getCartItemsByUserId()
