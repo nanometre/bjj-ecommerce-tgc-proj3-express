@@ -133,7 +133,7 @@ async function main() {
     app.use('/products', checkIfAuthenticated, httpRoutes.products)
     app.use('/orders', checkIfAuthenticated, httpRoutes.orders)
     app.use('/cloudinary', checkIfAuthenticated, httpRoutes.cloudinary)
-    // TODO
+
     app.use('/api/users', express.json(), apiRoutes.users)
     app.use('/api/products', express.json(), apiRoutes.products)
     app.use('/api/orders', express.json(), checkIfAuthenticatedJWT, apiRoutes.orders)

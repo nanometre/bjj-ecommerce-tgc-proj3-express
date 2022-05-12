@@ -17,15 +17,23 @@ router.get('/', async (req, res) => {
 router.post('/:variant_id/add', async (req, res) => {
     let user = req.user
     let cartServices = new CartServices(user.user_id)
-    await cartServices.addToCart(req.params.variant_id, req.body.quantity)
-    res.send(`${req.body.quantity} no. of variant ID: ${req.params.variant_id} added to cart`)
+    let addReponse = await cartServices.addToCart(req.params.variant_id, req.body.quantity)
+    if (addReponse !== false) {
+        res.send(`${req.body.quantity} no. of variant ID: ${req.params.variant_id} added to cart`)
+    } else if (addReponse === false) {
+        res.sendStatus(403)
+    } 
 })
 
 router.post('/:variant_id/quantity/update', async (req, res) => {
     let user = req.user
     let cartServices = new CartServices(user.user_id)
-    await cartServices.updateQuantityInCart(req.params.variant_id, req.body.newQuantity)
-    res.send(`Updated quantity of variant ID: ${req.params.variant_id} to ${req.body.newQuantity} in cart`)
+    let updateResponse = await cartServices.updateQuantityInCart(req.params.variant_id, req.body.newQuantity)
+    if (updateResponse !== false) {
+        res.send(`Updated quantity of variant ID: ${req.params.variant_id} to ${req.body.newQuantity} in cart`)
+    } else if (updateResponse === false) {
+        res.sendStatus(403)
+    }
 })
 
 router.get('/:variant_id/delete', async (req, res) => {

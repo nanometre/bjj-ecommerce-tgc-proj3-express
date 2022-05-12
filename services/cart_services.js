@@ -29,7 +29,6 @@ class CartServices {
             await variant.save()
             return cartItem
         } else if (variantStock < quantity) {
-            // TODO: do what if no stock??
             return false
         }
     }
@@ -62,7 +61,6 @@ class CartServices {
             if (variantStock >= (newQuantity - oldQuantity)) {
                 variant.set('stock', variantStock - (newQuantity - oldQuantity))
             } else if (variantStock < (newQuantity - oldQuantity)) {
-                // TODO: do what if no stock??
                 return false
             }
         } else if (newQuantity < oldQuantity) {

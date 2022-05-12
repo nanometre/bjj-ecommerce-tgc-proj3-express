@@ -8,8 +8,6 @@ const CartServices = require('../../services/cart_services');
 const OrderServices = require('../../services/order_services');
 const Stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
-// TODO
-// will need to amend the 'render' to 'send' if this is to be used by an api
 router.get('/', checkIfAuthenticatedJWT, express.json(), async (req, res) => {
     let user = req.user
     let cartServices = new CartServices(user.user_id)
@@ -19,7 +17,6 @@ router.get('/', checkIfAuthenticatedJWT, express.json(), async (req, res) => {
     let lineItems = [];
     let meta = [];
     for (let cartItem of cartItems) {
-        // TODO: consider what other item I want to send to stripe.
         const lineItem = {
             name: cartItem.related('variant').related('product').get('product_name'),
             images: [cartItem.related('variant').get('product_image_url')],
