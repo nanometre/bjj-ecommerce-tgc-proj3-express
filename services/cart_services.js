@@ -19,7 +19,7 @@ class CartServices {
             await cartDataLayer.updateCartItemQuantity(
                 this.user_id,
                 variantId,
-                cartItem.get('quantity') + quantity
+                (parseInt(cartItem.get('quantity')) + parseInt(quantity))
             )
             variant.set('stock', variantStock - quantity)
             await variant.save()
