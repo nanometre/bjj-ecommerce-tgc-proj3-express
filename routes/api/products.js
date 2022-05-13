@@ -51,7 +51,7 @@ router.post('/', async (req, res) => {
             q.where('brand_id', '=', req.body.brand_id)
         }
         const products = await q.fetch({
-            withRelated: ['material', 'weave', 'category', 'brand']
+            withRelated: ['material', 'weave', 'category', 'brand', 'variants']
         })
         res.send(products)
     }
