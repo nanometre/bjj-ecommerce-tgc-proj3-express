@@ -17,7 +17,8 @@ const getOrdersByUserId = async (userId) => {
         user_id: userId
     }).fetch({
         require: false,
-        withRelated: ['variants', 'user', 'status', 'address', 'orderItems', 'orderItems.variant.product']
+        withRelated: ['variants', 'user', 'status', 'address', 'orderItems', 
+        'orderItems.variant.product', 'orderItems.variant.size', 'orderItems.variant.color']
     })
 }
 
