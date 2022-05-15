@@ -1,26 +1,38 @@
 {{#extends 'base'}}
 
 {{#block 'content'}}
-<h1>Deleting Order</h1>
-<div class="alert alert-danger">
-    <p>Are you sure you want to delete the following order?</p>
-    <p>Order ID: {{order.order_id}}</p>
-    <p>Ordered by: {{order.user.first_name}} {{order.user.last_name}}</p>
-    <p>Email: {{order.user.email}}</p>
-    <p>Total Cost: {{centsToDollars order.total_cost}}</p>
-    <p>Payment Ref.: {{order.payment_ref}}</p>
-    <p>Order Date.: {{convertIsoDate order.order_date}}</p>
-    <p>Status.: {{order.status.status_name}}</p>
-    <p>This action is irreversible.</p>
-    <form method="POST">
-        {{> csrfToken}}
-        <div class="btn-group btn-group-sm">
-            <a href="/orders" class="btn btn-secondary btn-sm">Cancel</a>
-            <input type="submit" value="Delete Product" class="btn btn-danger btn-sm">
+<div class="container-fluid">
+    <div class="container content-container">
+        <div class="h-100 p-3 d-flex flex-column justify-content-center">
+            {{> flash}}
+            <h3>Deleting Order</h3>
+            <div class="alert alert-danger">
+                <p>Are you sure you want to delete the following order?</p>
+                <div class="row alert alert-secondary">
+                    <div class="col-12 col-md-6">
+                        <p>Order ID: {{order.order_id}}</p>
+                        <p>Ordered by: {{order.user.first_name}} {{order.user.last_name}}</p>
+                        <p>Email: {{order.user.email}}</p>
+                        <p>Total Cost: {{centsToDollars order.total_cost}}</p>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <p>Payment Ref.: {{order.payment_ref}}</p>
+                        <p>Order Date: {{convertIsoDate order.order_date}}</p>
+                        <p>Status: {{order.status.status_name}}</p>
+                    </div>
+                </div>
+                <p>This action is irreversible.</p>
+                <form method="POST">
+                    {{> csrfToken}}
+                    <div class="custom-btn-group">
+                        <a href="/orders" class="btn btn-sm btn-dark btn-outline-light">Cancel</a>
+                        <input type="submit" value="Delete Product" class="btn btn-sm btn-dark btn-outline-light">
+                    </div>
+                </form>
+            </div>
         </div>
-    </form>
+    </div>
 </div>
-
 {{/block}}
 
 {{/extends}}

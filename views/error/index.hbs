@@ -1,8 +1,18 @@
 {{#extends 'base'}}
 
 {{#block 'content'}}
-<h1>Error</h1>
-
+<div class="container-fluid">
+    <div class="container content-container">
+        <div class="h-100 p-3 d-flex flex-column justify-content-center">
+            {{> flash}}
+            <div class="alert alert-danger mx-auto">
+                <h3>Error!</h3>
+                <p>Something went wrong. Please reload the page or go back to the previous page</p>
+            </div>
+            
+        </div>
+    </div>
+</div>
 {{/block}}
 
 {{/extends}}

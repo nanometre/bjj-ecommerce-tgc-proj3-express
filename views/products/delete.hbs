@@ -1,18 +1,25 @@
 {{#extends 'base'}}
 
 {{#block 'content'}}
-<h1>Deleting "{{product.product_name}}"</h1>
-<div class="alert alert-danger">
-    <p>Are you sure you want to delete <strong>{{product.product_name}}</strong>? This action is irreversible.</p>
-    <form method="POST">
-        {{> csrfToken}}
-        <div class="btn-group btn-group-sm">
-            <a href="/products" class="btn btn-secondary btn-sm">Cancel</a>
-            <input type="submit" value="Delete Product" class="btn btn-danger btn-sm">
+<div class="container-fluid">
+    <div class="container content-container">
+        <div class="h-100 p-3 d-flex flex-column justify-content-center">
+            {{> flash}}
+            <h3>Deleting "{{product.product_name}}"</h3>
+            <div class="alert alert-danger">
+                <p>Are you sure you want to delete <strong>{{product.product_name}}</strong>?</p> 
+                <p>This action is irreversible.</p>
+                <form method="POST">
+                    {{> csrfToken}}
+                    <div class="custom-btn-group">
+                        <a href="/products" class="btn btn-sm btn-dark btn-outline-light">Cancel</a>
+                        <input type="submit" value="Delete Product" class="btn btn-sm btn-dark btn-outline-light">
+                    </div>
+                </form>
+            </div>
         </div>
-    </form>
+    </div>
 </div>
-
 {{/block}}
 
 {{/extends}}

@@ -1,0 +1,8 @@
+#login-page {
+    background-image: url('/images/login-bg.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center;
+    height: 100%;
+}

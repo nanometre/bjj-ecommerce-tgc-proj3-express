@@ -62,7 +62,7 @@ router.post('/:user_id/update', async (req, res) => {
 router.get('/:user_id/delete', async (req, res) => {
     const user = await userDataLayer.getUserById(req.params.user_id)
     res.render('users/delete', {
-        user: user.toJSON()
+        userDelete: user.toJSON()
     })
 })
 

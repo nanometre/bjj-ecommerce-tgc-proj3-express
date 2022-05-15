@@ -1,15 +1,27 @@
 {{#extends 'base'}}
 
 {{#block 'content'}}
-<h1>Add New Product</h1>
-<form method="POST">
-    {{> csrfToken}}
-    {{{productForm}}}
-    <div class="btn-group btn-group-sm">
-        <a href='/products' class="btn btn-secondary btn-sm my-3">Cancel</a>
-        <input type="submit" value="Add Product" class="btn btn-primary btn-sm my-3">
+<div class="container-fluid">
+    <div class="container content-container">
+        <div class="h-100 p-3 d-flex flex-column justify-content-center">
+            {{> flash}}
+            <div class="w-100 p-3 shadow-lg rounded-3 border border-dark align-self-center"
+                style="background-color: white; max-width: 500px">
+                <h3>Add New Product</h3>
+                <form method="POST" class="mx-auto" style="max-width: 350px;">
+                    {{> csrfToken}}
+                    <div class='w-75 mx-auto'>
+                        {{{productForm}}}
+                    </div>
+                    <div class="custom-btn-group">
+                        <a href='/products' class="btn btn-dark btn-outline-light my-3">Cancel</a>
+                        <input type="submit" value="Add Product" class="btn btn-dark btn-outline-light my-3">
+                    </div>
+            </div>
+            </form>
+        </div>
     </div>
-</form>
+</div>
 {{/block}}
 
 {{/extends}}

@@ -1,0 +1,34 @@
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+#page {
+    min-height: 100vh;
+    margin: 0;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+}
+
+#nav, #footer {
+    min-height: 20px;
+}
+
+.container-fluid {
+    margin: auto 0;
+    width: 100%
+}
+
+.content-container {
+    width: 100%
+}
+
+.custom-btn-group {
+    margin-top: 0.5rem;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.form-control:focus {
+    border-color: #343a40;
+    box-shadow: 0 0 0 0.2rem rgba(52, 58, 64, 0.25);
+}

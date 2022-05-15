@@ -1,71 +1,85 @@
 {{#extends 'base'}}
 
 {{#block 'content'}}
-<h1>Products</h1>
-<a href='/products/create' class="btn btn-primary btn-sm my-3">Add Product</a>
-<div><img src="/images/carousel2.jpg" class="w-50"></div>
+<div class="container-fluid">
+    <div class="container content-container">
+        <div class="h-100 p-3 d-flex flex-column justify-content-center">
+            {{> flash}}
+            <h3 class="d-inline">All Products</h3>
+            <div class="custom-btn-group">
+                <a href='/products/create' class="btn btn-sm btn-dark btn-outline-light">Add Product</a>
+            </div>
 
-{{#if resultsCount}}
-<div class="alert alert-success mt-3">
-    <span>{{resultsCount}} product(s) found</span>
-</div>
-{{/if}}
-{{#unless resultsCount}}
-<div class="alert alert-danger mt-3">
-    <span>No product found</span>
-</div>
-{{/unless}}
+            {{#if resultsCount}}
+            <div class="alert alert-success mt-3">
+                <span>{{resultsCount}} product(s) found</span>
+            </div>
+            {{/if}}
+            {{#unless resultsCount}}
+            <div class="alert alert-danger mt-3">
+                <span>No product found</span>
+            </div>
+            {{/unless}}
 
-<div class="row">
-    <form method="GET" class="m-3 p-3 shadow-lg rounded-3 col-2">
-        <h6>Product Search</h6>
-        {{{productSearchForm}}}
-        <input type="submit" class="mt-3 btn btn-primary btn-sm" value="Search" />
-    </form>
+            <div class="row">
+                <form method="GET" class="m-3 p-3 shadow-lg rounded-3 col-2">
+                    <h5>Product Search</h5>
+                    {{{productSearchForm}}}
+                    <div class="custom-btn-group">
+                        <input type="submit" class="mt-3 btn btn-sm btn-dark btn-outline-light" value="Search" />
+                    </div>
+                </form>
 
-    <div class="overflow-auto m-3 p-3 shadow-lg rounded-3 col">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">Product ID</th>
-                    <th scope="col">Product Name</th>
-                    <th scope="col">Description</th>
-                    <th scope="col">Cost (SGD)</th>
-                    <th scope="col">Weight (kg)</th>
-                    <th scope="col">Material</th>
-                    <th scope="col">Weave</th>
-                    <th scope="col">Category</th>
-                    <th scope="col">Brand</th>
-                    <th scope="col"></th>
-                </tr>
-            </thead>
-            {{#each products}}
-            <tbody>
-                <tr>
-                    <td scope="row">{{this.product_id}}</td>
-                    <td scope="row">{{this.product_name}}</td>
-                    <td scope="row">
-                        <div class="overflow-auto" style="height: 20vh; width: 20vw">
-                            {{this.description}}
-                        </div>
-                    </td>
-                    <td scope="row">{{centsToDollars this.cost}}</td>
-                    <td scope="row">{{gramsToKilograms this.weight}}</td>
-                    <td scope="row">{{this.material.material_name}}</td>
-                    <td scope="row">{{this.weave.weave_name}}</td>
-                    <td scope="row">{{this.category.category_name}}</td>
-                    <td scope="row">{{this.brand.brand_name}}</td>
-                    <td scope="row">
-                        <div class="btn-group btn-group-sm">
-                            <a class="btn btn-primary" href="/products/{{this.product_id}}/variants">Variants</a>
-                            <a class="btn btn-success" href="/products/{{this.product_id}}/update">Update</a>
-                            <a class="btn btn-danger" href="/products/{{this.product_id}}/delete">Delete</a>
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
-            {{/each}}
-        </table>
+                <div class="overflow-auto m-3 p-3 shadow-lg rounded-3 col">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Product ID</th>
+                                <th scope="col">Product Name</th>
+                                <th scope="col">Description</th>
+                                <th scope="col">Cost (SGD)</th>
+                                <th scope="col">Weight (kg)</th>
+                                <th scope="col">Material</th>
+                                <th scope="col">Weave</th>
+                                <th scope="col">Category</th>
+                                <th scope="col">Brand</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        {{#each products}}
+                        <tbody>
+                            <tr>
+                                <td scope="row">{{this.product_id}}</td>
+                                <td scope="row">{{this.product_name}}</td>
+                                <td scope="row">
+                                    <div class="overflow-auto" style="height: 20vh; width: 20vw">
+                                        {{this.description}}
+                                    </div>
+                                </td>
+                                <td scope="row">{{centsToDollars this.cost}}</td>
+                                <td scope="row">{{gramsToKilograms this.weight}}</td>
+                                <td scope="row">{{this.material.material_name}}</td>
+                                <td scope="row">{{this.weave.weave_name}}</td>
+                                <td scope="row">{{this.category.category_name}}</td>
+                                <td scope="row">{{this.brand.brand_name}}</td>
+                                <td scope="row">
+                                    <div class="btn-group btn-group-sm">
+                                        <a class="btn btn-dark btn-outline-light"
+                                            href="/products/{{this.product_id}}/variants">Variants</a>
+                                        <a class="btn btn-dark btn-outline-light"
+                                            href="/products/{{this.product_id}}/update"><i
+                                                class="bi bi-pencil-square"></i></a>
+                                        <a class="btn btn-dark btn-outline-light"
+                                            href="/products/{{this.product_id}}/delete"><i class="bi bi-trash"></i></a>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                        {{/each}}
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 {{/block}}

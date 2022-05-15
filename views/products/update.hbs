@@ -1,15 +1,28 @@
 {{#extends 'base'}}
 
 {{#block 'content'}}
-<h1>Updating "{{product.product_name}}"</h1>
-<form method="POST">
-    {{> csrfToken}}
-    {{{productForm}}}
-    <div class="btn-group btn-group-sm">
-        <a href='/products' class="btn btn-secondary btn-sm my-3">Cancel</a>
-        <input type="submit" value="Update Product" class="btn btn-primary btn-sm my-3">
+<div class="container-fluid">
+    <div class="container content-container">
+        <div class="h-100 p-3 d-flex flex-column justify-content-center">
+            {{> flash}}
+            <div class="w-100 p-3 shadow-lg rounded-3 border border-dark align-self-center"
+                style="background-color: white; max-width: 500px">
+                <h3>Updating "{{product.product_name}}"</h3>
+                <form method="POST" class="mx-auto">
+                    {{> csrfToken}}
+                    <div class='w-75 mx-auto'>
+                        {{{productForm}}}
+                        <div class="custom-btn-group">
+                            <a href='/products' class="btn btn-sm btn-dark btn-outline-light my-3">Cancel</a>
+                            <input type="submit" value="Update Product"
+                                class="btn btn-sm btn-dark btn-outline-light my-3">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
-</form>
+</div>
 {{/block}}
 
 {{/extends}}

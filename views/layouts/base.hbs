@@ -10,40 +10,41 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    {{!-- Bootstrap Icons --}}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.2/font/bootstrap-icons.css">
+    {{!-- Favicon --}}
     <link href="/images/favicon.ico" rel="icon">
-    <title>Grapple Gears</title>
+    {{!-- Own CSS --}}
+    <link rel="stylesheet" href="/style/base.css">
+    <link rel="stylesheet" href="/style/bg-image.css">
+
+    <title>Grapple Gears Admin</title>
 </head>
 
 <body>
-    <div class="min-vh-100 d-flex flex-column align-items-stretch">
+    <div id="page">
         {{#unless user}}
         {{> loginNavbar}}
-        <div class="flex-shrink-0 flex-grow-1 d-flex flex-row">
-        {{/unless}}
+        <div class="d-flex flex-row" style="background-color: #f4f5f5">
+            {{/unless}}
 
-        {{#if user}}
-        {{> navbar}}
-        <div class="flex-shrink-0 flex-grow-1 d-flex flex-row">
-            {{> sidebar}}
-        {{/if}}
-
-            <div class="container">
-                {{> flash}}
-                <div class="my-3">
+            {{#if user}}
+            {{> navbar}}
+            <div class="d-flex flex-row">
+                {{> sidebar}}
+                {{/if}}
                 {{#block "content"}}
                 {{/block}}
-                </div>
             </div>
+            {{> pageFooter}}
         </div>
-        {{> pageFooter}}
-    </div>
-    {{!-- Bootstrap JS --}}
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-        crossorigin="anonymous"></script>
-    {{!-- Cloudinary JS --}}
-    {{#block 'js'}}
-    {{/block}}
+        {{!-- Bootstrap JS --}}
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+        {{!-- Cloudinary JS --}}
+        {{#block 'js'}}
+        {{/block}}
 </body>
 
 </html>

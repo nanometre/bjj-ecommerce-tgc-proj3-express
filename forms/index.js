@@ -361,19 +361,6 @@ const createStatusForm = (statuses) => {
     })
 }
 
-const createMaterialForm = () => {
-    return forms.create({
-        material_name: fields.string({
-            required: true,
-            errorAfterField: true,
-            validators: [],
-            cssClasses: {
-                label: ['form-label', 'mt-3']
-            }
-        })
-    })
-}
-
 module.exports = {
     bootstrapField,
     createLoginForm,
@@ -382,6 +369,5 @@ module.exports = {
     createVariantForm,
     createUserForm,
     createOrderSearchForm,
-    createStatusForm,
-    createMaterialForm
+    createStatusForm
 }

@@ -7,8 +7,7 @@ const {
     bootstrapField,
     createProductSearchForm,
     createProductForm,
-    createVariantForm,
-    createMaterialForm
+    createVariantForm
 } = require('../../forms')
 const { Product, Variant } = require('../../models')
 const productDataLayer = require('../../dal/products')
@@ -339,17 +338,6 @@ router.post('/:product_id/variants/:variant_id/delete', async (req, res) => {
         req.flash('error_messages', `Product variant cannot be deleted as it is in a cart/order.`)
         res.redirect(`/products/${req.params.product_id}/variants`)
     }
-})
-
-// ================================
-// ===== Product Label Routes =====
-// ================================
-
-router.get('/labels', async (req, res) => {
-    const materialForm = createMaterialForm()
-    res.render('products/labels', {
-        materialForm: materialForm.toHTML(bootstrapField)
-    })
 })
 
 module.exports = router
