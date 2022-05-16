@@ -148,6 +148,6 @@ app.use(handleErrors)
 
 // Depolyment port: process.env.PORT
 // Test port: 8000
-app.listen(8000, function(){
+app.listen(process.env.PORT || 8000, function(){
     console.log('Server has started.');
 })
