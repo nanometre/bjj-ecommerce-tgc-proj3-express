@@ -1,97 +1,218 @@
 # Grapple Gears
+
 >Note: This is a bootcamp project where a fullstack web framework and React frontend was created.
+
+## Web Application Framework and Backend Web Application for Admins
+
+This is a web application framework built using ```Express.js```, ```Bookshelf.js``` and ```db-migrate``` for a Brazilian Jiu Jitsu (BJJ) e-commerce web application, Grapple Gears, as as part of Trent Global College's Diploma in Web Application Development Project 3. The frontend interface was created with React and the repository can be found [here](https://github.com/nanometre/bjj-ecommerce-tgc-proj3-react).
 
 ## Index
 
-1. [Project Summary](#1-project-summary)
-2. [UI/UX](#2-uiux)
-3. [Features](#3-features)
-4. [Testing](#4-testing)
+1. [Context](#1-context)
+2. [Database Design](#2-database-design)
+3. [API Endpoints](#3-api-endpoints)
+4. [Website Structure and Features](#4-website-structure-and-features)
 5. [Technologies Used](#5-technologies-used)
-6. [API & Sample Document](#6-api--sample-document)
-7. [Deployment](#7-deployment)
-8. [Credits](#8-credits)
+6. [Acknowledgements](#6-acknowledgements)
+
+## 1. Context
+
+This is a web application framework and backend web application for admins for the [Grapple Gears](https://grapple-gears.netlify.app/) project. The framework has API to support the functionality of Grapple Gears React Frontend and uses ```Bookshelf.js``` and ```db-migrate``` to allow the ease of migration across different databases. The backend web application allows admins to manage the operations of the e-commerce web application which includes managing product listings, orders, and users. The API and web application for admins can be accessed [here](https://bjj-ecom-tgc-proj3-express.herokuapp.com/).
 
 
-## 1. Project Summary
-
-### Project Context
-Grapple Gears is an e-commerce web application for Brazilian Jiu Jitsu (BJJ) gears and apparels. BJJ is a martial art and combat sport based on ground fighting and submission holds. The e-commerce web application serves to provide a platform for:
-* brands to reach out to a larger customer pool by listing their products; and
-* customers to exclusively browse and purchase for BJJ gears and apparels. 
-
-
-## 2. UI/UX
-
-### Strategy
-
-#### Organisation Objectives
-
-To create an e-commerce web application to sell BJJ products exclusively. The organisation aims to collaborate with as many different BJJ product brands as possible to list their products on the platform. This will create a centralised platform for customers to browse and purchase a wide variety of products. The organisation profits by charging the brands a small platform listing fee and by selling products to customers at a slight markup from the wholesale price.
-
-#### User Objectives
-
-**BJJ Product Brand Owners | Adults (20 - 60 years old)**:
-
-User Story: Small brand owners who are starting out often face difficulties to enter the market when there are existing big players in the field. And as a small business, they generally have limited budget for advertisement which make it difficult to gain exposure on their products. For large brand owners, a cheap way to gain additional exposure on their products would benefit their business.
-
-Acceptance Criteria: A convenient and cost effective way to advertise their products to a greater customer pool, hence allowing their business to grow.
-
-**Customers | Adults (20 - 60 years old)**:
-
-User Story: BJJ product brands owners either only sell their products on their web application or sell a small variety of their products on general marketplaces. For potential customers to browse all of the specific brand's products, they would need to visit the brand's web application. Hence, to browse and search multiple brands' products, customer would be required to navigate through multiple web applications.
-
-Acceptance Criteria: To easily browse a variety of BJJ products from different brands, search for a specific product based on certain criteria, and purchasing the products on a single web application. Being able to discover new brands would be an added benefit.
-
-### Scope
-
-**Functional Requirements**
-* ...
-* ...
-
-**Non-functional requirements**
-* ...
-* ...
-
-### Structure
-All pages of the web application can be accessed through the top navigation bar. The image below shows a flowchart of how different features can be accessed.
-
-<img src="src\assets\images\readme-images\site-map.jpg" style="display: block">
+## 2. Database Design
+### 2.1 Entity Relationship Diagram (ERD)
+<img src="public\images\readme-images\grapple-gears-erd.png" style="display: block">
 <br>
 
-### Skeleton
-The wireframes for mobile and laptop display for the web application can be accessed [here](https://benedict19472.invisionapp.com/freehand/Wireframe--TGC-Proj-3--mXGLRhfsr?dsid_h=503ba82c8a8ab93bf1d9aa30cf17eabdbacc48e25df6719698deb92da27dbbb0&uid_h=5a1828007a271c9d5497b0558b46e0ef2ead753c17efbedf4d212e9bec42337b)
+### 2.2 Logical Schema Diagram
+<img src="public\images\readme-images\grapple-gears-logical-schema.png" style="display: block">
+<br>
 
-### Surface
-**Colours**: 
+## 3. API Endpoints
+Base API URL: ```https://bjj-ecom-tgc-proj3-express.herokuapp.com/api```
+### 3.1 Orders
+#### 3.1.1 Get the list of all orders of a given ```user_id``` (retrieved from JWT)
+#### Request
+```
+GET /orders
+```
+#### Response
+Returns an array of all orders (pending and completed order) made by a given ```user_id```
 
-**Font Choice**: 
+### 3.2 Products
+#### 3.2.1 Get the list of all products 
+#### Request
+```
+GET /products
+```
+#### Response
+Returns an array of all products
 
-**Layout**: 
+#### 3.2.2 Get the list of all products based on search params
+#### Request
+```
+POST /products
+```
+#### Response
+Returns an array of all products which matches the search params
+
+#### 3.2.3 Get the list of available materials, weaves, categories and brands for search form selection
+#### Request
+```
+GET /products/materials, GET /products/weaves, GET /products/categories, GET /products/brands
+```
+#### Response
+Returns an array of available materials, weaves, categories, and brands from the database, respectively.
+
+#### 3.2.3 Get the list of all varaints of a given product
+#### Request
+```
+GET /products/:product_id/variants
+```
+#### Response
+Returns an array of all variants of a given product
+
+### 3.3 Users
+#### 3.3.1 Create a new user account
+#### Request
+```
+POST /users/register
+```
+#### Response
+Returns access and refresh JWT tokens on successful account creation
+
+#### 3.3.2 Login an existing user account
+#### Request 
+```
+POST /users/login
+```
+#### Response
+Returns access and refresh JWT tokens on successful login
+
+#### 3.3.3 Get user profile based on information retrieve from JWT
+#### Request
+```
+GET /users/profile
+```
+#### Response
+Returns user details
+
+#### 3.3.4 Get new access JWT based on refresh JWT
+#### Request
+```
+POST /users/refresh
+```
+#### Response
+Returns new access JWT, if refresh JWT is valid
+
+#### 3.3.5 Logout user account
+#### Request
+```
+POST /users/logout
+```
+#### Response
+Returns ```"Successfully logged out"`` on successful logout
+
+### 3.4 Cart
+#### 3.4.1 Get all cart items of a given ```user_id``` (retrieved from JWT)
+#### Request
+```
+GET /cart
+```
+#### Response
+Returns an array of cart items of a given ```user_id```
+
+#### 3.4.2 Add product variant to a given ```user_id```'s cart
+#### Request
+The request takes a variable ```quantity``` in its body, which sets the quanity of product variant to be added to cart
+```
+POST /:variant_id/add
+```
+#### Response
+Returns ```"XXX no. of variant ID: XXX added to cart"``` on success. 
+
+#### 3.4.3 Update product variant quantity in a given ```user_id```'s cart
+#### Request
+The request takes a variable ```newQuantity``` in its body, which sets the new quanity of product variant in the cart
+```
+POST /:variant_id/quantity/update
+```
+#### Response
+Returns ```"Updated quantity of variant ID: XXX to XXX in cart"``` on success. 
+
+#### 3.4.4 Delete product variant of a given ```user_id```'s cart
+#### Request
+```
+GET /:variant_id/delete
+```
+#### Response
+Returns ```"Deleted variant ID: XXX from cart"``` on success. 
+
+### 3.5 Checkout
+#### 3.5.1 Create a Stripe checkout session
+#### Request
+```
+GET /checkout
+```
+#### Response
+Returns the Stripe session ID and Stripe publishable key
+
+#### 3.5.2 
+#### Request
+```
+POST /checkout/process_payment
+```
+#### Response
+This API is called by Stripe. On ```checkout.session.completed``` event, the API will delete the items from user's cart and create new order, order item(s) and address entries in the database.
 
 
-## 3. Features
+## 4. Backend Web Application Structure and Features
+### 4.1 Structure
+The backend web application can only be accessed by the employees. There are 2 different types of employees, the owner(s) and the manager(s). The owner(s) have access to all pages and the manager(s) have access to all pages except the ```users``` pages. All pages of the web application can be accessed through the side navigation bar. 
 
+The image below shows a flowchart of how the different pages can be accessed. The pages in the red box can only be accessed by the owner(s)
 
-### Limitations and future implementations
+<img src="public\images\readme-images\site-map.jpg" style="display: block">
+<br>
 
+### 4.2 Wireframe
+The wireframes for mobile and laptop display for the backend web application can be accessed [here](https://benedict19472.invisionapp.com/freehand/Wireframe--TGC-Proj-3--mXGLRhfsr?dsid_h=9f01afd460f4abe049266bb426a246b6674b778867a010bd8e6045c7b243d429&uid_h=5a1828007a271c9d5497b0558b46e0ef2ead753c17efbedf4d212e9bec42337b)
 
-## 4. Testing
-
-### Test Cases
-
-
-### Testing for Mobile Responsiveness
-
+### Features
+Features                                  | Descriptions
+----------------------------------------- | -------------
+Login for employees                       | Only allow employees to access the backend admin web application
+Management of products and its variants   | Search products and CRUD operations on products and its variants.
+Management of orders                      | Search orders and RUD operations on orders
+Management of users                       | RUD operations on users for ```owner``` only
 
 ## 5. Technologies Used
 
+Technology                                                                                | Description
+----------------------------------------------------------------------------------------  | -----------
+[Bookshelf.js](https://bookshelfjs.org/)                                                  | JavaScript ORM used for querying and forming relationship in the project's database
+[cloudinary](https://cloudinary.com/)                                                     | Image hosting servise used to upload and store the project's images
+[connect-flash](https://github.com/jaredhanson/connect-flash)                             | Middleware to enable flash messages for Express.js
+[cors](https://expressjs.com/en/resources/middleware/cors.html)                           | Midlleware to enable CORS for Express.js
+[csurf](https://expressjs.com/en/resources/middleware/csurf.html)                         | Midlleware to enable CSRF for Express.js
+[db-migrate](https://github.com/db-migrate)                                               | Database migration framework for node.js, allowing for easy database migrations.
+[Express.js](https://expressjs.com/)                                                      | The API uses Express.js, a fast, unopinionated, minimalist web framework for Node.js. CRUD for the database was created using the framework.
+[express-async-errors](https://github.com/davidbanham/express-async-errors)               | Handles aysnc errors in Express.js
+[express-session](https://expressjs.com/en/resources/middleware/session.html)             | Middleware to create sessions on Express.js
+[forms](https://github.com/caolan/forms)                                                  | Forms framework for node.js
+[hbs](https://handlebarsjs.com/)                                                          | Template framework for Express.js view engine
+[jsonwebtoken](https://github.com/auth0/node-jsonwebtoken)                                | JWT implementation for node.js
+[knex](https://github.com/knex/knex)                                                      | Query builder for PostgreSQL, MySQL, CockroachDB, SQL Server, SQLite3 and Oracle on node.js
+[mysql](https://github.com/mysqljs/mysql)                                                 | Node.js JavaScript Client implementing the MySQL protocol
+[nodemon](https://nodemon.io/)                                                            | Utility to monitor any changes in source and automatically restart the server
+[session-file-store](https://github.com/valery-barysok/session-file-store)                | Provision for storing session data in the session file in node.js
+[stripe](https://stripe.com/)                                                             | Payment processing service
+[wax-on](https://github.com/keithws/wax-on)                                               | Support to Handlebars for template inheritance with the 'block' and 'extends' helpers.
 
-## 6. API & Sample Document
+## 6. Acknowledgements
+- Web layouts are inspired by [MDBootstrap](https://mdbootstrap.com/)
 
+- Images and videos are taken from [Nick Lim (Carpe Diem BJJ Singapore)](https://instagram.com/nickycdbjj?igshid=YmMyMTA2M2Y=), Lachlan McAdam, [Progress JJ](https://progressjj.co.uk/) and [Scramble Brand](https://scramblestuff.com/).
 
-## 7. Deployment
-
-
-## 8. Credits
-<a href="https://www.flaticon.com/free-icons/user" title="user icons">User icons created by Freepik - Flaticon</a>
+- YouTube and Stack Overflow community for guidance on various issues faced.
