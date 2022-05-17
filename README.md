@@ -19,6 +19,12 @@ This is a web application framework built using ```Express.js```, ```Bookshelf.j
 
 This is a web application framework and backend web application for admins for the [Grapple Gears](https://grapple-gears.netlify.app/) project. The framework has API to support the functionality of Grapple Gears React Frontend and uses ```Bookshelf.js``` and ```db-migrate``` to allow the ease of migration across different databases. The backend web application allows admins to manage the operations of the e-commerce web application which includes managing product listings, orders, and users. The API and web application for admins can be accessed [here](https://bjj-ecom-tgc-proj3-express.herokuapp.com/).
 
+Test Accounts for backend web application for admins
+| User Type | Email             | Password  |
+| --------- | ----------------- | --------- |
+| Owner     | bwcy@hotmail.com  | badass11  |
+| Manager   | clsq@gmail.com    | catcatcat |
+
 
 ## 2. Database Design
 ### 2.1 Entity Relationship Diagram (ERD)
