@@ -11,7 +11,7 @@ This is a web application framework built using ```Express.js```, ```Bookshelf.j
 1. [Context](#1-context)
 2. [Database Design](#2-database-design)
 3. [API Endpoints](#3-api-endpoints)
-4. [Website Structure and Features](#4-website-structure-and-features)
+4. [Backend Web Application Structure and Features](#4-backend-web-application-structure-and-features)
 5. [Technologies Used](#5-technologies-used)
 6. [Acknowledgements](#6-acknowledgements)
 
