@@ -1,10 +1,10 @@
 # Grapple Gears
 
->Note: This is a bootcamp project where a fullstack web framework and React frontend was created.
+>Note: This is a bootcamp project where a full stack web framework and React frontend was created.
 
 ## Web Application Framework and Backend Web Application for Admins
 
-This is a web application framework built using ```Express.js```, ```Bookshelf.js``` and ```db-migrate``` for a Brazilian Jiu Jitsu (BJJ) e-commerce web application, Grapple Gears, as as part of Trent Global College's Diploma in Web Application Development Project 3. The frontend interface was created with React and the repository can be found [here](https://github.com/nanometre/bjj-ecommerce-tgc-proj3-react).
+This is a web application framework built using ```Express.js```, ```Bookshelf.js``` and ```db-migrate``` for a Brazilian Jiu Jitsu (BJJ) e-commerce web application, Grapple Gears, as part of Trent Global College's Diploma in Web Application Development Project 3. The frontend interface was created with React and the repository can be found [here](https://github.com/nanometre/bjj-ecommerce-tgc-proj3-react).
 
 ## Index
 
@@ -57,7 +57,7 @@ POST /products
 #### Response
 Returns an array of all products which matches the search params
 
-#### 3.2.3 Get the list of available materials, weaves, categories and brands for search form selection
+#### 3.2.3 Get the list of available materials, weaves, categories, and brands for search form selection
 #### Request
 ```
 GET /products/materials, GET /products/weaves, GET /products/categories, GET /products/brands
@@ -65,7 +65,7 @@ GET /products/materials, GET /products/weaves, GET /products/categories, GET /pr
 #### Response
 Returns an array of available materials, weaves, categories, and brands from the database, respectively.
 
-#### 3.2.3 Get the list of all varaints of a given product
+#### 3.2.4 Get the list of all variants of a given product
 #### Request
 ```
 GET /products/:product_id/variants
@@ -125,7 +125,7 @@ Returns an array of cart items of a given ```user_id```
 
 #### 3.4.2 Add product variant to a given ```user_id```'s cart
 #### Request
-The request takes a variable ```quantity``` in its body, which sets the quanity of product variant to be added to cart
+The request takes a variable ```quantity``` in its body, which sets the quantity of product variant to be added to cart
 ```
 POST /:variant_id/add
 ```
@@ -134,7 +134,7 @@ Returns ```"XXX no. of variant ID: XXX added to cart"``` on success.
 
 #### 3.4.3 Update product variant quantity in a given ```user_id```'s cart
 #### Request
-The request takes a variable ```newQuantity``` in its body, which sets the new quanity of product variant in the cart
+The request takes a variable ```newQuantity``` in its body, which sets the new quantity of product variant in the cart
 ```
 POST /:variant_id/quantity/update
 ```
@@ -164,12 +164,12 @@ Returns the Stripe session ID and Stripe publishable key
 POST /checkout/process_payment
 ```
 #### Response
-This API is called by Stripe. On ```checkout.session.completed``` event, the API will delete the items from user's cart and create new order, order item(s) and address entries in the database.
+Stripe calls this API. On ```checkout.session.completed``` event, the API will delete the items from user's cart and create new order, order item(s) and address entries in the database.
 
 
 ## 4. Backend Web Application Structure and Features
 ### 4.1 Structure
-The backend web application can only be accessed by the employees. There are 2 different types of employees, the owner(s) and the manager(s). The owner(s) have access to all pages and the manager(s) have access to all pages except the ```users``` pages. All pages of the web application can be accessed through the side navigation bar. 
+The employees can only access the backend web application. There are 2 types of employees, the owner(s) and the manager(s). The owner(s) have access to all pages and the manager(s) have access to all pages except the ```users``` pages. All pages of the web application can be accessed through the side navigation bar. 
 
 The image below shows a flowchart of how the different pages can be accessed. The pages in the red box can only be accessed by the owner(s)
 
@@ -185,20 +185,20 @@ Features                                  | Descriptions
 Login for employees                       | Only allow employees to access the backend admin web application.
 Management of products and its variants   | Search products and CRUD operations on products and its variants.
 Management of orders                      | Search orders and RUD operations on orders. Create operation of orders is done by the server on successful checkout from Stripe. The admins do not create directly create an order.
-Management of users                       | RUD operations on users for owner only. Create operation of users is done by the server when a customer register for an account. The admins do not directly create an user.
+Management of users                       | RUD operations on users for owner only. Create operation of users is done by the server when a customer register for an account. The admins do not directly create a user.
 
 ## 5. Technologies Used
 
 Technology                                                                                | Description
 ----------------------------------------------------------------------------------------  | -----------
 [Bookshelf.js](https://bookshelfjs.org/)                                                  | JavaScript ORM used for querying and forming relationship in the project's database
-[cloudinary](https://cloudinary.com/)                                                     | Image hosting servise used to upload and store the project's images
+[cloudinary](https://cloudinary.com/)                                                     | Image hosting service used to upload and store the project's images
 [connect-flash](https://github.com/jaredhanson/connect-flash)                             | Middleware to enable flash messages for Express.js
-[cors](https://expressjs.com/en/resources/middleware/cors.html)                           | Midlleware to enable CORS for Express.js
-[csurf](https://expressjs.com/en/resources/middleware/csurf.html)                         | Midlleware to enable CSRF for Express.js
+[cors](https://expressjs.com/en/resources/middleware/cors.html)                           | Middleware to enable CORS for Express.js
+[csurf](https://expressjs.com/en/resources/middleware/csurf.html)                         | Middleware to enable CSRF for Express.js
 [db-migrate](https://github.com/db-migrate)                                               | Database migration framework for node.js, allowing for easy database migrations.
 [Express.js](https://expressjs.com/)                                                      | The API uses Express.js, a fast, unopinionated, minimalist web framework for Node.js. CRUD for the database was created using the framework.
-[express-async-errors](https://github.com/davidbanham/express-async-errors)               | Handles aysnc errors in Express.js
+[express-async-errors](https://github.com/davidbanham/express-async-errors)               | Handles async errors in Express.js
 [express-session](https://expressjs.com/en/resources/middleware/session.html)             | Middleware to create sessions on Express.js
 [forms](https://github.com/caolan/forms)                                                  | Forms framework for node.js
 [hbs](https://handlebarsjs.com/)                                                          | Template framework for Express.js view engine
@@ -213,6 +213,6 @@ Technology                                                                      
 ## 6. Acknowledgements
 - Web layouts are inspired by [MDBootstrap](https://mdbootstrap.com/)
 
-- Images and videos are taken from [Nick Lim (Carpe Diem BJJ Singapore)](https://instagram.com/nickycdbjj?igshid=YmMyMTA2M2Y=), Lachlan McAdam, [Progress JJ](https://progressjj.co.uk/) and [Scramble Brand](https://scramblestuff.com/).
+- Images and videos are taken from [Nick Lim (Carpe Diem BJJ Singapore)](https://instagram.com/nickycdbjj?igshid=YmMyMTA2M2Y=), Lachlan McAdam, [Progress JJ](https://progressjj.co.uk/), and [Scramble Brand](https://scramblestuff.com/).
 
 - YouTube and Stack Overflow community for guidance on various issues faced.
