@@ -57,14 +57,6 @@ router.get('/', checkIfAuthenticatedJWT, express.json(), async (req, res) => {
     })
 })
 
-router.get('/success', function (req, res) {
-    res.render('checkout_test/success')
-})
-
-router.get('/cancelled', function (req, res) {
-    res.render('checkout_test/cancelled')
-})
-
 router.post('/process_payment', express.raw({
     'type': 'application/json'
 }), async function (req, res) {

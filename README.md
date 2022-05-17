@@ -173,7 +173,7 @@ The backend web application can only be accessed by the employees. There are 2 d
 
 The image below shows a flowchart of how the different pages can be accessed. The pages in the red box can only be accessed by the owner(s)
 
-<img src="public\images\readme-images\site-map.jpg" style="display: block">
+<img src="public\images\readme-images\site-map-be.jpg" style="display: block">
 <br>
 
 ### 4.2 Wireframe
@@ -182,10 +182,10 @@ The wireframes for mobile and laptop display for the backend web application can
 ### Features
 Features                                  | Descriptions
 ----------------------------------------- | -------------
-Login for employees                       | Only allow employees to access the backend admin web application
+Login for employees                       | Only allow employees to access the backend admin web application.
 Management of products and its variants   | Search products and CRUD operations on products and its variants.
-Management of orders                      | Search orders and RUD operations on orders
-Management of users                       | RUD operations on users for ```owner``` only
+Management of orders                      | Search orders and RUD operations on orders. Create operation of orders is done by the server on successful checkout from Stripe. The admins do not create directly create an order.
+Management of users                       | RUD operations on users for owner only. Create operation of users is done by the server when a customer register for an account. The admins do not directly create an user.
 
 ## 5. Technologies Used
 
