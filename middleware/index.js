@@ -35,7 +35,9 @@ const checkIfOwner = (req, res, next) => {
 }
 
 const handleErrors = (err, req, res, next) => {
-    if (err) {
+    if (err && req.url.slice(0,5) === '/api/') {
+        next()
+    } else if (err) {
         console.log(err)
         res.render('error')
     }
