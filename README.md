@@ -13,7 +13,8 @@ This is a web application framework built using ```Express.js```, ```Bookshelf.j
 3. [API Endpoints](#3-api-endpoints)
 4. [Backend Web Application Structure and Features](#4-backend-web-application-structure-and-features)
 5. [Technologies Used](#5-technologies-used)
-6. [Acknowledgements](#6-acknowledgements)
+6. [Deployment](#6-deployment)
+7. [Credits](#7-credits)
 
 ## 1. Context
 
@@ -216,7 +217,33 @@ Technology                                                                      
 [stripe](https://stripe.com/)                                                             | Payment processing service
 [wax-on](https://github.com/keithws/wax-on)                                               | Support to Handlebars for template inheritance with the 'block' and 'extends' helpers.
 
-## 6. Acknowledgements
+
+## 6. Deployment
+The framework, database, and backend web application are deployed on Heroku. The live demo can be accessed [here](https://bjj-ecom-tgc-proj3-express.herokuapp.com/).
+
+The framework makes use of the following environment variables:
+```
+DB_DRIVER=
+DB_USER=
+DB_PASSWORD=
+DB_DATABASE=
+DB_HOST=
+SESSION_SECRET_KEY=
+CLOUDINARY_NAME=
+CLOUDINARY_API_KEY=
+CLOUDINARY_API_SECRET=
+CLOUDINARY_UPLOAD_PRESET=
+STRIPE_PUBLISHABLE_KEY=
+STRIPE_SECRET_KEY=
+STRIPE_SUCCESS_URL=
+STRIPE_CANCELLED_URL=
+STRIPE_ENDPOINT_SECRET=
+TOKEN_SECRET=
+REFRESH_TOKEN_SECRET=
+```
+
+
+## 7. Credits
 - Web layouts are inspired by [MDBootstrap](https://mdbootstrap.com/)
 
 - Images and videos are taken from [Nick Lim (Carpe Diem BJJ Singapore)](https://instagram.com/nickycdbjj?igshid=YmMyMTA2M2Y=), Lachlan McAdam, [Progress JJ](https://progressjj.co.uk/), and [Scramble Brand](https://scramblestuff.com/).
