@@ -19,7 +19,9 @@ h1, h2, h3, h4, h5, h6 {
 
 .container-fluid {
     margin: auto 0;
-    width: 100%
+    width: 100%;
+    display: flex;
+    align-items: center;
 }
 
 .content-container {
