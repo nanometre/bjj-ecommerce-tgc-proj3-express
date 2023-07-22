@@ -28,7 +28,7 @@ hbs.registerPartials('./views/partials')
 wax.on(hbs.handlebars)
 wax.setLayoutPath('./views/layouts');
 // enable forms
-app.use(express.urlencoded({extended: false}))
+app.use(express.urlencoded({ extended: false }))
 // use cors
 app.use(cors())
 
@@ -82,9 +82,9 @@ app.use((req, res, next) => {
     next()
 })
 // CSRF middleware
-const csurfInstance = csrf(); 
+const csurfInstance = csrf();
 app.use((req, res, next) => {
-    if (req.url === '/checkout/process_payment' || req.url.slice(0,5) === '/api/') {
+    if (req.url === '/checkout/process_payment' || req.url.slice(0, 5) === '/api/') {
         next();
     } else {
         csurfInstance(req, res, next);
@@ -147,7 +147,7 @@ main()
 app.use(handleErrors)
 
 // Depolyment port: process.env.PORT
-// Test port: 8000
-app.listen(process.env.PORT || 8000, function(){
-    console.log('Server has started.');
-})
+// Test port: 8080
+app.listen(process.env.PORT, process.env.HOST, () => {
+    console.log("Server has started");
+});

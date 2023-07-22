@@ -18,7 +18,7 @@ This is a web application framework built using ```Express.js```, ```Bookshelf.j
 
 ## 1. Context
 
-This is a web application framework and backend web application for admins for the [Grapple Gears](https://grapple-gears.netlify.app/) project. The framework has API to support the functionality of Grapple Gears React Frontend and uses ```Bookshelf.js``` and ```db-migrate``` to allow the ease of migration across different databases. The backend web application allows admins to manage the operations of the e-commerce web application which includes managing product listings, orders, and users. The API and web application for admins can be accessed [here](https://bjj-ecom-tgc-proj3-express.herokuapp.com/).
+This is a web application framework and backend web application for admins for the [Grapple Gears](https://grapple-gears.netlify.app/) project. The framework has API to support the functionality of Grapple Gears React Frontend and uses ```Bookshelf.js``` and ```db-migrate``` to allow the ease of migration across different databases. The backend web application allows admins to manage the operations of the e-commerce web application which includes managing product listings, orders, and users. The API and web application for admins can be accessed [here](https://bjj-ecom-tgc-proj3-express.fly.dev/login).
 
 Test Accounts for backend web application for admins
 | User Type | Email             | Password  |
@@ -37,7 +37,7 @@ Test Accounts for backend web application for admins
 <br>
 
 ## 3. API Endpoints
-Base API URL: ```https://bjj-ecom-tgc-proj3-express.herokuapp.com/api```
+Base API URL: ```https://bjj-ecom-tgc-proj3-express.fly.dev/api```
 ### 3.1 Orders
 #### 3.1.1 Get the list of all orders of a given ```user_id``` (retrieved from JWT)
 #### Request
@@ -219,7 +219,7 @@ Technology                                                                      
 
 
 ## 6. Deployment
-The framework, database, and backend web application are deployed on Heroku. The live demo can be accessed [here](https://bjj-ecom-tgc-proj3-express.herokuapp.com/).
+The framework, database, and backend web application are deployed on Fly.io. The live demo can be accessed [here](https://bjj-ecom-tgc-proj3-express.fly.dev/login).
 
 The framework makes use of the following environment variables:
 ```
